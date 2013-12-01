@@ -4,10 +4,10 @@
 #
 import sos_analyzer.compat as C
 import sos_analyzer.globals as G
+import sos_analyzer.utils as SU
 
 import codecs
 import locale
-import logging
 import optparse
 import sys
 
@@ -38,18 +38,6 @@ Examples:
   %prog --workdir ./result /tmp/sosreport-host_abc_01-12345-67e056.tar.bz2"""
 
 
-def to_log_level(level):
-    assert level >= 0 and level < 3, "wrong log level passed: " + str(level)
-    return [logging.WARN, logging.INFO, logging.DEBUG][level]
-
-
-def set_loglevel(level, logger=G.LOGGER):
-    """
-    :param level: Log level, e.g. logging.INFO and logging.WARN.
-    """
-    logger.setLevel(level)
-
-
 def option_parser(defaults=DEFAULTS, usage=USAGE):
     p = optparse.OptionParser(usage)
     p.set_defaults(**defaults)
@@ -72,7 +60,7 @@ def main(argv=sys.argv):
     p = option_parser()
     (options, args) = p.parse_args(argv[1:])
 
-    set_loglevel(to_log_level(options.loglevel))
+    SU.set_loglevel(options.loglevel)
 
     if not args:
         p.print_usage()
