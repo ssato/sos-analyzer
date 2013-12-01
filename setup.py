@@ -1,4 +1,4 @@
-from distutils.core import setup, Command
+from setuptools import setup, Command, find_packages
 from glob import glob
 
 import os.path
@@ -60,7 +60,7 @@ class SrpmCommand(Command):
             sdir = params[subdir] = os.path.join(rpmdir, subdir)
 
             if not os.path.exists(sdir):
-                os.makedirs(sdir, 493)  # 493 = 0o755 (py3) or 0755 (py2)
+                os.makedirs(sdir, 0o755)  # 493 = 0o755 (py3) or 0755 (py2)
 
         c = open(rpmspec + ".in").read()
         open(rpmspec, "w").write(c.replace("@VERSION@", VERSION))
@@ -80,10 +80,8 @@ setup(name=PACKAGE,
     author_email="ssato@redhat.com",
     license="GPLv3+",
     url="https://github.com/ssato/sos-analyzer",
-    packages=["sos_analyzer",
-              "sos_analyzer.tests",
-              "sos_analyzer.plugins",
-             ],
+    packages=find_packages(),
+    include_package_data=True,
     scripts=glob("tools/*"),
     data_files=data_files,
     cmdclass={"srpm": SrpmCommand, "rpm":  RpmCommand, },

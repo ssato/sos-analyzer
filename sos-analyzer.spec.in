@@ -24,6 +24,7 @@ Source0:        https://github.com/ssato/sos-analyzer/tarball/master/%{pkgname}-
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 BuildRequires:  python
+BuildRequires:  python-setuptools
 Requires:       python-setuptools
 Requires:       rpm-python
 %if %{?rhel}%{!?rhel:0} == 5
