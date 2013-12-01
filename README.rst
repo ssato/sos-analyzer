@@ -10,7 +10,7 @@ If you're Fedora or Red Hat Enterprise Linux user, try::
 
   $ python setup.py srpm && mock dist/SRPMS/python-sos-analyzer-<ver_dist>.src.rpm
     
-    or::
+or::
 
   $ python setup.py rpm
 
@@ -23,6 +23,9 @@ Reference
 ----------
 
 * sosreport: https://github.com/sosreport/sosreport
+* checksysreport: http://ostatic.com/checksysreport
+* sxconsole: https://fedorahosted.org/sx/
+* xsos - sosreport examiner: https://github.com/ryran/xsos
 
 How to hack
 ============
