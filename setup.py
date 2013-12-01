@@ -21,7 +21,7 @@ def list_files(tdir):
     return [f for f in glob(os.path.join(tdir, '*')) if os.path.isfile(f)]
 
 
-data_files = [# (destdir, list_files(srcdir),
+data_files = [  # (destdir, list_files(srcdir),
              ]
 
 
@@ -74,17 +74,17 @@ class RpmCommand(SrpmCommand):
 
 
 setup(name=PACKAGE,
-    version=VERSION,
-    description="A tool to scan and analyze data collected by sosreport",
-    author="Satoru SATOH",
-    author_email="ssato@redhat.com",
-    license="GPLv3+",
-    url="https://github.com/ssato/sos-analyzer",
-    packages=find_packages(),
-    include_package_data=True,
-    scripts=glob("tools/*"),
-    data_files=data_files,
-    cmdclass={"srpm": SrpmCommand, "rpm":  RpmCommand, },
-)
+      version=VERSION,
+      description="A tool to scan and analyze data collected by sosreport",
+      author="Satoru SATOH",
+      author_email="ssato@redhat.com",
+      license="GPLv3+",
+      url="https://github.com/ssato/sos-analyzer",
+      packages=find_packages(),
+      include_package_data=True,
+      scripts=glob("tools/*"),
+      data_files=data_files,
+      cmdclass={"srpm": SrpmCommand, "rpm":  RpmCommand, },
+      )
 
 # vim:sw=4:ts=4:et:
