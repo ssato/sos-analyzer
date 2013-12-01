@@ -19,6 +19,21 @@ and install built RPMs.
 Otherwise, try usual ways to build and/or install python modules such like
 'easy_install anyconfig', 'python setup.py bdist', etc.
 
+How to hack
+============
+
+How to test
+-------------
+
+Try to run './aux/runtest.sh [path_to_python_code]'.
+
+Test status
+-------------
+
+.. image:: https://api.travis-ci.org/ssato/sos-analyzer.png?branch=master
+   :target: https://travis-ci.org/ssato/sos-analyzer
+   :alt: Test status
+
 Meta
 ======
 
