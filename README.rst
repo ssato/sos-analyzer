@@ -19,6 +19,11 @@ and install built RPMs.
 Otherwise, try usual ways to build and/or install python modules such like
 'easy_install anyconfig', 'python setup.py bdist', etc.
 
+Reference
+----------
+
+* sosreport: https://github.com/sosreport/sosreport
+
 How to hack
 ============
 
