@@ -42,7 +42,7 @@ class Test_00_Scanner(unittest.TestCase):
 
     def test_50_scan_file(self):
         results = self.scanner.scan_file()
-        print >> open('/tmp/result.txt', 'w').write(str(results))
+        #open('/tmp/result.txt', 'w').write(str(results))
 
         self.assertTrue(results)
 
