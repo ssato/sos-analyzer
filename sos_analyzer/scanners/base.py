@@ -138,4 +138,7 @@ class BaseScanner(object):
             logging.warn("Could not open the input: " + path)
             return []
 
+    def run(self):
+        return self.scan_file()
+
 # vim:sw=4:ts=4:et:
