@@ -15,8 +15,7 @@ class Test_10_functions(unittest.TestCase):
         self.assertEquals(TT.to_log_level(1), logging.INFO)
         self.assertEquals(TT.to_log_level(2), logging.DEBUG)
 
-        with self.assertRaises(AssertionError):
-            TT.to_log_level(3)
-            TT.to_log_level(-1)
+        self.assertRaises(AssertionError, TT.to_log_level, 3)
+        self.assertRaises(AssertionError, TT.to_log_level, -1)
 
 # vim:sw=4:ts=4:et:
