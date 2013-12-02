@@ -24,7 +24,7 @@ STATES = (IN_SVCS, AT_XINETD_SVCS_START, IN_XINETD_SVCS) = (0, 1, 2)
 REG_0 = r"(?P<service>[a-zA-Z]\S+)" + \
         r"\s+0:(on|off)\s+1:(on|off)\s+2:(on|off)\s+3:(on|off)" + \
         r"\s+4:(on|off)\s+5:(on|off)\s+6:(on|off)"
-REG_1 = r"^ +(?P<service>[^:]+):\s+(?P<status>on|off)"
+REG_1 = r"^ +(?P<xinetd_service>[^:]+):\s+(?P<status>on|off)"
 
 CONF = dict(initial_state=IN_SVCS,
             ignore_empty_lines=1,
@@ -45,7 +45,7 @@ class Scanner(SSB.BaseScanner):
         if state == AT_XINETD_SVCS_START:
             return IN_XINETD_SVCS  # Next state
         else:
-            return self.getconf("initial_state")
+            return state
 
     def parse_impl(self, state, line, i, *args, **kwargs):
         """
