@@ -5,7 +5,6 @@
 # License: GPLv3+
 #
 from sos_analyzer.globals import LOGGER as logging
-from itertools import izip
 
 import sos_analyzer.compat as SC
 import os.path
