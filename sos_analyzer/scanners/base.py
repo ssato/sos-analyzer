@@ -8,7 +8,6 @@ from sos_analyzer.globals import LOGGER as logging
 from itertools import izip
 
 import sos_analyzer.compat as SC
-import anyconfig
 import os.path
 import re
 

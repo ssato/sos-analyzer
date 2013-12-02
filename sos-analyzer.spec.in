@@ -27,7 +27,7 @@ BuildRequires:  python
 BuildRequires:  python-setuptools
 Requires:       python-setuptools
 Requires:       rpm-python
-Requires:       python-anyconfig
+#Requires:       python-anyconfig
 %if %{?rhel}%{!?rhel:0} == 5
 Requires:       python-simplejson
 %endif
@@ -44,7 +44,7 @@ A tool to scan and analyze data collected by sosreport.
 Summary:        %{summary}
 Group:          Applications/System
 Requires:       python3-setuptools
-Requires:       python3-anyconfig
+#Requires:       python3-anyconfig
 
 %description -n python3-%{pkgname}
 A tool to scan and analyze data collected by sosreport.
