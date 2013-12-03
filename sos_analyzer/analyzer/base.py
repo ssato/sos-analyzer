@@ -30,6 +30,6 @@ class BaseAnalyzer(object):
         self.result_dir = os.path.join(workdir, subdir, self.name)
 
     def analyze(self, *args, **kwargs):
-        pass    
+        pass
 
 # vim:sw=4:ts=4:et:
