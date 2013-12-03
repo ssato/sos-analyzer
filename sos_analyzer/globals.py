@@ -9,6 +9,8 @@ AUTHOR = 'Satoru SATOH <ssat@redhat.com>'
 VERSION = "0.0.1"
 
 _LOGGING_FORMAT = "%(asctime)s %(name)s: [%(levelname)s] %(message)s"
+SCANNER_RESULTS_SUBDIR = "scanned"
+ANALYZER_RESULTS_SUBDIR = "results"
 
 
 def getLogger(name="sos_analyzer", format=_LOGGING_FORMAT,
