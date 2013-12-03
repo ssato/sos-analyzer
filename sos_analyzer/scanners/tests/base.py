@@ -30,7 +30,7 @@ CONF_0 = dict(a=1, b=2, patterns=dict(aaa=r"([a-z]+)", bbb=r"([0-9]+)"))
 class Test_20_BaseScanner(unittest.TestCase):
 
     def setUp(self):
-        self.scanner = TT.BaseScanner(CURDIR, conf=CONF_0)
+        self.scanner = TT.BaseScanner(CURDIR, CURDIR, conf=CONF_0)
 
     def test_10_getconf(self):
         self.assertEquals(self.scanner.getconf("a"), 1)

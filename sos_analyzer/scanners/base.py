@@ -4,7 +4,8 @@
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-from sos_analyzer.globals import LOGGER as logging
+from sos_analyzer.globals import LOGGER as logging, \
+    SCANNER_RESULTS_SUBDIR as SUBDIR
 
 import sos_analyzer.compat as SC
 import os.path
@@ -61,7 +62,10 @@ class BaseScanner(object):
     input_name = "base"
     conf = NULL_DICT
 
-    def __init__(self, datadir, input_name=None, name=None, conf=None):
+    def __init__(self, workdir, datadir, input_name=None, name=None,
+                 conf=None, subdir=SUBDIR):
+        """
+        """
         self.datadir = datadir
 
         if input_name is not None:
@@ -75,6 +79,7 @@ class BaseScanner(object):
 
         self.input_path = os.path.join(datadir, self.input_name)
         self.patterns = compile_patterns(self.conf)
+        self.output_path = os.path.join(workdir, subdir, "%s.json" % self.name)
 
     def getconf(self, key, fallback=None, key_sep='.'):
         return dic_get_recur(self.conf, key, fallback, key_sep)
@@ -135,10 +140,11 @@ class BaseScanner(object):
             return [x for x in self.parse(c) if x]
 
         except (IOError, OSError) as e:
-            logging.warn("Could not open the input: " + path)
+            logging.warn("Could not open the input: " + self.input_path)
             return []
 
     def run(self):
-        return self.scan_file()
+        self.result = dict(data=self.scan_file())
+        SC.json.dump(self.result, open(self.output_path, 'w'))
 
 # vim:sw=4:ts=4:et:

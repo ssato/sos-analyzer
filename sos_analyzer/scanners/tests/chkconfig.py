@@ -28,7 +28,7 @@ class Test_00_Scanner(unittest.TestCase):
 
     def setUp(self):
         self.datadir = CURDIR
-        self.scanner = TT.Scanner(self.datadir, INPUT_0)
+        self.scanner = TT.Scanner(self.datadir, self.datadir, INPUT_0)
 
     def test_10_regexes(self):
         # FIXME: Hard-coded line numbers.
