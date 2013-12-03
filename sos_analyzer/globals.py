@@ -9,6 +9,8 @@ AUTHOR = 'Satoru SATOH <ssat@redhat.com>'
 VERSION = "0.0.1"
 
 _LOGGING_FORMAT = "%(asctime)s %(name)s: [%(levelname)s] %(message)s"
+
+DATA_SUBDIR = "data"
 SCANNER_RESULTS_SUBDIR = "scanned"
 ANALYZER_RESULTS_SUBDIR = "results"
 
