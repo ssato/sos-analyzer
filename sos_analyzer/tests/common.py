@@ -30,7 +30,7 @@ def template_paths():
 
 
 def setup_workdir():
-    return tempfile.mkdtemp(dir="/tmp", prefix="myrepo-tests")
+    return tempfile.mkdtemp(dir="/tmp", prefix="sos_analyzer-tests")
 
 
 def log_called(f):
