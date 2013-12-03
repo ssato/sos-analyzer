@@ -6,7 +6,6 @@
 #
 from sos_analyzer.globals import LOGGER as logging, \
     ANALYZER_RESULTS_SUBDIR as SUBDIR
-from sos_analyzer.scanners.base import BaseScanner
 
 import os.path
 

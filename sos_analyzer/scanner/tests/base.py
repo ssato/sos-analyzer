@@ -3,7 +3,7 @@
 # License: GPLv3+
 #
 import sos_analyzer.tests.common as C
-import sos_analyzer.scanners.base as TT
+import sos_analyzer.scanner.base as TT
 import os.path
 import logging
 import unittest

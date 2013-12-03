@@ -3,7 +3,7 @@
 # License: GPLv3+
 #
 import sos_analyzer.tests.common as C
-import sos_analyzer.scanners.chkconfig as TT
+import sos_analyzer.scanner.chkconfig as TT
 import os.path
 import random
 import unittest
