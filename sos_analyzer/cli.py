@@ -2,19 +2,22 @@
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-import sos_analyzer.compat as C
-import sos_analyzer.globals as G
-import sos_analyzer.utils as SU
+from sos_analyzer.globals import LOGGER as logging, DATA_SUBDIR
 
+import sos_analyzer.archive as SA
+import sos_analyzer.compat as SC
+import sos_analyzer.utils as SU
 import codecs
 import locale
 import optparse
+import os
 import sys
+import tempfile
 
 
 _encoding = locale.getdefaultlocale()[1]
 
-if C.IS_PYTHON_3:
+if SC.IS_PYTHON_3:
     import io
 
     _encoding = _encoding.lower()
@@ -65,6 +68,19 @@ def main(argv=sys.argv):
     if not args:
         p.print_usage()
         return -1
+
+    if not options.workdir:
+        options.workdir = tempfile.mkdtemp(dir="/tmp", prefix="sos_analyzer-")
+        logging.info("Created working dir: " + options.workdir)
+
+    tarfile = args[0]
+    datadir = os.path.join(options.workdir, DATA_SUBDIR)
+
+    if not os.path.exists(datadir):
+        logging.info("Create datadir: " + datadir)
+        os.makedirs(datadir)
+
+    SA.extract_archive(tarfile, datadir)
 
     return 0
 
