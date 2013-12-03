@@ -16,8 +16,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 import sos_analyzer.compat as SC
-import multiprocessing
 import logging
+import multiprocessing
 import os
 import os.path
 import signal
@@ -95,10 +95,10 @@ def _run(cmd, workdir, rc_expected=0, logfile=False, **kwargs):
 
             flag = 'a' if os.path.exists(logfile) else 'w'
             with open(logfile, flag) as f:
-                for line in iter(proc.stdout.readline, b''):
+                for line in iter(proc.stdout.readline, ''):
                     f.write(line)
         else:
-            for line in iter(proc.stdout.readline, b''):
+            for line in iter(proc.stdout.readline, ''):
                 sys.stdout.write(line)
 
         if proc.wait() == rc_expected:
