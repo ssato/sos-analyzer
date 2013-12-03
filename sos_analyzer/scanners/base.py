@@ -65,6 +65,12 @@ class BaseScanner(object):
     def __init__(self, workdir, datadir, input_name=None, name=None,
                  conf=None, subdir=SUBDIR):
         """
+        :param workdir: Working dir to save results
+        :param datadir: Data dir where input data file exists
+        :param input_name: Input file name
+        :param name: Scanner's name
+        :param conf: A dict object holding scanner's configurations
+        :param subdir: Subdir to save scanner's results
         """
         self.datadir = datadir
 
@@ -82,13 +88,24 @@ class BaseScanner(object):
         self.output_path = os.path.join(workdir, subdir, "%s.json" % self.name)
 
     def getconf(self, key, fallback=None, key_sep='.'):
+        """
+        :param key: Key to get configuration
+        :param fallback: Fallback value if the value for given key is not found
+        :param key_sep: Separator char to represents hierarchized configuraion
+        """
         return dic_get_recur(self.conf, key, fallback, key_sep)
 
     def match(self, name, s):
+        """
+        :param name: Regex pattern's name
+        :param s: Target string to try to match with
+        """
         return self.patterns.get(name, re.compile(r".*")).match(s)
 
     def _update_state(self, state, line, i):
         """
+        Update the internal state.
+
         :param state: A string or int represents the current state
         :param line: Content of the line
         :param i: Line number in the input file
@@ -97,6 +114,8 @@ class BaseScanner(object):
 
     def parse_impl(self, state, line, i, *args, **kwargs):
         """
+        parser implementation.
+
         :param state: A dict object represents internal state
         :param line: Content of the line
         :param i: Line number in the input file

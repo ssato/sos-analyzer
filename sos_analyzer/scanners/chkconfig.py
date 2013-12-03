@@ -39,13 +39,20 @@ class Scanner(SSB.BaseScanner):
     conf = CONF
 
     def _update_state(self, state, line, i):
+        """
+        Update the internal state.
+
+        :param state: A string or int represents the current state
+        :param line: Content of the line
+        :param i: Line number in the input file
+        """
         if self.match("xinetd_svcs_start", line):
             return AT_XINETD_SVCS_START
 
         if state == AT_XINETD_SVCS_START:
             return IN_XINETD_SVCS  # Next state
         else:
-            return state
+            return state  # No change
 
     def parse_impl(self, state, line, i, *args, **kwargs):
         """
