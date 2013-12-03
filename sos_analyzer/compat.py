@@ -11,6 +11,15 @@ if IS_PYTHON_3:
     import configparser
     from io import StringIO
 
+    import io
+    # Not all version of python 3.x has sys.stdout.buffer?
+    #sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+
+    def uopen(path, flag='rt'):
+        if flag[-1] != 't':
+            flag = flag + 't'
+        return io.open(path, flag, encoding='UTF-8')
+
     def iteritems(d):
         return d.items()
 else:
@@ -19,6 +28,11 @@ else:
         from cStringIO import StringIO
     except ImportError:
         from StringIO import StringIO
+
+    import codecs
+
+    def uopen(path, flag='r'):
+        return codecs.open(path, flag, encoding='UTF-8')
 
     def iteritems(d):
         return d.iteritems()
