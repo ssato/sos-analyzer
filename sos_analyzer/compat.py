@@ -23,4 +23,9 @@ else:
     def iteritems(d):
         return d.iteritems()
 
+try:
+    import json
+except ImportError:
+    import simplejson as json
+
 # vim:sw=4:ts=4:et:
