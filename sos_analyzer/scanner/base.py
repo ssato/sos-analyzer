@@ -8,6 +8,7 @@ from sos_analyzer.globals import LOGGER as logging, \
     SCANNER_RESULTS_SUBDIR as SUBDIR
 
 import sos_analyzer.compat as SC
+import os
 import os.path
 import re
 
@@ -83,6 +84,12 @@ class BaseScanner(object):
         if conf is not None and isinstance(conf, dict):
             self.conf = conf.get(self.name, NULL_DICT)
 
+        if self.getconf("disabled", False) or \
+           not self.getconf("enabled", True):
+            self.enabled = False
+        else:
+            self.enabled = True
+
         self.input_path = os.path.join(datadir, self.input_name)
         self.patterns = compile_patterns(self.conf)
         self.output_path = os.path.join(workdir, subdir, "%s.json" % self.name)
@@ -139,7 +146,8 @@ class BaseScanner(object):
 
             new_state = self._update_state(state, line, i)
             if state != new_state:
-                logging.info("State changed: %d -> %d" % (state, new_state))
+                logging.info("State changed: %s -> %s" % (str(state),
+                                                          str(new_state)))
                 state = new_state
 
             yield self.parse_impl(state, line, i)
@@ -164,6 +172,11 @@ class BaseScanner(object):
 
     def run(self):
         self.result = dict(data=self.scan_file())
+
+        d = os.path.dirname(self.output_path)
+        if not os.path.exists(d):
+            os.makedirs(d)
+
         SC.json.dump(self.result, open(self.output_path, 'w'))
 
 # vim:sw=4:ts=4:et:

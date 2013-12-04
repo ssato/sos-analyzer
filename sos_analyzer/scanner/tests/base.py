@@ -34,6 +34,15 @@ class Test_20_BaseScanner(unittest.TestCase):
     def setUp(self):
         self.scanner = TT.BaseScanner(CURDIR, CURDIR, conf=CONF_0)
 
+    def test_00__enalbed(self):
+        self.assertTrue(self.scanner.enabled)  # default.
+
+        conf_disabled = CONF_0.copy()
+        conf_disabled[TT.BaseScanner.name]["disabled"] = 1
+        sc = TT.BaseScanner(CURDIR, CURDIR, conf=conf_disabled)
+
+        self.assertFalse(sc.enabled)
+
     def test_10_getconf(self):
         self.assertEquals(self.scanner.getconf("a"), 1)
 
