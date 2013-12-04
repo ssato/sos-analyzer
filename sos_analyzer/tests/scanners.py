@@ -18,6 +18,6 @@ class Test_10_effectful_functions(unittest.TestCase):
     def test_10_make_scanners__minimum_args(self):
         datadir = "/tmp"  # Dummy
 
-        TT.make_scanners(self.workdir, datadir)
+        TT.list(self.workdir, datadir)
 
 # vim:sw=4:ts=4:et:

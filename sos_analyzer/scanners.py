@@ -30,7 +30,7 @@ def make_scanners_g(workdir, datadir, conf=None, scanners=SCANNERS):
         yield sc(workdir, datadir, conf=conf)
 
 
-def make_scanners(workdir, datadir, conf=None, scanners=SCANNERS):
+def list(workdir, datadir, conf=None, scanners=SCANNERS):
     """
     :param workdir: Working dir to save results
     :param datadir: Data dir where input data file exists
