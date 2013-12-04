@@ -36,7 +36,8 @@ def list(workdir, datadir, conf=None, scanners=SCANNERS):
     :param datadir: Data dir where input data file exists
     :param conf: A dict object holding scanners's configurations
     """
-    return list(make_scanners_g(workdir, datadir, conf, scanners))
+    return [sc for sc in make_scanners_g(workdir, datadir, conf, scanners)
+            if sc.enabled]
 
 
 # vim:sw=4:ts=4:et:
