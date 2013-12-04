@@ -126,4 +126,4 @@ class Test_10_run(unittest.TestCase):
 
         #self.assertTrue(os.path.exists(self.logfile))
 
-# vim:sw=4 ts=4 et:
+# vim:sw=4:ts=4:et:

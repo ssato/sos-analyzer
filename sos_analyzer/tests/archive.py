@@ -31,4 +31,4 @@ class Test_10_effectful_functions(unittest.TestCase):
 
         TT.extract_archive(archive, resultdir)
 
-# vim:sw=4 ts=4 et:
+# vim:sw=4:ts=4:et:
