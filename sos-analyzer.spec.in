@@ -25,6 +25,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 BuildRequires:  python
 BuildRequires:  python-setuptools
+Requires:       python-anyconfig
 Requires:       python-setuptools
 Requires:       rpm-python
 #Requires:       python-anyconfig
@@ -44,7 +45,7 @@ A tool to scan and analyze data collected by sosreport.
 Summary:        %{summary}
 Group:          Applications/System
 Requires:       python3-setuptools
-#Requires:       python3-anyconfig
+Requires:       python3-anyconfig
 
 %description -n python3-%{pkgname}
 A tool to scan and analyze data collected by sosreport.
