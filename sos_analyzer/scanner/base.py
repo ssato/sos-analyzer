@@ -62,6 +62,7 @@ class BaseScanner(object):
     name = "base"
     input_name = "base"
     conf = NULL_DICT
+    initial_state = "initial_state"
 
     def __init__(self, workdir, datadir, input_name=None, name=None,
                  conf=None, subdir=SUBDIR):
@@ -130,15 +131,15 @@ class BaseScanner(object):
         """
         return dict()
 
-    def parse(self, content):
+    def parse(self, fileobj):
         """
         Parse the content of input file.
 
-        :param content: Content of the input file.
+        :param fileobj: Input file object.
         """
-        state = self.getconf("initial_state", 0)
+        state = self.getconf("initial_state", self.initial_state)
 
-        for i, line in enumerate(content.splitlines()):
+        for i, line in enumerate(fileobj.readlines()):
             line = line.rstrip()
 
             if not line and self.getconf("ignore_empty_lines", True):
@@ -146,8 +147,9 @@ class BaseScanner(object):
 
             new_state = self._update_state(state, line, i)
             if state != new_state:
-                logging.info("State changed: %s -> %s" % (str(state),
-                                                          str(new_state)))
+                m = "State changed: %s -> %s, line=%s" % \
+                    (str(state), str(new_state), line)
+                logging.info(m)
                 state = new_state
 
             yield self.parse_impl(state, line, i)
@@ -158,13 +160,7 @@ class BaseScanner(object):
         """
         try:
             f = open(self.input_path)
-            c = f.read()
-
-            if not c:
-                logging.warn("Empty file: " + self.input_path)
-                return []
-
-            return [x for x in self.parse(c) if x]
+            return [x for x in self.parse(f) if x]
 
         except (IOError, OSError) as e:
             logging.warn("Could not open the input: " + self.input_path)
