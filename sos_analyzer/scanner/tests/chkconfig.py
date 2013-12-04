@@ -40,10 +40,13 @@ class Test_00_Scanner(unittest.TestCase):
         self.assertFalse(self.scanner.match("svc", line), line)
         self.assertTrue(self.scanner.match("xinetd_svc", line), line)
 
-    def test_50_scan_file(self):
-        results = self.scanner.scan_file()
-        #open('/tmp/result.txt', 'w').write(str(results))
+    def test_20_scan_file(self):
+        self.assertTrue(self.scanner.scan_file())
 
-        self.assertTrue(results)
+    def test_30_run(self):
+        self.scanner.run()
+        self.assertTrue(self.scanner.result)
+        self.assertTrue(os.path.exists(self.scanner.output_path))
+        self.assertTrue(self.scanner.result.get("data", None))
 
 # vim:sw=4:ts=4:et:
