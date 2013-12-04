@@ -24,7 +24,9 @@ class Test_10_functions(unittest.TestCase):
                           2)
 
 
-CONF_0 = dict(a=1, b=2, patterns=dict(aaa=r"([a-z]+)", bbb=r"([0-9]+)"))
+CONF_0 = {TT.BaseScanner.name: dict(a=1, b=2,
+                                    patterns=dict(aaa=r"([a-z]+)",
+                                                  bbb=r"([0-9]+)"))}
 
 
 class Test_20_BaseScanner(unittest.TestCase):

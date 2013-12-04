@@ -81,7 +81,7 @@ class BaseScanner(object):
             self.name = name
 
         if conf is not None and isinstance(conf, dict):
-            self.conf = conf
+            self.conf = conf.get(self.name, NULL_DICT)
 
         self.input_path = os.path.join(datadir, self.input_name)
         self.patterns = compile_patterns(self.conf)
