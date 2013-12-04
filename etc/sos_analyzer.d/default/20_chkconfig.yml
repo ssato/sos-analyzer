@@ -1,9 +1,9 @@
 enabled: 1
-initial_state: in_services
 ignore_empty_lines: 1
+#initial_state: in_services
 #patterns:
-#  xinetd_svcs_start: "^xinetd [^:]+:"
-#  xinetd_svc: "^ +(?P<xinetd_service>[^:]+):\s+(?P<status>on|off)"
+#  xinetd_svcs_start: "^xinetd [^:]+:$"
+#  xinetd_svc: "^\s+(?P<xinetd_service>[^:]+):\s+(?P<status>on|off)"
 #  svc: ...
 
 # vim:sw=2:ts=2:et:
