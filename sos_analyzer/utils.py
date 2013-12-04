@@ -5,6 +5,8 @@
 from logging import WARN, INFO, DEBUG
 from sos_analyzer.globals import LOGGER as logging
 
+import glob
+import os.path
 import tempfile
 
 
@@ -20,6 +22,29 @@ def set_loglevel(level):
     logging.setLevel(to_log_level(level))
 
 
+def find_dir_having_target(topdir, target):
+    """
+    Find the path to dir having ``taget`` under given dir ``topdir``.
+
+    :param topdir: Top dir to traverse to find target
+    :param target: Target file or dir to find
+    :return: Path to the objective dir
+    """
+    if os.path.exists(os.path.join(topdir, target)):
+        return topdir
+
+    subdirs = [x for x in glob.glob(os.path.join(topdir, '*'))
+               if os.path.isdir(x)]
+
+    for d in subdirs:
+        x = find_dir_having_target(d, target)
+        if x:
+            return x
+
+    logging.debug("Given dir does not look having target: " + topdir)
+    return None
+
+
 def setup_workdir(workdir=None):
     """
     Setup working dir to save results.
@@ -27,7 +52,7 @@ def setup_workdir(workdir=None):
     :param workdir: Dir path or None. Create an unique dir if None was given.
     """
     if workdir is None:
-        return tempfile.mkdtemp("-sos-analyzer-workdir")
+        return tempfile.mkdtemp(dir="/tmp", prefix="sos_analyzer-")
     else:
         if os.path.exists(workdir):
             if os.path.isdir(workdir):
