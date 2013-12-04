@@ -11,7 +11,11 @@ import re
 """chkconfig format:
 atd             0:off   1:off   2:off   3:on    4:on    5:on    6:off
 auditd          0:off   1:off   2:on    3:on    4:on    5:on    6:off
-...
+blk-availability        0:off   1:on    2:on    3:on    4:on    5:on    6:off
+    ...
+udev-post       0:off   1:on    2:on    3:on    4:on    5:on    6:off
+xinetd          0:off   1:off   2:off   3:on    4:on    5:on    6:off
+
 xinetd based services:
         chargen-dgram:  off
         chargen-stream: off
@@ -22,22 +26,23 @@ INPUT = "chkconfig"
 STATES = (IN_SVCS, AT_XINETD_SVCS_START, IN_XINETD_SVCS) = \
     ("in_services", "at_xinetd_svcs_start", "in_xinetd_svcs")
 
-REG_0 = r"(?P<service>[a-zA-Z]\S+)" + \
+REG_0 = r"^(?P<service>[a-zA-Z]\S+)" + \
         r"\s+0:(on|off)\s+1:(on|off)\s+2:(on|off)\s+3:(on|off)" + \
-        r"\s+4:(on|off)\s+5:(on|off)\s+6:(on|off)"
-REG_1 = r"^ +(?P<xinetd_service>[^:]+):\s+(?P<status>on|off)"
+        r"\s+4:(on|off)\s+5:(on|off)\s+6:(on|off)$"
+REG_1 = r"^\s+(?P<xinetd_service>[^:]+):\s+(?P<status>on|off)$"
+REG_2 = r"^xinetd [^:]+:$"
 
 CONF = dict(initial_state=IN_SVCS,
             ignore_empty_lines=1,
-            patterns=dict(xinetd_svcs_start="^xinetd [^:]+:",
-                          xinetd_svc=REG_1,
-                          svc=REG_0))
+            patterns=dict(svc=REG_0, xinetd_svc=REG_1,
+                          xinetd_svcs_start=REG_2))
 
 
 class Scanner(SSB.BaseScanner):
 
     name = input_name = INPUT
     conf = CONF
+    initial_state = IN_SVCS
 
     def _update_state(self, state, line, i):
         """
@@ -68,7 +73,7 @@ class Scanner(SSB.BaseScanner):
                 t = m.groups()
                 return dict(service=t[0], status=t[1:])
             else:
-                e = "Not a line for normal services? l=%s, lno=%d" % (line, i)
+                e = "Not a line of normal service? l=%s, lno=%d" % (line, i)
                 logging.warn(e)
 
         elif state == IN_XINETD_SVCS:
@@ -76,7 +81,7 @@ class Scanner(SSB.BaseScanner):
             if m:
                 return m.groupdict()
             else:
-                e = "Not a line for xinetd services? l=%s, lno=%d" % (line, i)
+                e = "Not a line of xinetd service? l=%s, lno=%d" % (line, i)
                 logging.warn(e)
         else:
             pass
