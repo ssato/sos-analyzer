@@ -19,7 +19,8 @@ xinetd based services:
 """
 
 INPUT = "chkconfig"
-STATES = (IN_SVCS, AT_XINETD_SVCS_START, IN_XINETD_SVCS) = (0, 1, 2)
+STATES = (IN_SVCS, AT_XINETD_SVCS_START, IN_XINETD_SVCS) = \
+    ("in_services", "at_xinetd_svcs_start", "in_xinetd_svcs")
 
 REG_0 = r"(?P<service>[a-zA-Z]\S+)" + \
         r"\s+0:(on|off)\s+1:(on|off)\s+2:(on|off)\s+3:(on|off)" + \
