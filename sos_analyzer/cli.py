@@ -5,35 +5,19 @@
 from sos_analyzer.globals import LOGGER as logging, DATA_SUBDIR
 
 import sos_analyzer.archive as SA
-import sos_analyzer.compat as SC
+import sos_analyzer.asynccall as SAC
+import sos_analyzer.scanners as SCS
 import sos_analyzer.utils as SU
-import codecs
-import locale
+
+import anyconfig
 import optparse
 import os
+import os.path
 import sys
 import tempfile
 
 
-_encoding = locale.getdefaultlocale()[1]
-
-if SC.IS_PYTHON_3:
-    import io
-
-    _encoding = _encoding.lower()
-
-    # FIXME: Fix the error, "AttributeError: '_io.StringIO' object has no
-    # attribute 'buffer'".
-    try:
-        sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding=_encoding)
-        sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding=_encoding)
-    except AttributeError:
-        pass
-else:
-    sys.stdout = codecs.getwriter(_encoding)(sys.stdout)
-    sys.stderr = codecs.getwriter(_encoding)(sys.stderr)
-
-DEFAULTS = dict(loglevel=1, workdir=None)
+DEFAULTS = dict(loglevel=1, conf=None, workdir=None, analyze=False)
 
 USAGE = """%prog [Options...] SOS_REPORT_ARCHIVE_PATH
 
@@ -45,9 +29,14 @@ def option_parser(defaults=DEFAULTS, usage=USAGE):
     p = optparse.OptionParser(usage)
     p.set_defaults(**defaults)
 
+    p.add_option("-C", "--conf",
+                 help="Configuration file path or paths or its pattern "
+                      "such as '/a/b/*.json'")
     p.add_option("-w", "--workdir",
                  help="Workding dir to save result. Computed and created "
                       "automatically by default.")
+    p.add_option("-A", "--analyze", action="store_true",
+                 help="Not only scan data but also do some analysys")
 
     p.add_option("-s", "--silent", action="store_const", dest="loglevel",
                  const=0, help="Silent or quiet mode")
@@ -69,8 +58,13 @@ def main(argv=sys.argv):
         p.print_usage()
         return -1
 
-    if not options.workdir:
-        options.workdir = tempfile.mkdtemp(dir="/tmp", prefix="sos_analyzer-")
+    conf = anyconfig.load(options.conf) if options.conf else None
+
+    if options.workdir:
+        logging.info("Try using working dir: " + options.workdir)
+        SU.setup_workdir(options.workdir)
+    else:
+        options.workdir = SU.setup_workdir()
         logging.info("Created working dir: " + options.workdir)
 
     tarfile = args[0]
@@ -80,7 +74,24 @@ def main(argv=sys.argv):
         logging.info("Create datadir: " + datadir)
         os.makedirs(datadir)
 
+    logging.info("Extract sosreport archive %s to %s" % (tarfile, datadir))
     SA.extract_archive(tarfile, datadir)
+
+    d = SU.find_dir_having_target(datadir, "sos_commands")
+    if d:
+        logging.info("Set datadir to " + d)
+        datadir = d
+    else:
+        logging.error("No sosreport data found under " + d)
+        return -1
+
+    scanners = SCS.list(options.workdir, datadir, conf)
+    procs = [SAC.call_async(sc.run) for sc in scanners]
+    for p in procs:
+        SAC.stop_async_call(p, 20, True)
+
+    if options.analyze:
+        raise NotImplementedError("Analysis code not implemented yet.")
 
     return 0
 
