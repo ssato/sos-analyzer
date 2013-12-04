@@ -3,6 +3,14 @@ sos-analyzer
 
 A tool to scan and analyze data collected by sosreport
 
+Reference
+----------
+
+* sosreport: https://github.com/sosreport/sosreport
+* checksysreport: http://ostatic.com/checksysreport
+* sxconsole: https://fedorahosted.org/sx/
+* xsos - sosreport examiner: https://github.com/ryran/xsos
+
 Build & Install
 ================
 
@@ -17,15 +25,18 @@ or::
 and install built RPMs. 
 
 Otherwise, try usual ways to build and/or install python modules such like
+'python setup.py bdist', etc.
+
+Requirements
+-------------
+
+sos-analyzer depends on python-anyconfig which is available from:
+
+* https://github.com/ssato/python-anyconfig
+
+It's able to build and make a package of python-anyconfig as same as
+sos-analyzer. Plus, you may build and/or install anyconfig such like
 'easy_install anyconfig', 'python setup.py bdist', etc.
-
-Reference
-----------
-
-* sosreport: https://github.com/sosreport/sosreport
-* checksysreport: http://ostatic.com/checksysreport
-* sxconsole: https://fedorahosted.org/sx/
-* xsos - sosreport examiner: https://github.com/ryran/xsos
 
 How to hack
 ============
