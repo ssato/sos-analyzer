@@ -5,7 +5,6 @@
 from sos_analyzer.globals import LOGGER as logging, DATA_SUBDIR
 
 import sos_analyzer.archive as SA
-import sos_analyzer.asynccall as SAC
 import sos_analyzer.scanners as SCS
 import sos_analyzer.utils as SU
 
@@ -85,10 +84,7 @@ def main(argv=sys.argv):
         logging.error("No sosreport data found under " + d)
         return -1
 
-    scanners = SCS.list(options.workdir, datadir, conf)
-    procs = [SAC.call_async(sc.run) for sc in scanners]
-    for p in procs:
-        SAC.stop_async_call(p, 20, True)
+    SCS.run(options.workdir, datadir, conf)
 
     if options.analyze:
         raise NotImplementedError("Analysis code not implemented yet.")
