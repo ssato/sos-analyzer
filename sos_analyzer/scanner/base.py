@@ -176,6 +176,30 @@ class BaseScanner(object):
         SC.json.dump(self.result, open(self.output_path, 'w'))
 
 
+class SinglePatternScanner(BaseScanner):
+
+    pattern_name = "match_pattern"
+    ignore_pattern = r"^(?:#.*|\s*)$"
+
+    def parse_impl(self, state, line, i, *args, **kwargs):
+        """
+        :param state: A dict object represents internal state
+        :param line: Content of the line
+        :param i: Line number in the input file
+        :return: A dict instance of parsed result
+        """
+        if re.match(self.ignore_pattern, line):
+            return None
+
+        m = self.match(self.pattern_name, line)
+        if m:
+            return m.groupdict()
+        else:
+            e = "Invalid input? file=%s, line=%s" (self.input_path, line)
+            logging.warn(e)
+            return None
+
+
 class MultiInputsScanner(BaseScanner):
 
     name = "multiinput"
