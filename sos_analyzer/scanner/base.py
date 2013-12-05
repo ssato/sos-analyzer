@@ -149,7 +149,7 @@ class BaseScanner(object):
             if state != new_state:
                 m = "State changed: %s -> %s, line=%s" % \
                     (str(state), str(new_state), line)
-                logging.info(m)
+                logging.debug(m)
                 state = new_state
 
             yield self.parse_impl(state, line, i)
@@ -178,8 +178,8 @@ class BaseScanner(object):
 
 class SinglePatternScanner(BaseScanner):
 
-    pattern_name = "match_pattern"
-    ignore_pattern = r"^(?:#.*|\s*)$"
+    pattern = r"^.*$"
+    ignore_pattern = r"^#.*$"
 
     def parse_impl(self, state, line, i, *args, **kwargs):
         """
@@ -191,11 +191,11 @@ class SinglePatternScanner(BaseScanner):
         if re.match(self.ignore_pattern, line):
             return None
 
-        m = self.match(self.pattern_name, line)
+        m = re.match(self.pattern, line)
         if m:
             return m.groupdict()
         else:
-            e = "Invalid input? file=%s, line=%s" (self.input_path, line)
+            e = "Invalid input? file=%s, line=%s" % (self.input_path, line)
             logging.warn(e)
             return None
 
