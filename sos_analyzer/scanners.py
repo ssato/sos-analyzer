@@ -8,6 +8,8 @@ import sos_analyzer.asynccall
 import sos_analyzer.scanner.chkconfig
 import sos_analyzer.scanner.grub
 import sos_analyzer.scanner.uname
+import sos_analyzer.scanner.etc_hosts
+import sos_analyzer.scanner.var_log_messages
 
 
 #TODO: Pluggable scanners.
@@ -22,7 +24,9 @@ import sos_analyzer.scanner.uname
 
 SCANNERS = [sos_analyzer.scanner.chkconfig.Scanner,
             sos_analyzer.scanner.grub.Scanner,
-            sos_analyzer.scanner.uname.Scanner]
+            sos_analyzer.scanner.uname.Scanner,
+            sos_analyzer.scanner.etc_hosts.Scanner,
+            sos_analyzer.scanner.var_log_messages.Scanner]
 
 # workdir, datadir, input_name=None, name=None, conf=None, subdir=SUBDIR):
 
