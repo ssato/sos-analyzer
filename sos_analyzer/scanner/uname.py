@@ -16,13 +16,13 @@ import re
 """
 
 UNAME_RE = r"^(?P<sysname>\S+) (?P<nodename>\S+) (?P<kernel_release>\S+) " + \
-           r"(?P<kernel_version>(?:\S|\s)+) (?P<machine>) (?P<processor>\S+) " + \
-           r"(?P<os>\S+)$"
+           r"(?P<kernel_version>.+) (?P<machine>\S+) (?P<processor>\S+) " + \
+           r"(?P<os>\S+)"
 
 
 class Scanner(SSB.SinglePatternScanner):
 
     name = input_name = "uname"
-    conf = dict(patterns=dict(match_pattern=UNAME_RE, ), )
+    pattern = UNAME_RE
 
 # vim:sw=4:ts=4:et:

@@ -26,7 +26,7 @@ class Test_00_Scanner(unittest.TestCase):
         for i, u in enumerate(EXAMPLES):
             f = os.path.join(self.datadir, "uname.%d" % i)
             self.inputs.append(f)
-            open(f, 'w').write(u + "\n")
+            open(f, 'w').write(u)
 
         self.scanners = [TT.Scanner(self.workdir, self.datadir, f) for f
                          in self.inputs]
@@ -35,7 +35,7 @@ class Test_00_Scanner(unittest.TestCase):
         C.cleanup_workdir(self.workdir)
 
     def test_10_regexes(self):
-        line = EXAMPLES[0] + "\n"
+        line = EXAMPLES[0]
         self.assertTrue(self.scanners[0].match("match_pattern", line), line)
 
     def test_20_scan_file(self):
