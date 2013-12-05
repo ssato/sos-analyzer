@@ -16,7 +16,7 @@ INPUT_0 = os.path.join(CURDIR, "rhel-6-client-1.chkconfig.txt")
 def get_random_line(input=INPUT_0, start=0, end=None):
     ls = open(input).read().splitlines()
     if end is None:
-        end = len(ls)
+        end = len(ls) - 1  # index starts w/ '0'.
 
     while True:
         l = ls[random.randint(start, end)]
