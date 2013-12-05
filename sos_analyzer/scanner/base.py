@@ -4,8 +4,7 @@
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-from sos_analyzer.globals import LOGGER as logging, \
-    SCANNER_RESULTS_SUBDIR as SUBDIR
+from sos_analyzer.globals import LOGGER as logging, scanned_datadir
 
 import sos_analyzer.compat as SC
 import os
@@ -65,14 +64,13 @@ class BaseScanner(object):
     initial_state = "initial_state"
 
     def __init__(self, workdir, datadir, input_name=None, name=None,
-                 conf=None, subdir=SUBDIR):
+                 conf=None):
         """
         :param workdir: Working dir to save results
         :param datadir: Data dir where input data file exists
         :param input_name: Input file name
         :param name: Scanner's name
         :param conf: A dict object holding scanner's configurations
-        :param subdir: Subdir to save scanner's results
         """
         self.datadir = datadir
 
@@ -93,7 +91,8 @@ class BaseScanner(object):
 
         self.input_path = os.path.join(datadir, self.input_name)
         self.patterns = compile_patterns(self.conf)
-        self.output_path = os.path.join(workdir, subdir, "%s.json" % self.name)
+        self.output_path = os.path.join(scanned_datadir(workdir),
+                                        "%s.json" % self.name)
 
     def getconf(self, key, fallback=None, key_sep='.'):
         """

@@ -4,8 +4,7 @@
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-from sos_analyzer.globals import LOGGER as logging, \
-    ANALYZER_RESULTS_SUBDIR as SUBDIR
+from sos_analyzer.globals import LOGGER as logging, result_datadir
 
 import os.path
 
@@ -18,7 +17,7 @@ class BaseAnalyzer(object):
     name = "base"
     conf = NULL_DICT
 
-    def __init__(self, workdir, datadir, name=None, conf=None, subdir=SUBDIR):
+    def __init__(self, workdir, datadir, name=None, conf=None):
         self.datadir = datadir
 
         if name is not None:
@@ -27,7 +26,8 @@ class BaseAnalyzer(object):
         if conf is not None and isinstance(conf, dict):
             self.conf = conf
 
-        self.result_dir = os.path.join(workdir, subdir, self.name)
+        self.scanned_datadir = scanned_datadir(workdir)
+        self.resultdir = os.path.join(result_datadir(workdir), self.name)
 
     def analyze(self, *args, **kwargs):
         pass

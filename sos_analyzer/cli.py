@@ -73,7 +73,7 @@ def main(argv=sys.argv):
         logging.info("Create datadir: " + datadir)
         os.makedirs(datadir)
 
-    d = SU.find_dir_having_target(datadir, "sos_commands")
+    d = SU.find_dir_has_target(datadir, "sos_commands")
     if d:
         logging.info("sosreport archive looks already extracted in " + d)
         datadir = d
@@ -81,7 +81,7 @@ def main(argv=sys.argv):
         logging.info("Extract sosreport archive %s to %s" % (tarfile, datadir))
         SA.extract_archive(tarfile, datadir)
 
-        d = SU.find_dir_having_target(datadir, "sos_commands")
+        d = SU.find_dir_has_target(datadir, "sos_commands")
         if d:
             logging.info("Set datadir to " + d)
             datadir = d
