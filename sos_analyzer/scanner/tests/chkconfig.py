@@ -36,7 +36,7 @@ class Test_00_Scanner(unittest.TestCase):
         #TT.logging.warn("line=" + line)
         self.assertTrue(self.scanner.match("svc", line), line)
 
-        line = get_random_line(start=41, end=52)
+        line = get_random_line(start=41)
         self.assertFalse(self.scanner.match("svc", line), line)
         self.assertTrue(self.scanner.match("xinetd_svc", line), line)
 
