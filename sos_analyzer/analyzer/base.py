@@ -9,13 +9,13 @@ from sos_analyzer.globals import LOGGER as logging, result_datadir
 import os.path
 
 
-NULL_DICT = dict()
+DICT_MZERO = dict()
 
 
 class BaseAnalyzer(object):
 
     name = "base"
-    conf = NULL_DICT
+    conf = DICT_MZERO
 
     def __init__(self, workdir, datadir, name=None, conf=None):
         self.datadir = datadir

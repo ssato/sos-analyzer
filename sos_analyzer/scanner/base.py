@@ -13,7 +13,7 @@ import os.path
 import re
 
 
-NULL_DICT = dict()
+DICT_MZERO = dict()
 
 
 def dic_get_recur(dic, key, fallback=None, key_sep='.'):
@@ -54,14 +54,14 @@ def compile_patterns(conf={}):
     >>> assert cps["bbb"].match("123") is not None
     """
     return dict((k, re.compile(v)) for k, v in
-                SC.iteritems(conf.get("patterns", NULL_DICT)))
+                SC.iteritems(conf.get("patterns", DICT_MZERO)))
 
 
 class BaseScanner(object):
 
     name = "base"
     input_name = "base"
-    conf = NULL_DICT
+    conf = DICT_MZERO
     initial_state = "initial_state"
 
     def __init__(self, workdir, datadir, input_name=None, name=None,
@@ -82,7 +82,7 @@ class BaseScanner(object):
             self.name = name
 
         if conf is not None and isinstance(conf, dict):
-            self.conf = conf.get(self.name, NULL_DICT)
+            self.conf = conf.get(self.name, DICT_MZERO)
 
         if self.getconf("disabled", False) or \
            not self.getconf("enabled", True):
@@ -180,7 +180,7 @@ class MultiInputsScanner(BaseScanner):
 
     name = "multiinput"
     input_names = "*"  # or [] ?
-    conf = NULL_DICT
+    conf = DICT_MZERO
 
     def __init__(self, workdir, datadir, input_names=None, name=None,
                  conf=None):
@@ -200,7 +200,7 @@ class MultiInputsScanner(BaseScanner):
             self.name = name
 
         if conf is not None and isinstance(conf, dict):
-            self.conf = conf.get(self.name, NULL_DICT)
+            self.conf = conf.get(self.name, DICT_MZERO)
 
         if self.getconf("disabled", False) or \
            not self.getconf("enabled", True):
