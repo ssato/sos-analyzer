@@ -6,6 +6,7 @@ from sos_analyzer.globals import LOGGER as logging
 
 import sos_analyzer.asynccall
 import sos_analyzer.scanner.chkconfig
+import sos_analyzer.scanner.df
 import sos_analyzer.scanner.grub
 import sos_analyzer.scanner.uname
 import sos_analyzer.scanner.etc_hosts
@@ -23,6 +24,7 @@ import sos_analyzer.scanner.var_log_messages
 #        continue
 
 SCANNERS = [sos_analyzer.scanner.chkconfig.Scanner,
+            sos_analyzer.scanner.df.Scanner,
             sos_analyzer.scanner.grub.Scanner,
             sos_analyzer.scanner.uname.Scanner,
             sos_analyzer.scanner.etc_hosts.Scanner,
