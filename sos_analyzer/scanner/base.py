@@ -7,6 +7,7 @@
 from sos_analyzer.globals import LOGGER as logging, scanned_datadir
 
 import sos_analyzer.compat as SC
+import glob
 import os
 import os.path
 import re
@@ -167,6 +168,75 @@ class BaseScanner(object):
 
     def run(self):
         self.result = dict(data=self.scan_file())
+
+        d = os.path.dirname(self.output_path)
+        if not os.path.exists(d):
+            os.makedirs(d)
+
+        SC.json.dump(self.result, open(self.output_path, 'w'))
+
+
+class MultiInputsScanner(BaseScanner):
+
+    name = "multiinput"
+    input_names = "*"  # or [] ?
+    conf = NULL_DICT
+
+    def __init__(self, workdir, datadir, input_names=None, name=None,
+                 conf=None):
+        """
+        :param workdir: Working dir to save results
+        :param datadir: Data dir where input data file exists
+        :param input_names: List of input file names or its glob pattern
+        :param name: Scanner's name
+        :param conf: A dict object holding scanner's configurations
+        """
+        self.datadir = datadir
+
+        if input_names is not None:
+            self.input_names = input_names
+
+        if name is not None:
+            self.name = name
+
+        if conf is not None and isinstance(conf, dict):
+            self.conf = conf.get(self.name, NULL_DICT)
+
+        if self.getconf("disabled", False) or \
+           not self.getconf("enabled", True):
+            self.enabled = False
+        else:
+            self.enabled = True
+
+        if isinstance(self.input_names, list):
+            self.input_paths = [os.path.join(datadir, n) for n
+                                in self.input_names]
+        else:
+            self.input_paths = glob.glob(os.path.join(datadir,
+                                                      self.input_names))
+
+        self.patterns = compile_patterns(self.conf)
+        self.output_path = os.path.join(scanned_datadir(workdir),
+                                        "%s.json" % self.name)
+
+    def scan_files_g(self):
+        """
+        Scan the input files and return parsed result.
+        """
+        for input_path in self.input_paths:
+            try:
+                f = open(input_path)
+                yield (input_path, [x for x in self.parse(f) if x])
+
+            except (IOError, OSError) as e:
+                logging.warn("Could not open the input: " + input_path)
+                yield (input_path, [])
+
+    def scan_files(self):
+        return [dict(path=t[0], data=t[1]) for t in self.scan_files_g()]
+
+    def run(self):
+        self.result = dict(data=self.scan_files())
 
         d = os.path.dirname(self.output_path)
         if not os.path.exists(d):
