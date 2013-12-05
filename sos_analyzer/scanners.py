@@ -4,8 +4,9 @@
 #
 from sos_analyzer.globals import LOGGER as logging
 
-import sos_analyzer.scanner.chkconfig
 import sos_analyzer.asynccall
+import sos_analyzer.scanner.chkconfig
+import sos_analyzer.scanner.grub
 
 
 #TODO: Pluggable scanners.
@@ -18,7 +19,8 @@ import sos_analyzer.asynccall
 #        logging.warn("Could not load and append: " + str(e))
 #        continue
 
-SCANNERS = [sos_analyzer.scanner.chkconfig.Scanner, ]
+SCANNERS = [sos_analyzer.scanner.chkconfig.Scanner,
+            sos_analyzer.scanner.grub.Scanner]
 
 # workdir, datadir, input_name=None, name=None, conf=None, subdir=SUBDIR):
 
