@@ -22,9 +22,9 @@ def set_loglevel(level):
     logging.setLevel(to_log_level(level))
 
 
-def find_dir_having_target(topdir, target):
+def find_dir_has_target(topdir, target):
     """
-    Find the path to dir having ``taget`` under given dir ``topdir``.
+    Find the path to dir under given ``topdir`` which has ``taget``.
 
     :param topdir: Top dir to traverse to find target
     :param target: Target file or dir to find
@@ -37,7 +37,7 @@ def find_dir_having_target(topdir, target):
                if os.path.isdir(x)]
 
     for d in subdirs:
-        x = find_dir_having_target(d, target)
+        x = find_dir_has_target(d, target)
         if x:
             return x
 

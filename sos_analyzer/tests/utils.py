@@ -29,13 +29,13 @@ class Test_10_effectful_functions(unittest.TestCase):
     def tearDown(self):
         C.cleanup_workdir(self.workdir)
 
-    def test_10_find_dir_having_target_subdir(self):
+    def test_10_find_dir_has_target_subdir(self):
         d = os.path.join(self.workdir, "a", "b", "c", "d", "e")
         os.makedirs(os.path.join(d, "aaa"))
 
-        self.assertEquals(TT.find_dir_having_target(self.workdir, "aaa"),
+        self.assertEquals(TT.find_dir_has_target(self.workdir, "aaa"),
                           d)
-        self.assertEquals(TT.find_dir_having_target(self.workdir, "bbb"),
+        self.assertEquals(TT.find_dir_has_target(self.workdir, "bbb"),
                           None)
 
 # vim:sw=4:ts=4:et:
