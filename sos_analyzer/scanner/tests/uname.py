@@ -3,7 +3,7 @@
 # License: GPLv3+
 #
 import sos_analyzer.tests.common as C
-import sos_analyzer.scanner.grub as TT
+import sos_analyzer.scanner.uname as TT
 import os.path
 import os
 import unittest
@@ -26,7 +26,7 @@ class Test_00_Scanner(unittest.TestCase):
         for i, u in enumerate(EXAMPLES):
             f = os.path.join(self.datadir, "uname.%d" % i)
             self.inputs.append(f)
-            open(f, 'w').write(u)
+            open(f, 'w').write(u + "\n")
 
         self.scanners = [TT.Scanner(self.workdir, self.datadir, f) for f
                          in self.inputs]
