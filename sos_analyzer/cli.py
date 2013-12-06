@@ -93,6 +93,7 @@ def main(argv=sys.argv):
 
     if options.analyze:
         SR.run_analyzers(options.workdir, datadir, conf)
+        SR.dump_collected_results(options.workdir)
 
     return 0
 

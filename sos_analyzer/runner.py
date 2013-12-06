@@ -2,8 +2,9 @@
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-from sos_analyzer.globals import LOGGER as logging
+from sos_analyzer.globals import LOGGER as logging, result_datadir
 
+import sos_analyzer.compat as SC
 import sos_analyzer.asynccall
 import sos_analyzer.analyzer.kernel
 import sos_analyzer.analyzer.hardware
@@ -18,6 +19,9 @@ import sos_analyzer.scanner.uname
 import sos_analyzer.scanner.etc_hosts
 import sos_analyzer.scanner.etc_ssh_sshd_config
 import sos_analyzer.scanner.var_log_messages
+
+import os.path
+import os
 
 
 #TODO: Make analyzers and scanners pluggable and loaded automatically.
@@ -96,5 +100,36 @@ def run_analyzers(workdir, datadir, conf=None, timeout=20):
     Alias of ``run`` to run analyzers.
     """
     run(workdir, datadir, conf, timeout, ANALYZERS)
+
+
+def load_results_g(workdir):
+    """
+    Load results under workdir.
+    """
+    topdir = result_datadir(workdir)
+    for dirpath, dirnames, filenames in os.walk(topdir):
+        # dirpath, dirnames, filenames
+        for f in filenames:
+            path = os.path.join(dirpath, f)
+            try:
+                data = SC.json.load(open(path))
+                relpath = os.path.relpath(dirpath, topdir)
+
+                yield (relpath, data)
+
+            except Exception as e:
+                logging.warn("Failed to load %s, reason=%s" % (path, str(e)))
+                continue
+
+
+def collect_results(workdir):
+    return dict((relpath, data) for relpath, data in load_results_g(workdir))
+
+
+def dump_collected_results(workdir):
+    outpath = os.path.join(result_datadir(workdir), "all-results.json")
+    all_results = collect_results(workdir)
+
+    SC.json.dump(all_results, open(outpath, 'w'))
 
 # vim:sw=4:ts=4:et:
