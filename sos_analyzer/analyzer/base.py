@@ -12,7 +12,7 @@ import os.path
 DICT_MZERO = dict()
 
 
-class BaseAnalyzer(object):
+class Analyzer(object):
 
     name = "base"
     conf = DICT_MZERO
@@ -30,6 +30,6 @@ class BaseAnalyzer(object):
         self.resultdir = os.path.join(result_datadir(workdir), self.name)
 
     def analyze(self, *args, **kwargs):
-        pass
+        raise NotImplementedError("Child class must implement this method!")
 
 # vim:sw=4:ts=4:et:
