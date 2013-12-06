@@ -17,7 +17,7 @@ def get_cur_runlevel(workdir, default=3,
     """
     data = Base.load_scanned_data(workdir, input)
     if data:
-        return data[0].get("cur_runlevel", default)
+        return int(data[0].get("cur_runlevel", default))
 
     return default
 
@@ -63,7 +63,7 @@ class Analyzer(Base.Analyzer):
     name = "ssh"
 
     def analyze(self, *args, **kwargs):
-        return dict(is_sshd_enabled(self.workdir),
-                    is_root_login_enabled(self.workdir))
+        return dict(is_sshd_enabled=is_sshd_enabled(self.workdir),
+                    is_root_login_enabled=is_root_login_enabled(self.workdir))
 
 # vim:sw=4:ts=4:et:
