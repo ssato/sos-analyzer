@@ -12,18 +12,6 @@ import unittest
 CURDIR = os.path.dirname(__file__)
 
 
-class Test_10_functions(unittest.TestCase):
-
-    def test_10_dic_get_recur(self):
-        self.assertEquals(TT.dic_get_recur({}, "a.b.c"), None)
-        self.assertEquals(TT.dic_get_recur(dict(a=1, ), "b"), None)
-        self.assertEquals(TT.dic_get_recur({}, "a.b.c", -1), -1)
-        self.assertEquals(TT.dic_get_recur(dict(a=1, ), "a"), 1)
-        self.assertEquals(TT.dic_get_recur(dict(a=dict(b=dict(c=2, ), ), ),
-                                           "a.b.c"),
-                          2)
-
-
 CONF_0 = {TT.BaseScanner.name: dict(a=1, b=2,
                                     patterns=dict(aaa=r"([a-z]+)",
                                                   bbb=r"([0-9]+)"))}

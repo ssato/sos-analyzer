@@ -7,6 +7,7 @@
 from sos_analyzer.globals import LOGGER as logging, scanned_datadir
 
 import sos_analyzer.compat as SC
+import sos_analyzer.utils as SU
 import glob
 import os
 import os.path
@@ -14,36 +15,6 @@ import re
 
 
 DICT_MZERO = dict()
-
-
-def dic_get_recur(dic, key, fallback=None, key_sep='.'):
-    """
-    Recursively traverse maybe nested dicts and return the value.
-
-    :param key: Key string :: str, ustr
-    :param fallback: Fallback value if key not found in dic
-    :param dic: Target dict object
-    :param key_sep: Key separator
-
-    >>> dic_get_recur({}, "a.b.c") is None
-    True
-    >>> dic_get_recur(dict(a=1, ), "b") is None
-    True
-    >>> dic_get_recur(dict(a=1, ), "a")
-    1
-    >>> dic_get_recur(dict(a=dict(b=dict(c=1, ), ), ), "a.b.c")
-    1
-    """
-    if key_sep in key:
-        key_0 = key[:key.find(key_sep)]
-        if key_0 not in dic:
-            return fallback
-
-        new_dic = dic[key[:key.find(key_sep)]]
-        new_key = key[key.find(key_sep) + 1:]
-        return dic_get_recur(new_dic, new_key, fallback, key_sep)
-    else:
-        return dic.get(key, fallback)
 
 
 def compile_patterns(conf={}):
@@ -101,7 +72,7 @@ class BaseScanner(object):
         :param fallback: Fallback value if the value for given key is not found
         :param key_sep: Separator char to represents hierarchized configuraion
         """
-        return dic_get_recur(self.conf, key, fallback, key_sep)
+        return SU.dic_get_recur(self.conf, key, fallback, key_sep)
 
     def match(self, name, s):
         """
