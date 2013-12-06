@@ -14,7 +14,7 @@ kernel-devel-2.6.18-238.el5.x86_64                          2012年02月08日 01
 
 class Scanner(SSB.SinglePatternScanner):
 
-    name = input_name = "uname"
-    pattern = r"^(?P<rpm>\S+)\s+(?P<installed_date>\S+)$"
+    name = input_name = "installed-rpms"
+    pattern = r"^(?P<rpm>\S+)\s+(?P<installed_date>\S+.*)$"
 
 # vim:sw=4:ts=4:et:
