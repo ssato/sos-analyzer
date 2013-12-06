@@ -16,7 +16,7 @@ def get_kernel_version_from_uname(workdir, input="uname.json"):
     """
     data = Base.load_scanned_data(workdir, input)
     if data:
-        return data.get("kernel_release", None)
+        return data[0].get("kernel_release", None)
 
     return None
 
@@ -84,9 +84,9 @@ class Analyzer(Base.Analyzer):
                       "uname.json"]
 
     def analyze(self, *args, **kwargs):
-        k1 = get_kernel_version_from_uname(workdir)
-        k2 = get_kernel_version_from_grub_conf(workdir)
-        iks = list_installed_kernels(workdir)
+        k1 = get_kernel_version_from_uname(self.workdir)
+        k2 = get_kernel_version_from_grub_conf(self.workdir)
+        iks = list_installed_kernels(self.workdir)
 
         return dict(running_kernel=k1,
                     default_boot_kernel=k2,
