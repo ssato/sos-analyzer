@@ -29,7 +29,7 @@ INPUT = "boot/grub/grub.conf"
 STATES = (IN_OPTIONS, AT_BOOT_ENTRY_TITLE, IN_BOOT_ENTRY) = \
     ("in_options", "at_boot_entry_title", "in_boot_entry")
 
-OPTION_0_RE = r"^(?P<option_name>[a-z]+)=(?P<option_value>\S+).*$"
+OPTION_0_RE = r"^(?P<option>[a-z]+)=(?P<value>\S+).*$"
 KERNEL_RE = r"^\s+kernel /vmlinuz-(?P<kernel>\S+) (?P<boot_option>.*)$"
 
 CONF = dict(initial_state=IN_OPTIONS,
@@ -39,7 +39,7 @@ CONF = dict(initial_state=IN_OPTIONS,
             patterns=dict(comment=r"^#.*$",
                           options=r"^\S+$",
                           option_0=OPTION_0_RE,
-                          option_1=r"^(?P<option_name>[a-z]+)$",
+                          option_1=r"^(?P<option>[a-z]+)$",
                           boot_entry_title=r"^title (?P<title>.*)$",
                           boot_entry_kerenl=KERNEL_RE))
 
