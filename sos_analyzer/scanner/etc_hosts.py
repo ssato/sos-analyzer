@@ -26,4 +26,17 @@ class Scanner(SSB.SinglePatternScanner):
     name = input_name = "etc/hosts"
     pattern = HOST_RE
 
+    def parse_impl(self, state, line, i, *args, **kwargs):
+        """
+        :param state: A dict object represents internal state
+        :param line: Content of the line
+        :param i: Line number in the input file
+        :return: A dict instance of parsed result
+        """
+        x = super(Scanner, self).parse_impl(state, line, i, *args, **kwargs)
+        if x:
+            x["hostnames"] = x.get("hostnames", '').split()
+
+        return x
+
 # vim:sw=4:ts=4:et:
