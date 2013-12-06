@@ -5,7 +5,7 @@
 from sos_analyzer.globals import LOGGER as logging, DATA_SUBDIR
 
 import sos_analyzer.archive as SA
-import sos_analyzer.scanners as SCS
+import sos_analyzer.runner as SR
 import sos_analyzer.utils as SU
 
 import anyconfig
@@ -16,7 +16,7 @@ import sys
 import tempfile
 
 
-DEFAULTS = dict(loglevel=1, conf=None, workdir=None, analyze=False)
+DEFAULTS = dict(loglevel=1, conf=None, workdir=None, analyze=True)
 
 USAGE = """%prog [Options...] SOS_REPORT_ARCHIVE_PATH
 
@@ -34,8 +34,8 @@ def option_parser(defaults=DEFAULTS, usage=USAGE):
     p.add_option("-w", "--workdir",
                  help="Workding dir to save result. Computed and created "
                       "automatically by default.")
-    p.add_option("-A", "--analyze", action="store_true",
-                 help="Not only scan data but also do some analysys")
+    p.add_option("", "--no-analyze", action="store_false",
+                 help="Do not analyze (scanned) data")
 
     p.add_option("-s", "--silent", action="store_const", dest="loglevel",
                  const=0, help="Silent or quiet mode")
@@ -89,10 +89,10 @@ def main(argv=sys.argv):
             logging.error("No sosreport data found under " + d)
             return -1
 
-    SCS.run(options.workdir, datadir, conf)
+    SR.run_scanners(options.workdir, datadir, conf)
 
     if options.analyze:
-        raise NotImplementedError("Analysis code not implemented yet.")
+        SR.run_analyzers(options.workdir, datadir, conf)
 
     return 0
 
