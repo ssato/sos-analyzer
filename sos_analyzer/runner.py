@@ -8,6 +8,7 @@ import sos_analyzer.compat as SC
 import sos_analyzer.asynccall
 import sos_analyzer.analyzer.kernel
 import sos_analyzer.analyzer.hardware
+import sos_analyzer.analyzer.filesystem
 import sos_analyzer.analyzer.ssh
 import sos_analyzer.scanner.chkconfig
 import sos_analyzer.scanner.df
@@ -35,6 +36,7 @@ import os
 #        continue
 ANALYZERS = [sos_analyzer.analyzer.kernel.Analyzer,
              sos_analyzer.analyzer.hardware.Analyzer,
+             sos_analyzer.analyzer.filesystem.Analyzer,
              sos_analyzer.analyzer.ssh.Analyzer,
              ]
 SCANNERS = [sos_analyzer.scanner.chkconfig.Scanner,
