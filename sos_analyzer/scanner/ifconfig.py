@@ -100,6 +100,7 @@ class Scanner(SSB.BaseScanner):
     conf = CONF
     initial_state = IFACE_START
     iface_info = None
+    enabled = False
 
     def _update_state(self, state, line, i):
         """
