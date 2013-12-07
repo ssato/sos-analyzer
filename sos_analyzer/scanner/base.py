@@ -1,6 +1,7 @@
 #
 # Base class for scanners.
 #
+# Copyright (C) 2013 Red Hat, Inc.
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
