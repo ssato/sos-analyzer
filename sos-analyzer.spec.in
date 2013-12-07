@@ -102,5 +102,5 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
-* Sun Dec  1 2013 Satoru SATOH <ssato@redhat.com> - 0.0.1-1
+* Sun Dec  8 2013 Satoru SATOH <ssato@redhat.com> - 0.0.1-1
 - Initial packaging
