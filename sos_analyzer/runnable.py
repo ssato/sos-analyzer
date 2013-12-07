@@ -6,6 +6,7 @@
 #
 import sos_analyzer.compat as SC
 import sos_analyzer.utils as SU
+import glob
 import os.path
 
 
@@ -67,38 +68,42 @@ class RunnableWithIO(RunnableWithConfig):
     inputs_dir = os.path.sep  # '/' (root)
     inputs = []
     outputs_dir = None  # TBD
+    glob_pattern = '*'
 
     def __init__(self, inputs_dir=None, inputs=None, outputs_dir=None,
                  name=None, conf=None, **kwargs):
         """
         :param inputs_dir: Path to dir holding inputs
-        :param inputs: List of filename or path to input files, or glob pattern
-            of filename or path to input files or None;
-            ex. ["a/b.txt", "c.txt"], "a/b/*.yml"
+        :param inputs: List of filenames, path to input files, glob pattern
+            of filename or None; ex. ["a/b.txt", "c.txt"], "a/b/*.yml"
         :param name: Object's name
         :param conf: A maybe nested dict holding object's configurations
         """
-        super(Runnable, self).__init__(name, conf, inputs_dir=inputs_dir,
-                                       inputs=inputs, outputs_dir=outputs_dir,
-                                       **kwargs)
-        self.input_paths = [self._compute_input_path(input) for input
-                            in self.inputs]
+        super(RunnableWithIO, self).__init__(name, conf, inputs_dir=inputs_dir,
+                                             inputs=inputs,
+                                             outputs_dir=outputs_dir,
+                                             **kwargs)
+        if isinstance(self.inputs, list):
+            self.input_paths = [self._mk_input_path(input) for input
+                                in self.inputs]
+        else:
+            self.input_paths = glob.glob(self._mk_input_path(self.inputs))
 
-    def _compute_input_path(self, input):
+    def _mk_input_path(self, input):
         """
         :param input: Input filename or path to input file
         :return: Path to output file
         """
         return os.path.join(self.inputs_dir, input)
 
-    def _compute_output_path(self, input):
+    def _mk_output_path(self, input):
         """
         NOTE: Child class should override this method.
 
         :param input: Input filename or path to input file
         :return: Path to output file
         """
-        return os.path.join(self.outputs_dir, self.input)
+        return os.path.join(self.outputs_dir, input)
 
     def process_inputs(self, *args, **kwargs):
         raise NotImplementedError("Child class must implement this!")
