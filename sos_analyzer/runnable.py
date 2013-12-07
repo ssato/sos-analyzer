@@ -1,18 +1,12 @@
 #
-# Base class for scanners and analyzers.
+# Base classes for scanner and analyzer classes.
 #
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-from sos_analyzer.globals import LOGGER as logging, scanned_datadir
-
 import sos_analyzer.compat as SC
 import sos_analyzer.utils as SU
-import glob
-import os
 import os.path
-import re
-import sys
 
 
 DICT_MZERO = dict()
@@ -72,7 +66,7 @@ class RunnableWithIO(RunnableWithConfig):
     name = "runnable_with_io"
     inputs_dir = os.path.sep  # '/' (root)
     inputs = []
-    outputs_dir = "/tmp/outputs"
+    outputs_dir = None  # TBD
 
     def __init__(self, inputs_dir=None, inputs=None, outputs_dir=None,
                  name=None, conf=None, **kwargs):
@@ -105,5 +99,8 @@ class RunnableWithIO(RunnableWithConfig):
         :return: Path to output file
         """
         return os.path.join(self.outputs_dir, self.input)
+
+    def process_inputs(self, *args, **kwargs):
+        raise NotImplementedError("Child class must implement this!")
 
 # vim:sw=4:ts=4:et:
