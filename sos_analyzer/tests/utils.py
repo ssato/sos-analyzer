@@ -23,11 +23,15 @@ class Test_00_pure_functions(unittest.TestCase):
     def test_10_dic_get_recur(self):
         self.assertEquals(TT.dic_get_recur({}, "a.b.c"), None)
         self.assertEquals(TT.dic_get_recur(dict(a=1, ), "b"), None)
+        self.assertEquals(TT.dic_get_recur(dict(a=1, ), "a.b.c"), None)
         self.assertEquals(TT.dic_get_recur({}, "a.b.c", -1), -1)
         self.assertEquals(TT.dic_get_recur(dict(a=1, ), "a"), 1)
         self.assertEquals(TT.dic_get_recur(dict(a=dict(b=dict(c=2, ), ), ),
                                            "a.b.c"),
                           2)
+        self.assertEquals(TT.dic_get_recur(dict(a=dict(b=dict(c=2, ), ), ),
+                                           "a.b.X", 10),
+                          10)
 
 
 class Test_10_effectful_functions(unittest.TestCase):

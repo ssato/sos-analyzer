@@ -84,12 +84,21 @@ def dic_get_recur(dic, key, fallback=None, key_sep='.'):
     >>> dic_get_recur(dict(a=dict(b=dict(c=1, ), ), ), "a.b.c")
     1
     """
+    assert isinstance(dic, dict), \
+        "First argument 'dic' is not a dict instance: " + str(dic)
+    assert isinstance(key, str) or isinstance(key, unicode), \
+        "Second argument 'key' is not a string object: " + str(key)
+
     if key_sep in key:
         key_0 = key[:key.find(key_sep)]
         if key_0 not in dic:
             return fallback
 
         new_dic = dic[key[:key.find(key_sep)]]
+
+        if not isinstance(new_dic, dict):
+            return fallback
+
         new_key = key[key.find(key_sep) + 1:]
         return dic_get_recur(new_dic, new_key, fallback, key_sep)
     else:
