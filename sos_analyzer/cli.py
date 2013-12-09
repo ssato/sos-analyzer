@@ -37,7 +37,7 @@ def option_parser(defaults=DEFAULTS, usage=USAGE):
                       "automatically by default.")
     p.add_option("", "--no-analyze", action="store_false",
                  help="Do not analyze (scanned) data")
-    p.add_option("", "--reprot", action="store_true",
+    p.add_option("", "--report", action="store_true",
                  help="Generate reports. It must not be specified w/ "
                       "--no-analyze option")
 
