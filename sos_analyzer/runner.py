@@ -2,8 +2,10 @@
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-from sos_analyzer.globals import LOGGER as logging, result_datadir
-
+from sos_analyzer.globals import (
+    LOGGER as logging, result_datadir, SUMMARY_JSON,
+    ANALYZER_RESULTS_SUBDIR, REPORTS_SUBDIR,
+)
 import sos_analyzer.compat as SC
 import sos_analyzer.asynccall
 import sos_analyzer.analyzer.kernel
@@ -20,6 +22,7 @@ import sos_analyzer.scanner.uname
 import sos_analyzer.scanner.etc_hosts
 import sos_analyzer.scanner.etc_ssh_sshd_config
 import sos_analyzer.scanner.var_log_messages
+import sos_analyzer.report.xls_summary
 
 import os.path
 import os
@@ -50,6 +53,8 @@ SCANNERS = [sos_analyzer.scanner.chkconfig.Scanner,
             sos_analyzer.scanner.etc_ssh_sshd_config.Scanner,
             sos_analyzer.scanner.var_log_messages.Scanner,
             ]
+REPORT_GENERATORS = [sos_analyzer.report.xls_summary.XlsSummaryGenerator,
+                     ]
 
 
 def make_runners_g(workdir, datadir, conf=None, runners=[]):
@@ -74,6 +79,22 @@ def list_runnables(workdir, datadir, conf=None, runners=[]):
     """
     return [r for r in make_runners_g(workdir, datadir, conf, runners)
             if r.enabled]
+
+
+def list_report_generators(workdir, conf=None, generators=REPORT_GENERATORS):
+    """
+    :param workdir: Working dir to save results
+    :param datadir: Data dir where input data file exists
+    :param conf: A dict object holding runners' configurations
+    :param runners: A list of runnder classes
+
+    :return: A list of enabled scanner or analyzer objects
+    """
+    resultsdir = os.path.join(workdir, ANALYZER_RESULTS_SUBDIR)
+    outputsdir = os.path.join(workdir, REPORTS_SUBDIR)
+
+    return [g(resultsdir, outputs_dir=outputsdir, conf=conf) for g
+            in generators if g.enabled]
 
 
 def run(workdir, datadir, conf=None, timeout=20, runners=[]):
@@ -104,7 +125,23 @@ def run_analyzers(workdir, datadir, conf=None, timeout=20):
     run(workdir, datadir, conf, timeout, ANALYZERS)
 
 
-def load_results_g(workdir):
+def run_report_generators(workdir, conf=None, timeout=20):
+    """
+    :param workdir: Working dir to save results
+    :param conf: A dict object holding runners' configurations
+    :param timeout: Timeout value in seconds for each runner run
+    :param runners: A list of runnder classes
+    """
+    procs = [sos_analyzer.asynccall.call_async(r.run) for r
+             in list_report_generators(workdir, conf)]
+    for p in procs:
+        sos_analyzer.asynccall.stop_async_call(p, timeout, True)
+
+
+SUMMARY_JSON = "results-summary.json"
+
+
+def load_results_g(workdir, summary_file=SUMMARY_JSON):
     """
     Load results under workdir.
     """
@@ -112,8 +149,12 @@ def load_results_g(workdir):
     for dirpath, dirnames, filenames in os.walk(topdir):
         # dirpath, dirnames, filenames
         for f in filenames:
+            if f == summary_file:
+                continue
+
             path = os.path.join(dirpath, f)
             try:
+                logging.info("Loading result: " + path)
                 data = SC.json.load(open(path))
                 relpath = os.path.relpath(dirpath, topdir)
 
@@ -128,8 +169,8 @@ def collect_results(workdir):
     return dict((relpath, data) for relpath, data in load_results_g(workdir))
 
 
-def dump_collected_results(workdir):
-    outpath = os.path.join(result_datadir(workdir), "all-results.json")
+def dump_collected_results(workdir, summary_file=SUMMARY_JSON):
+    outpath = os.path.join(result_datadir(workdir), summary_file)
     all_results = collect_results(workdir)
 
     SC.json.dump(all_results, open(outpath, 'w'))

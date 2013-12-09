@@ -16,7 +16,8 @@ import sys
 import tempfile
 
 
-DEFAULTS = dict(loglevel=1, conf=None, workdir=None, analyze=True)
+DEFAULTS = dict(loglevel=1, conf=None, workdir=None, analyze=True,
+                report=False)
 
 USAGE = """%prog [Options...] SOS_REPORT_ARCHIVE_PATH
 
@@ -36,6 +37,9 @@ def option_parser(defaults=DEFAULTS, usage=USAGE):
                       "automatically by default.")
     p.add_option("", "--no-analyze", action="store_false",
                  help="Do not analyze (scanned) data")
+    p.add_option("", "--reprot", action="store_true",
+                 help="Generate reports. It must not be specified w/ "
+                      "--no-analyze option")
 
     p.add_option("-s", "--silent", action="store_const", dest="loglevel",
                  const=0, help="Silent or quiet mode")
@@ -94,6 +98,9 @@ def main(argv=sys.argv):
     if options.analyze:
         SR.run_analyzers(options.workdir, datadir, conf)
         SR.dump_collected_results(options.workdir)
+
+        if options.report:
+            SR.run_report_generators(options.workdir, options.conf)
 
     return 0
 
