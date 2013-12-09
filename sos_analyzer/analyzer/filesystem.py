@@ -9,14 +9,15 @@ import sos_analyzer.analyzer.base as Base
 import re
 
 
-def find_close_to_full_filesystems(workdir, limit=80, input="df"):
+def find_close_to_full_filesystems(workdir, limit=80, input="df.json"):
     """
     :see: ``sos_analyzer.scanner.df``
     """
     data = Base.load_scanned_data(workdir, input)
     if data:
         for d in data:
-            if int(d.get("used_rate", 0)) > limit:
+            used_rate = d.get("used_rate", 0)
+            if used_rate and int(used_rate) > limit:
                 yield d
 
 
