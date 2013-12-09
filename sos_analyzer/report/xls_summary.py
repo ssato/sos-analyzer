@@ -28,10 +28,6 @@ class XlsSummaryGenerator(SRB.ReportGenerator):
     enabled = _ENABLED
     inputs = [SUMMARY_JSON]
 
-    def load_inputs(self):
-        summary_json = os.path.join(self.inputs_dir, SUMMARY_JSON)
-        return SC.json.load(open(summary_json))
-
     def gen_reports(self, data, *args, **kwargs):
         if not self.enabled:
             logging.warn("tablib is not available and this report "

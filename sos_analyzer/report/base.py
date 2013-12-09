@@ -18,16 +18,6 @@ import os.path
 DICT_MZERO = dict()
 
 
-def filepath_to_name(filepath):
-    """
-    >>> filepath_to_name("a/b/c.json")
-    'a/b/c'
-    >>> filepath_to_name("a/b/c/d")
-    'a/b/c/d'
-    """
-    return os.path.splitext(filepath)[0]
-
-
 class ReportGenerator(SR.RunnableWithIO):
 
     name = "report_generator"
@@ -45,22 +35,26 @@ class ReportGenerator(SR.RunnableWithIO):
                                               outputs_dir, name, conf,
                                               **kwargs)
 
-    def input_to_key(self, input):
-        return filepath_to_name(input)
+    def update_data(self, data, diff):
+        """
+        TODO: How to update data w/ each data loaded ?
+
+        :param data: All data
+        :param diff: Data loaded from each input
+        """
+        data.update(diff)
+        return data
 
     def load_inputs(self):
         data = DICT_MZERO
         for f in self.inputs:
-            p = os.path.join(self.inputsdir, f)
+            p = os.path.join(self.inputs_dir, f)
             logging.info("Loading inputs to generate reports: " + p)
             try:
                 d = SC.json.load(open(p))
-
-                # TODO: How to update data w/ d ?
-                n = self.input_to_key(f)
-                data[n] = d
+                data = self.update_data(data, d)
             except Exception as e:
-                logging.warn("Failed to load: " + p)
+                logging.warn("Failed to load %s, reason=%s " % (p, str(e)))
 
         return data
 
