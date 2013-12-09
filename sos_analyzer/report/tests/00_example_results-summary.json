@@ -1,0 +1,20 @@
+{
+  "filesystem": {
+    "close_to_full_filesystems": []
+  },
+  "ssh": {
+    "is_sshd_enabled": true,
+    "is_root_login_enabled": false
+  },
+  "kernel": {
+    "running_kernel": "2.6.18-238.el5",
+    "installed_kernels": [
+      "2.6.18-238.el5"
+    ],
+    "is_latest_kernel_running": true,
+    "default_boot_kernel": "2.6.18-238.el5"
+  },
+  "hardware": {
+    "hw_errors": []
+  }
+}
