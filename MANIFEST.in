@@ -3,5 +3,5 @@ include README*
 include sos-analyzer.spec.in
 include setup.py
 include aux/*
-recursive-include sos_analyzer *.py *.txt
+recursive-include sos_analyzer *.py *.txt *.json
 #include data/etc/sos-analyzer.d/*
