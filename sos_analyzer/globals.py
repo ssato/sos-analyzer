@@ -14,6 +14,9 @@ _LOGGING_FORMAT = "%(asctime)s %(name)s: [%(levelname)s] %(message)s"
 DATA_SUBDIR = "data"
 SCANNER_RESULTS_SUBDIR = "scanned"
 ANALYZER_RESULTS_SUBDIR = "results"
+REPORTS_SUBDIR = "reports"
+
+SUMMARY_JSON = "results-summary.json"
 
 
 def scanned_datadir(workdir, subdir=SCANNER_RESULTS_SUBDIR):
