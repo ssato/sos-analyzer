@@ -36,7 +36,7 @@ import sos_analyzer.scanner.base as SSB
 SAVE_LOCATION_RE = (r"^(?P<save_option>(?:"
                     r"(?:raw|ext4|ext3|ext2|minix|xfs)\s+(?P<partition>\S+)|"
                     r"net\s+(?P<remote_dest>\S+)|"
-                    r"path\s+(?P<path>\S+))$")
+                    r"path\s+(?P<path>\S+)))$")
 OTHER_RE = r"^(?P<option>[^#].*)$"
 
 

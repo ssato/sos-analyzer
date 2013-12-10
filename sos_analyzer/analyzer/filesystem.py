@@ -9,19 +9,28 @@ import sos_analyzer.analyzer.base as Base
 import re
 
 
-def find_close_to_full_filesystems(workdir, limit=80, input="df.json"):
+def list_normal_filesystems(workdir, input="df.json"):
     """
     :see: ``sos_analyzer.scanner.df``
     """
     data = Base.load_scanned_data(workdir, input)
     if data:
         for d in data:
-            used_rate = d.get("used_rate", 0)
-            if used_rate and int(used_rate) > limit:
+            if d.get("used_rate", False):
                 yield d
 
 
-NG_DEVS_RE = re.compile(r"^/dev/(?P<drive>h|s|v)d[a-z]\S+")
+def find_close_to_full_filesystems(workdir, limit=80, input="df.json"):
+    """
+    :see: ``sos_analyzer.scanner.df``
+    """
+    for d in list_normal_filesystems(workdir):
+        used_rate = d.get("used_rate", 0)
+        if used_rate and int(used_rate) > limit:
+            yield d
+
+
+NG_DEVS_RE = re.compile(r"^/dev/(?P<drive>h|s)d[a-z]\S+")
 
 
 def find_ng_dev_specs(workdir, ng_devs_re=NG_DEVS_RE, input="etc/fstab.json"):

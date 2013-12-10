@@ -6,6 +6,8 @@
 from sos_analyzer.globals import LOGGER as logging
 
 import sos_analyzer.analyzer.base as Base
+import sos_analyzer.analyzer.filesystem as SAF
+import os.path
 import re
 
 
@@ -73,15 +75,40 @@ def list_installed_kernels(workdir, input="installed-rpms.json"):
     return sorted(pick_kernels(data), reverse=True)
 
 
-"""
-grep -E '^(path|raw|ext4)' etc/kdump.conf
-echo How much memory to kdump?:
-grep '^MemTotal:' proc/meminfo 
-echo Available space on dump device:
-cat df
-"""
-def find_kdump_partition():
-    pass
+def path_patterns(path):
+    """
+    >>> path_patterns("/a/b/c/d/e")
+    ['/a/b/c/d/e', '/a/b/c/d', '/a/b/c', '/a/b', '/a', '/']
+    """
+    ps = path.split(os.path.sep)
+    pss = [os.path.join(os.path.sep, *ps[:i][1:]) for i
+           in range(1, len(ps) + 1)]
+    return list(reversed(pss))
+
+
+def find_kdump_partition(workdir, input="etc/kdump.conf.json"):
+    """
+    FIXME: Implement the logic to check kdump partition is large enough.
+
+    :see: ``sos_analyzer.scanner.etc_kdump_conf``
+    """
+    data = Base.load_scanned_data(workdir, input)
+    if not data:
+        return None
+
+    path = "/var/crash"  # @see kdump.conf(5)
+    partition = None
+
+    for d in data:
+        if d.get("path", False):
+            path = d["path"]
+        if d.get("partition", False):
+            partition = d["partition"]
+
+    if partition:   # e.g. /dev/sda3, LABEL=/boot, UUID=...
+        fss = SAF.list_normal_filesystems(workdir)
+
+        pass
 
 
 class Analyzer(Base.Analyzer):
