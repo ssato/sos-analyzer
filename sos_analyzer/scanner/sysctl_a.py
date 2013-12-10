@@ -37,6 +37,6 @@ class Scanner(SSB.SinglePatternScanner):
 
     name = input_name = "sos_commands/kernel/sysctl_-a"
     ignore_pattern = r"^(?:\#|;).*$"
-    pattern = r"^(?P<parameter>[^\s=]+)\s*=\s*(?:(?P<value>\S+.*\S+))?\s*$"
+    pattern = r"^(?P<parameter>[^\s=]+)\s*=\s*(?P<value>.+)?\s*$"
 
 # vim:sw=4:ts=4:et:
