@@ -1,12 +1,11 @@
 #
+# Copyright (C) 2013 Red Hat, Inc.
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
 from sos_analyzer.globals import LOGGER as logging
 
 import sos_analyzer.analyzer.base as Base
-import sos_analyzer.compat as SC
-import os.path
 import re
 
 
@@ -72,6 +71,17 @@ def list_installed_kernels(workdir, input="installed-rpms.json"):
 
     # TODO: Check this works (ordered from the later ones).
     return sorted(pick_kernels(data), reverse=True)
+
+
+"""
+grep -E '^(path|raw|ext4)' etc/kdump.conf
+echo How much memory to kdump?:
+grep '^MemTotal:' proc/meminfo 
+echo Available space on dump device:
+cat df
+"""
+def find_kdump_partition():
+    pass
 
 
 class Analyzer(Base.Analyzer):

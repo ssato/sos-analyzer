@@ -4,7 +4,6 @@
 # License: GPLv3+
 #
 from sos_analyzer.globals import LOGGER as logging
-
 import sos_analyzer.scanner.base as SSB
 
 
@@ -29,9 +28,21 @@ import sos_analyzer.scanner.base as SSB
 #default shell
 """
 
-class Scanner(SSB.SinglePatternScanner):
+# kdump save location options:
+#  raw <partition> | net (<nfs mount> | <user@server>) | path <path> | 
+#  <fs_type> <partition>
+#    where fs_type = ext4 | ext3 | ext2 | minix | xfs
+
+SAVE_LOCATION_RE = (r"^(?P<save_option>(?:"
+                    r"(?:raw|ext4|ext3|ext2|minix|xfs)\s+(?P<partition>\S+)|"
+                    r"net\s+(?P<remote_dest>\S+)|"
+                    r"path\s+(?P<path>\S+))$")
+OTHER_RE = r"^(?P<option>[^#].*)$"
+
+
+class Scanner(SSB.MultiPatternsScanner):
 
     name = input_name = "etc/kdump.conf"
-    pattern = r"^(?P<option>[^#]+)$"  # @see kdump.conf(5)
+    multi_patterns = (SAVE_LOCATION_RE, OTHER_RE)  # @see kdump.conf(5)
 
 # vim:sw=4:ts=4:et:
