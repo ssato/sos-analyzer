@@ -16,6 +16,7 @@ DICT_MZERO = dict()
 class Runnable(object):
 
     name = "runnable"
+    version= "0.0.1"
     enabled = False
 
     def __init__(self, name=None, **kwargs):

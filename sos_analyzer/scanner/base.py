@@ -143,7 +143,8 @@ class MultiStateScanner(SR.RunnableWithIO):
 
     def process_inputs(self, *args, **kwargs):
         for input_path in self.input_paths:
-            result = dict(data=self.process_input(input_path), )
+            result = dict(domain=name, input=input_path,
+                          data=self.process_input(input_path))
             outpath = self._mk_output_path(self, os.path.basename(input_path))
 
             d = os.path.dirname(outpath)
@@ -159,6 +160,7 @@ class MultiStateScanner(SR.RunnableWithIO):
 class BaseScanner(object):
 
     name = "base"
+    version = "0.0.1"
     input_name = "base"
     conf = DICT_MZERO
     initial_state = "initial_state"
@@ -266,7 +268,8 @@ class BaseScanner(object):
             return []
 
     def run(self):
-        self.result = dict(data=self.scan_file())
+        self.result = dict(name=self.name, version=self.version,
+                           data=self.scan_file())
 
         d = os.path.dirname(self.output_path)
         if not os.path.exists(d):
