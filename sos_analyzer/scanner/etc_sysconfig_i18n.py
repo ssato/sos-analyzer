@@ -16,7 +16,7 @@ SYSFONT="latarcyrheb-sun16"
 
 class Scanner(SSB.SinglePatternScanner):
 
-    name = input_name = "df"
+    name = input_name = "etc/sysconfig/i18n"
     pattern = r'^(?P<option>[^=]+)="?(?P<value>\S+)"?.*$'
 
 # vim:sw=4:ts=4:et:

@@ -1,0 +1,37 @@
+#
+# Copyright (C) 2013 Red Hat, Inc.
+# Author: Satoru SATOH <ssato redhat.com>
+# License: GPLv3+
+#
+from sos_analyzer.globals import LOGGER as logging
+
+import sos_analyzer.scanner.base as SSB
+
+
+"""/etc/kdump.conf format:
+
+# See the kdump.conf(5) man page for details of configuration directives
+#raw /dev/sda5
+#ext3 /dev/sda3
+#ext3 LABEL=/boot
+#ext3 UUID=03138356-5e61-4ab3-b58e-27507ac41937
+#net my.server.com:/export/tmp
+#net user@my.server.com
+#path /var/crash
+#core_collector makedumpfile -c --message-level 1
+#core_collector cp --sparse=always
+#link_delay 60
+#kdump_post /var/crash/scripts/kdump-post.sh
+#extra_bins /usr/bin/lftp
+#disk_timeout 30
+#extra_modules gfs2
+#options modulename options
+#default shell
+"""
+
+class Scanner(SSB.SinglePatternScanner):
+
+    name = input_name = "etc/kdump.conf"
+    pattern = r"^(?P<option>[^#]+)$"  # @see kdump.conf(5)
+
+# vim:sw=4:ts=4:et:

@@ -11,6 +11,7 @@ import sos_analyzer.asynccall
 import sos_analyzer.analyzer.kernel
 import sos_analyzer.analyzer.hardware
 import sos_analyzer.analyzer.filesystem
+import sos_analyzer.analyzer.i18n
 import sos_analyzer.analyzer.ssh
 import sos_analyzer.analyzer.system_service
 import sos_analyzer.scanner.chkconfig
@@ -22,7 +23,9 @@ import sos_analyzer.scanner.runlevel
 import sos_analyzer.scanner.uname
 import sos_analyzer.scanner.etc_fstab
 import sos_analyzer.scanner.etc_hosts
+import sos_analyzer.scanner.etc_kdump_conf
 import sos_analyzer.scanner.etc_ssh_sshd_config
+import sos_analyzer.scanner.etc_sysconfig_i18n
 import sos_analyzer.scanner.var_log_messages
 import sos_analyzer.report.xls_summary
 
@@ -42,6 +45,7 @@ import os
 ANALYZERS = [sos_analyzer.analyzer.kernel.Analyzer,
              sos_analyzer.analyzer.hardware.Analyzer,
              sos_analyzer.analyzer.filesystem.Analyzer,
+             sos_analyzer.analyzer.i18n.Analyzer,
              sos_analyzer.analyzer.system_service.Analyzer,
              sos_analyzer.analyzer.ssh.Analyzer,
              ]
@@ -54,7 +58,9 @@ SCANNERS = [sos_analyzer.scanner.chkconfig.Scanner,
             sos_analyzer.scanner.uname.Scanner,
             sos_analyzer.scanner.etc_hosts.Scanner,
             sos_analyzer.scanner.etc_fstab.Scanner,
+            sos_analyzer.scanner.etc_kdump_conf.Scanner,
             sos_analyzer.scanner.etc_ssh_sshd_config.Scanner,
+            sos_analyzer.scanner.etc_sysconfig_i18n.Scanner,
             sos_analyzer.scanner.var_log_messages.Scanner,
             ]
 REPORT_GENERATORS = [sos_analyzer.report.xls_summary.XlsSummaryGenerator,
