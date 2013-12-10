@@ -20,6 +20,7 @@ import sos_analyzer.scanner.free
 import sos_analyzer.scanner.grub
 import sos_analyzer.scanner.installed_rpms
 import sos_analyzer.scanner.runlevel
+import sos_analyzer.scanner.sysctl_a
 import sos_analyzer.scanner.uname
 import sos_analyzer.scanner.etc_fstab
 import sos_analyzer.scanner.etc_hosts
@@ -56,6 +57,7 @@ SCANNERS = [sos_analyzer.scanner.chkconfig.Scanner,
             sos_analyzer.scanner.grub.Scanner,
             sos_analyzer.scanner.installed_rpms.Scanner,
             sos_analyzer.scanner.runlevel.Scanner,
+            sos_analyzer.scanner.sysctl_a.Scanner,
             sos_analyzer.scanner.uname.Scanner,
             sos_analyzer.scanner.etc_hosts.Scanner,
             sos_analyzer.scanner.etc_fstab.Scanner,
