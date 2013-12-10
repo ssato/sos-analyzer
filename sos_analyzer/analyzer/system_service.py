@@ -21,6 +21,11 @@ def get_cur_runlevel(workdir, default=3,
     return default
 
 
+def _is_fully_disabled(svc):
+    return "service" in svc and all("off" == st for st
+                                    in svc.get("status", []))
+
+
 def list_services_on_cur_runlevel(workdir, runlevel=3, input="chkconfig.json"):
     """
     :see: ``sos_analyzer.scanner.chkconfig``
@@ -36,12 +41,14 @@ def list_services_on_cur_runlevel(workdir, runlevel=3, input="chkconfig.json"):
 
     disabled_svcs = [s["service"] for s in data
                      if "service" in s and s["status"][runlevel] == "off"]
+    fully_disabled_svcs = [s["service"] for s in data if _is_fully_disabled(s)]
 
     enabled_xinetd_svcs = [s["xinetd_service"] for s in data
                            if s["status"] == "on"]
 
     return dict(enabled_services=enabled_svcs,
                 disabled_services=disabled_svcs,
+                fully_disabled_services=fully_disabled_svcs,
                 enabled_xinetd_services=enabled_xinetd_svcs)
 
 
@@ -73,7 +80,9 @@ class Analyzer(Base.Analyzer):
              if s in self.getconf("not_secure_services",
                                   self.not_secure_services)]
 
-        ret["number_of_disabled_services"] = len(svcs["disabled_services"])
+        ss = svcs["fully_disabled_services"]
+        ret["fully_disabled_services"] = ss
+        ret["number_of_fully_disabled_services"] = len(ss)
 
         return ret
 
