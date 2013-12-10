@@ -11,12 +11,13 @@ import os.path
 
 
 DICT_MZERO = dict()
+_ERR_NOT_IMPL = "Child class must implement this!"
 
 
 class Runnable(object):
 
     name = "runnable"
-    version= "0.0.1"
+    version = "0.0.1"
     enabled = False
 
     def __init__(self, name=None, **kwargs):
@@ -31,7 +32,7 @@ class Runnable(object):
                 setattr(self, k, v)
 
     def run(self):
-        raise NotImplementedError("Child class must implement this!")
+        raise NotImplementedError(_ERR_NOT_IMPL)
 
 
 class RunnableWithConfig(Runnable):
@@ -107,6 +108,6 @@ class RunnableWithIO(RunnableWithConfig):
         return os.path.join(self.outputs_dir, input)
 
     def process_inputs(self, *args, **kwargs):
-        raise NotImplementedError("Child class must implement this!")
+        raise NotImplementedError(_ERR_NOT_IMPL)
 
 # vim:sw=4:ts=4:et:
