@@ -61,6 +61,18 @@ def is_service_enabled(svcs, svcname, or_op='|'):
     return False
 
 
+def is_sysstat_cronjob_enabled(workdir, input="etc/cron.d/sysstat.json"):
+    """
+    :see: ``sos_analyzer.scanner.etc_crond_sysstat``
+    """
+    data = Base.load_scanned_data(workdir, input)
+    reg = re.compile(r"^/usr/lib.+/sa/sa.+")
+    if data:
+        return any(reg.match(d.get("command", '')) for d in data)
+
+    return False
+
+
 class Analyzer(Base.Analyzer):
 
     name = "services"
@@ -83,6 +95,9 @@ class Analyzer(Base.Analyzer):
         ss = svcs["fully_disabled_services"]
         ret["fully_disabled_services"] = ss
         ret["number_of_fully_disabled_services"] = len(ss)
+
+        ret["is_sysstat_cronjob_enabled"] = \
+            is_sysstat_cronjob_enabled(self.workdir)
 
         return ret
 

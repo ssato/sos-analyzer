@@ -27,6 +27,7 @@ import sos_analyzer.scanner.etc_hosts
 import sos_analyzer.scanner.etc_kdump_conf
 import sos_analyzer.scanner.etc_ssh_sshd_config
 import sos_analyzer.scanner.etc_sysconfig_i18n
+import sos_analyzer.scanner.etc_crond_sysstat
 import sos_analyzer.scanner.proc_meminfo
 import sos_analyzer.scanner.var_log_messages
 import sos_analyzer.report.xls_summary
@@ -64,6 +65,7 @@ SCANNERS = [sos_analyzer.scanner.chkconfig.Scanner,
             sos_analyzer.scanner.etc_kdump_conf.Scanner,
             sos_analyzer.scanner.etc_ssh_sshd_config.Scanner,
             sos_analyzer.scanner.etc_sysconfig_i18n.Scanner,
+            sos_analyzer.scanner.etc_crond_sysstat.Scanner,
             sos_analyzer.scanner.proc_meminfo.Scanner,
             sos_analyzer.scanner.var_log_messages.Scanner,
             ]
