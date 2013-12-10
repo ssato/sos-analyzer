@@ -11,11 +11,10 @@ import re
 
 """/etc/fstab formats:
 1:
-ABEL=/                 /                       ext3    defaults        1 1
+LABEL=/                 /                       ext3    defaults        1 1
 LABEL=/home             /home                   ext3    defaults        1 2
 LABEL=/var              /var                    ext3    defaults        1 2
 LABEL=/var/crash        /var/crash              ext3    defaults        1 2
-LABEL=/usr              /usr                    ext3    defaults        1 2
 LABEL=/opt              /opt                    ext3    defaults        1 2
 LABEL=/tmp              /tmp                    ext3    defaults        1 2
 LABEL=/boot             /boot                   ext3    defaults        1 2
@@ -23,8 +22,8 @@ tmpfs                   /dev/shm                tmpfs   defaults        0 0
 devpts                  /dev/pts                devpts  gid=5,mode=620  0 0
 sysfs                   /sys                    sysfs   defaults        0 0
 proc                    /proc                   proc    defaults        0 0
-LABEL=SWAP-sda2         swap                    swap    defaults        0 0
-192.168.1.193:/fs_nfs01/foo01/contents   /contents   nfs soft,tcp 0 0
+LABEL=SWAP              swap                    swap    defaults        0 0
+192.168.122.1:/exports/contents   /contents   nfs soft,tcp 0 0
 
 2:
 
