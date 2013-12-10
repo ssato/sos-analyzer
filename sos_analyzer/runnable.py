@@ -1,6 +1,7 @@
 #
-# Base classes for scanner and analyzer classes.
+# Base classes for runnable classes such like scanners and analyzers.
 #
+# Copyright (C) 2013 Red Hat, Inc.
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
