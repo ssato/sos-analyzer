@@ -34,11 +34,9 @@ LABEL=SWAP              swap                    swap    defaults        0 0
 # See man pages fstab(5), findfs(8), mount(8) and/or blkid(8) for more info
 #
 /dev/mapper/vg0-lv_root /                       ext4    defaults,discard        1 1
-UUID=da3f02a9-7efc-4aef-a1cb-52dc5d05daec /boot                   ext4    defaults,discard        1 2
-/dev/mapper/luks-2db91808-6024-4596-be79-d5870ed4e8f2 /home                   ext4    defaults,discard        1 2
+UUID=2667aea7-7013-497c-b1a9-07d6c404c481 /boot                   ext4    defaults,discard        1 2
+/dev/mapper/luks-d6afd31f-9275-4957-805a-c52901a747b5 /home                   ext4    defaults,discard        1 2
 /dev/mapper/vg0-lv_swap swap                    swap    defaults        0 0
-#
-#/run/media/ssato/c8d37830-3006-4a16-9f2c-98f50d370075/images /var/lib/libvirt/images/bases     none    rw,bind,noauto 0 0
 mtpfs   /media/galaxy_nexus     fuse.mtpfs    allow_other,rw,user,noauto        0 0
 /var/lib/repos/ssato    /home/ssato/repos/public/       none    bind    0 0
 """
