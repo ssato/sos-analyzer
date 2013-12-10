@@ -72,6 +72,9 @@ class Analyzer(Base.Analyzer):
             [s for s in svcs["enabled_xinetd_services"]
              if s in self.getconf("not_secure_services",
                                   self.not_secure_services)]
+
+        ret["number_of_disabled_services"] = len(svcs["disabled_services"])
+
         return ret
 
 # vim:sw=4:ts=4:et:
