@@ -39,6 +39,9 @@ class XlsSummaryGenerator(SRB.ReportGenerator):
 
         for category, kvs in SC.iteritems(data):
             for k, v in SC.iteritems(kvs):
+                if isinstance(v, (list, tuple)):
+                    v = ", ".join(v)
+
                 dataset.append((category, k, str(v)))
 
         book = tablib.Databook([dataset])
