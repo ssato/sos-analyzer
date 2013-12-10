@@ -19,6 +19,7 @@ import sos_analyzer.scanner.grub
 import sos_analyzer.scanner.installed_rpms
 import sos_analyzer.scanner.runlevel
 import sos_analyzer.scanner.uname
+import sos_analyzer.scanner.etc_fstab
 import sos_analyzer.scanner.etc_hosts
 import sos_analyzer.scanner.etc_ssh_sshd_config
 import sos_analyzer.scanner.var_log_messages
@@ -50,6 +51,7 @@ SCANNERS = [sos_analyzer.scanner.chkconfig.Scanner,
             sos_analyzer.scanner.runlevel.Scanner,
             sos_analyzer.scanner.uname.Scanner,
             sos_analyzer.scanner.etc_hosts.Scanner,
+            sos_analyzer.scanner.etc_fstab.Scanner,
             sos_analyzer.scanner.etc_ssh_sshd_config.Scanner,
             sos_analyzer.scanner.var_log_messages.Scanner,
             ]
