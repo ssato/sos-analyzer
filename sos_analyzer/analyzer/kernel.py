@@ -111,6 +111,21 @@ def find_kdump_partition(workdir, input="etc/kdump.conf.json"):
         pass
 
 
+def is_sysrq_enabled(workdir, input="sos_commands/kernel/sysctl_-a.json"):
+    """
+    :see: ``sos_analyzer.scanner.sysctl_a``
+    """
+    data = Base.load_scanned_data(workdir, input)
+    if not data:
+        return None
+
+    for d in data:
+        if d["parameter"] == "kernel.sysrq":
+            return d.get("value", '0') == '1'
+
+    return False
+
+
 class Analyzer(Base.Analyzer):
 
     name = "kernel"
@@ -124,10 +139,12 @@ class Analyzer(Base.Analyzer):
         k1 = get_kernel_version_from_uname(self.workdir)
         k2 = get_kernel_version_from_grub_conf(self.workdir)
         iks = list_installed_kernels(self.workdir)
+        sysrq_enabled = is_sysrq_enabled(self.workdir)
 
         return dict(running_kernel=k1,
                     default_boot_kernel=k2,
                     installed_kernels=iks,
-                    is_latest_kernel_running=(iks[-1] == k1))
+                    is_latest_kernel_running=(iks[-1] == k1),
+                    sysrq_enabled=sysrq_enabled)
 
 # vim:sw=4:ts=4:et:
