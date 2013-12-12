@@ -19,7 +19,7 @@ class Runnable(object):
 
     name = "runnable"
     version = "0.0.1"
-    enabled = False
+    enabled = True
 
     def __init__(self, name=None, **kwargs):
         """
@@ -40,7 +40,6 @@ class RunnableWithConfig(Runnable):
 
     name = "runnable_with_config"
     conf = DICT_MZERO
-    enabled = True
 
     def __init__(self, name=None, conf=None, **kwargs):
         """
@@ -52,8 +51,8 @@ class RunnableWithConfig(Runnable):
         if conf is not None and isinstance(conf, dict):
             self.conf = conf.get(self.name, DICT_MZERO)
 
-        if self.getconf("disabled", False) or \
-           not self.getconf("enabled", True):
+        if self.getconf("disabled", False) or not self.getconf("enabled",
+                                                               True):
             self.enabled = False
 
     def getconf(self, key, fallback=None, key_sep='.'):
