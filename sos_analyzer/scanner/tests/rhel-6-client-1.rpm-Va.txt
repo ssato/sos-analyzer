@@ -1,0 +1,42 @@
+S.5....T.    /usr/bin/reposync
+prelink: /usr/lib64/libhal-storage.so.1.0.0: at least one of file's dependencies has changed since prelinking
+S.?......    /usr/lib64/libhal-storage.so.1.0.0
+prelink: /usr/lib64/libhal.so.1.0.0: at least one of file's dependencies has changed since prelinking
+S.?......    /usr/lib64/libhal.so.1.0.0
+prelink: /usr/lib64/libXt.so.6.0.0: at least one of file's dependencies has changed since prelinking
+S.?......    /usr/lib64/libXt.so.6.0.0
+prelink: /usr/lib64/libformw.so.5.7: at least one of file's dependencies has changed since prelinking
+S.?......    /usr/lib64/libformw.so.5.7
+prelink: /usr/lib64/libmenuw.so.5.7: at least one of file's dependencies has changed since prelinking
+S.?......    /usr/lib64/libmenuw.so.5.7
+prelink: /usr/lib64/libpanelw.so.5.7: at least one of file's dependencies has changed since prelinking
+S.?......    /usr/lib64/libpanelw.so.5.7
+SM5....T.  c /etc/sysconfig/rhn/up2date
+S.5....T.  c /etc/yum/pluginconf.d/rhnplugin.conf
+....L....  c /etc/pam.d/fingerprint-auth
+....L....  c /etc/pam.d/password-auth
+....L....  c /etc/pam.d/smartcard-auth
+....L....  c /etc/pam.d/system-auth
+S.5....T.    /usr/lib/python2.6/site-packages/jinja2_cli/render.py
+S.5....T.    /usr/lib/python2.6/site-packages/jinja2_cli/render.pyc
+prelink: /usr/lib64/libyajl.so.1.0.7: at least one of file's dependencies has changed since prelinking
+S.?......    /usr/lib64/libyajl.so.1.0.7
+S.5....T.  c /etc/securetty
+prelink: /usr/lib64/libICE.so.6.3.0: at least one of file's dependencies has changed since prelinking
+S.?......    /usr/lib64/libICE.so.6.3.0
+prelink: /usr/lib64/libSM.so.6.0.1: at least one of file's dependencies has changed since prelinking
+S.?......    /usr/lib64/libSM.so.6.0.1
+prelink: /usr/lib64/libXmu.so.6.2.0: at least one of file's dependencies has changed since prelinking
+S.?......    /usr/lib64/libXmu.so.6.2.0
+prelink: /usr/lib64/libgd.so.2.0.0: at least one of file's dependencies has changed since prelinking
+S.?......    /usr/lib64/libgd.so.2.0.0
+prelink: /lib64/libcap-ng.so.0.0.0: at least one of file's dependencies has changed since prelinking
+S.?......    /lib64/libcap-ng.so.0.0.0
+prelink: /usr/lib64/libpciaccess.so.0.11.1: at least one of file's dependencies has changed since prelinking
+S.?......    /usr/lib64/libpciaccess.so.0.11.1
+prelink: /usr/lib64/libXpm.so.4.11.0: at least one of file's dependencies has changed since prelinking
+S.?......    /usr/lib64/libXpm.so.4.11.0
+prelink: /usr/lib64/libXaw7.so.7.0.0: at least one of file's dependencies has changed since prelinking
+S.?......    /usr/lib64/libXaw7.so.7.0.0
+  /var/cache/swapi/7ddfd9ea3a8f9cd7d1f40d8a4709d4c1.tar.xz が見つかりません。
+S.5....T.  c /etc/sysconfig/init
