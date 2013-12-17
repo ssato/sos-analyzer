@@ -1,0 +1,36 @@
+# Japansese translation of sos-analyzer.
+# Copyright (C) 2013 Red Hat, Inc.
+# Satoru SATOH <ssato@redhat.com>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: sos-analyzer 0.0.1\n"
+"POT-Creation-Date: 2013-12-17 18:33+JST\n"
+"PO-Revision-Date: 2013-12-17 18:29+0900\n"
+"Last-Translator: Satoru SATOH <ssato@redhat.com>\n"
+"Language-Team: Japanese <ssato@redhat.com>\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+#: aux/..//sos_analyzer/report/xls_summary.py:24
+msgid "tablib is not available and this report generator is disabled: "
+msgstr "tablib が利用できません! このレポート生成器を無効化: "
+
+#: aux/..//sos_analyzer/report/xls_summary.py:40
+msgid "Results Summary"
+msgstr "結果の概要"
+
+#: aux/..//sos_analyzer/report/xls_summary.py:41
+msgid "Category"
+msgstr "カテゴリ"
+
+#: aux/..//sos_analyzer/report/xls_summary.py:41
+msgid "Check point"
+msgstr "確認項目"
+
+#: aux/..//sos_analyzer/report/xls_summary.py:41
+msgid "Result"
+msgstr "結果"

@@ -1,4 +1,5 @@
 from setuptools import setup, Command, find_packages
+from distutils.sysconfig import get_python_lib
 from glob import glob
 
 import os.path
@@ -22,6 +23,8 @@ def list_files(tdir):
 
 
 data_files = [  # (destdir, list_files(srcdir),
+              (os.path.join(get_python_lib(), "sos_analyzer/locale/ja/LC_MESSAGES"),
+               glob("sos_analyzer/locale/ja/LC_MESSAGES/*.mo")),
              ]
 
 
@@ -44,8 +47,12 @@ class SrpmCommand(Command):
         pass
 
     def run(self):
+        self.update_mo()
         self.run_command('sdist')
         self.build_rpm()
+
+    def update_mo(self):
+        os.system("./aux/update-po.sh")
 
     def build_rpm(self):
         params = dict()

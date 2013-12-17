@@ -4,7 +4,7 @@
 # License: GPLv3+
 #
 from sos_analyzer.globals import (
-    LOGGER as logging, SUMMARY_JSON
+    LOGGER as logging, SUMMARY_JSON, _
 )
 import sos_analyzer.report.base as SRB
 import sos_analyzer.compat as SC
@@ -21,6 +21,9 @@ except ImportError:
 
 OUTPUT = SUMMARY_JSON.replace(".json", ".xls")
 
+TABLIB_MISSING_MSG = _("""\
+tablib is not available and this report generator is disabled: """)
+
 
 class XlsSummaryGenerator(SRB.ReportGenerator):
 
@@ -30,17 +33,21 @@ class XlsSummaryGenerator(SRB.ReportGenerator):
 
     def gen_reports(self, data, *args, **kwargs):
         if not self.enabled:
-            logging.warn("tablib is not available and this report "
-                         "generator is disabled: " + self.name)
+            logging.warn(TABLIB_MISSING_MSG + self.name)
             return
 
         dataset = tablib.Dataset()
-        dataset.headers = ("Category", "Check point", "Result")
+        dataset.title = _("Results Summary")
+        dataset.headers = (_("Category"), _("Check point"), _("Result"))
 
         for category, kvs in SC.iteritems(data):
             for k, v in SC.iteritems(kvs):
                 if isinstance(v, (list, tuple)):
-                    v = ", ".join(v)
+                    v = ", ".join(str(x) for x in v)
+                elif isinstance(v, dict):
+                    v = ", ".join("%s=%s" % (k, str(x)) for k, x in v.iteritems())
+                else:
+                    pass
 
                 dataset.append((category, k, str(v)))
 

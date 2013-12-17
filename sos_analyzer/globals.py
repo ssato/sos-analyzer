@@ -1,11 +1,15 @@
 #
+# Copyright (C) 2013 Red Hat, Inc.
 # Copyright (C) 2013 Satoru SATOH <ssato @ redhat.com>
+# Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
+import gettext
 import logging
 import os.path
 
 
+PACKAGE = "sos_analyzer"
 AUTHOR = 'Satoru SATOH <ssat@redhat.com>'
 VERSION = "0.0.1"
 
@@ -41,6 +45,12 @@ def getLogger(name="sos_analyzer", format=_LOGGING_FORMAT,
     logger.addHandler(h)
 
     return logger
+
+
+_ = gettext.translation(domain=PACKAGE,
+                        localedir=os.path.join(os.path.dirname(__file__),
+                                               "locale"),
+                        fallback=True).ugettext
 
 
 LOGGER = getLogger()
