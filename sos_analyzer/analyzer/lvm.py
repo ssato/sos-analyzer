@@ -18,7 +18,7 @@ def find_lvm_device_filter(workdir, input="etc/lvm/lvm.conf.json"):
     if data:
         for section in data:
             if section["title"] == "devices":
-                return section.get("filter", [])
+                return section["values"].get("filter", [])
 
 
 class Analyzer(Base.Analyzer):
