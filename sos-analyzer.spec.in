@@ -6,7 +6,7 @@
 %{!?python3_version: %global python3_version %(%{__python3} -c "import sys; sys.stdout.write(sys.version[:3])")}
 
 %if 0%{?fedora}
-%global with_python3 1
+%global with_python3 0
 %endif
 
 # disable debuginfo
@@ -77,7 +77,7 @@ rm -rf $RPM_BUILD_ROOT
 %if 0%{?with_python3}
 pushd %{py3dir}
 %{__python3} setup.py install -O1 --skip-build --root $RPM_BUILD_ROOT
-#mv $RPM_BUILD_ROOT%{_bindir}/sos-analyzer $RPM_BUILD_ROOT%{_bindir}/py3sos-analyzer
+mv $RPM_BUILD_ROOT%{_bindir}/sos-analyzer $RPM_BUILD_ROOT%{_bindir}/py3sos-analyzer
 popd
 %endif
 
@@ -90,7 +90,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %doc README.rst
 %doc aux
-#%{_bindir}/sos-analyzer
+%{_bindir}/sos-analyzer
 #%{_sysconfdir}/sos-analyzer.d/*
 %{python_sitelib}/*
 
@@ -99,9 +99,17 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc README.rst
 %{python3_sitelib}/*
-#%attr(755,root,root) %{_bindir}/py3sos-analyzer
+%attr(755,root,root) %{_bindir}/py3sos-analyzer
 %endif
 
 %changelog
+* Tue Dec 17 2013 Satoru SATOH <ssato@redhat.com> - 0.0.2-1
+- Add .xls report generator
+- Add some more scanners: rpm -Va outputs, etc/lvm/lvm.conf,
+  etc/cron.d/sysstat, sysctl -a outputs, /proc/meminfo, /etc/sysconfig/i18n
+  and etc/fstab
+- Add some more analyzers: RPM, LVM, kernel, locale, system service
+- Fixed some PEP8 warnings and errors
+
 * Sun Dec  8 2013 Satoru SATOH <ssato@redhat.com> - 0.0.1-1
 - Initial packaging
