@@ -29,7 +29,7 @@ import sos_analyzer.scanner.base as SSB
 """
 
 # kdump save location options:
-#  raw <partition> | net (<nfs mount> | <user@server>) | path <path> | 
+#  raw <partition> | net (<nfs mount> | <user@server>) | path <path> |
 #  <fs_type> <partition>
 #    where fs_type = ext4 | ext3 | ext2 | minix | xfs
 

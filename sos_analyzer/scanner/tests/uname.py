@@ -10,8 +10,10 @@ import unittest
 
 
 EXAMPLES = [
-"Linux foo 2.6.18-238.el5 #1 SMP Sun Dec 19 14:22:44 EST 2010 x86_64 x86_64 x86_64 GNU/Linux",
-"Linux localhost.localdomain 3.11.9-300.fc20.x86_64 #1 SMP Wed Nov 20 22:23:25 UTC 2013 x86_64 x86_64 x86_64 GNU/Linux",
+    "Linux foo 2.6.18-238.el5 #1 SMP Sun Dec 19 14:22:44 EST 2010 "
+    "x86_64 x86_64 x86_64 GNU/Linux",
+    "Linux localhost.localdomain 3.11.9-300.fc20.x86_64 #1 SMP "
+    "Wed Nov 20 22:23:25 UTC 2013 x86_64 x86_64 x86_64 GNU/Linux",
 ]
 
 

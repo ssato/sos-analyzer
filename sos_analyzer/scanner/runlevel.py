@@ -10,7 +10,7 @@ class Scanner(SSB.SinglePatternScanner):
 
     name = input_name = "sos_commands/startup/runlevel"
 
-    # ex. 'N 3', see runlevel(8) 
+    # ex. 'N 3', see runlevel(8)
     pattern = r"^(?P<prev_runlevel>N|\d)\s+(?P<cur_runlevel>\d|unknown)$"
 
 # vim:sw=4:ts=4:et:

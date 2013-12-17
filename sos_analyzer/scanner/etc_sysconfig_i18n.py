@@ -14,6 +14,7 @@ LANG="en_US.UTF-8"
 SYSFONT="latarcyrheb-sun16"
 """
 
+
 class Scanner(SSB.SinglePatternScanner):
 
     name = input_name = "etc/sysconfig/i18n"

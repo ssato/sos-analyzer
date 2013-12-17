@@ -117,13 +117,15 @@ class Test_10_run(unittest.TestCase):
                                        "%d.%d.log" % (os.getpid(),
                                                       next(cntr)))
 
-        ps = TT.prun_async(["sleep 5 && true" for _ in range(5)],
+        ps = TT.prun_async(["sleep 3 && true" for _ in range(3)],
                            workdir=self.workdir, logfile=logfile())
 
         for proc in ps:
             self.assertTrue(isinstance(proc, TT.multiprocessing.Process))
-            #self.assertFalse(TT.stop_async_run(proc, 2))
+            #self.assertTrue(TT.stop_async_run(proc, 2))
+            TT.stop_async_run(proc, 2)
 
         #self.assertTrue(os.path.exists(self.logfile))
+        pass
 
 # vim:sw=4:ts=4:et:

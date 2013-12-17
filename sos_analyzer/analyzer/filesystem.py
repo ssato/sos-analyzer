@@ -40,7 +40,7 @@ def find_ng_dev_specs(workdir, ng_devs_re=NG_DEVS_RE, input="etc/fstab.json"):
     data = Base.load_scanned_data(workdir, input)
     if data:
         for d in data:
-            dev=d["device"]
+            dev = d["device"]
             m = ng_devs_re.match(dev)
             if m:
                 yield d

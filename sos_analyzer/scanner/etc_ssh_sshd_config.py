@@ -16,13 +16,14 @@ Protocol 2
 #AddressFamily any
 ...
 # Accept locale-related environment variables
-AcceptEnv LANG LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES 
-AcceptEnv LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT 
+AcceptEnv LANG LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES
+AcceptEnv LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
 ...
 
 # override default of no subsystems
 Subsystem       sftp    /usr/libexec/openssh/sftp-server
 """
+
 
 class Scanner(SSB.SinglePatternScanner):
 
