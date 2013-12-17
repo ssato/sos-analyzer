@@ -95,7 +95,9 @@ class Scanner(SSB.BaseScanner):
         :return: A dict instance of parsed result
         """
         if state == END_SECTION:
-            return self.section
+            sect = self.section
+            self.section = {}
+            return sect
 
         if state == IN_SECTION:
             m = self.match("assignment", line)
