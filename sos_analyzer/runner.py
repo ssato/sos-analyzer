@@ -34,17 +34,9 @@ import sos_analyzer.report.xls_summary
 
 import os.path
 import os
+import pkg_resources
 
 
-#TODO: Make analyzers and scanners pluggable and loaded automatically.
-#
-#import pkg_resources
-#for e in pkg_resources.iter_entry_points("sos_analyzer_scanners"):
-#    try:
-#        SCANNERS.append(e.load())
-#    except ImportError:
-#        logging.warn("Could not load and append: " + str(e))
-#        continue
 ANALYZERS = [sos_analyzer.analyzer.kernel.Analyzer,
              sos_analyzer.analyzer.hardware.Analyzer,
              sos_analyzer.analyzer.filesystem.Analyzer,
@@ -52,6 +44,7 @@ ANALYZERS = [sos_analyzer.analyzer.kernel.Analyzer,
              sos_analyzer.analyzer.system_service.Analyzer,
              sos_analyzer.analyzer.ssh.Analyzer,
              ]
+
 SCANNERS = [sos_analyzer.scanner.chkconfig.Scanner,
             sos_analyzer.scanner.df.Scanner,
             sos_analyzer.scanner.free.Scanner,
@@ -71,6 +64,28 @@ SCANNERS = [sos_analyzer.scanner.chkconfig.Scanner,
             ]
 REPORT_GENERATORS = [sos_analyzer.report.xls_summary.XlsSummaryGenerator,
                      ]
+
+
+for e in pkg_resources.iter_entry_points("sos_analyzer_scanners"):
+    try:
+        SCANNERS.append(e.load())
+    except ImportError:
+        logging.warn("Could not load and append: " + str(e))
+        continue
+
+for e in pkg_resources.iter_entry_points("sos_analyzer_analyzers"):
+    try:
+        ANALYZERS.append(e.load())
+    except ImportError:
+        logging.warn("Could not load and append: " + str(e))
+        continue
+
+for e in pkg_resources.iter_entry_points("sos_analyzer_report_generators"):
+    try:
+        ANALYZERS.append(e.load())
+    except ImportError:
+        logging.warn("Could not load and append: " + str(e))
+        continue
 
 
 def make_runners_g(workdir, datadir, conf=None, runners=[]):
