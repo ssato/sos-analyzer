@@ -1,3 +1,21 @@
 # TODO: How to process cases of multi-versions-python env.
 [console_scripts]
 sos-analyzer = sos_analyzer.cli:main
+
+#[sos_analyzer_scanners]
+#chkconfig = sos_analyzer.scanner.chkconfig:Scanner
+#df = sos_analyzer.scanner.df:Scanner
+#free = sos_analyzer.scanner.free:Scanner,
+#grub = sos_analyzer.scanner.grub:Scanner,
+#installed_rpms = sos_analyzer.scanner.installed_rpms:Scanner,
+#runlevel = sos_analyzer.scanner.runlevel:Scanner,
+#sysctl_a = sos_analyzer.scanner.sysctl_a:Scanner,
+#uname = sos_analyzer.scanner.uname:Scanner,
+#etc_hosts = sos_analyzer.scanner.etc_hosts:Scanner,
+#etc_fstab = sos_analyzer.scanner.etc_fstab.:canner,
+#etc_kdump_conf = sos_analyzer.scanner.etc_kdump_conf:Scanner,
+#etc_ssh_sshd_config = sos_analyzer.scanner.etc_ssh_sshd_config:Scanner,
+#etc_sysconfig_i18n = sos_analyzer.scanner.etc_sysconfig_i18n:Scanner,
+#etc_crond_sysstat = sos_analyzer.scanner.etc_crond_sysstat:Scanner,
+#proc_meminfo = sos_analyzer.scanner.proc_meminfo:Scanner,
+#var_log_messages = sos_analyzer.scanner.var_log_messages:Scanner,
