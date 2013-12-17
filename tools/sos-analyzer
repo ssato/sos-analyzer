@@ -1,0 +1,7 @@
+#! /usr/bin/python
+import sos_analyzer.cli
+import sys
+
+sys.exit(sos_analyzer.cli.main())
+
+# vim:sw=4:ts=4:et:
