@@ -11,6 +11,7 @@ from sos_analyzer.globals import LOGGER as logging, scanned_datadir, \
 import sos_analyzer.compat as SC
 import sos_analyzer.runnable as SR
 import sos_analyzer.utils as SU
+import sos_analyzer.scanner.utils as SSU
 import glob
 import os
 import os.path
@@ -18,17 +19,6 @@ import re
 
 
 DICT_MZERO = dict()
-
-
-def compile_patterns(conf={}):
-    """
-    >>> cps = compile_patterns(dict(patterns=dict(aaa=r"([a-z]+)",
-    ...                                           bbb=r"([0-9]+)")))
-    >>> assert cps["aaa"].match("abc") is not None
-    >>> assert cps["bbb"].match("123") is not None
-    """
-    return dict((k, re.compile(v)) for k, v in
-                SC.iteritems(conf.get("patterns", DICT_MZERO)))
 
 
 class MultiStateScanner(SR.RunnableWithIO):
@@ -52,7 +42,7 @@ class MultiStateScanner(SR.RunnableWithIO):
                                              outputs_dir=outputs_dir,
                                              **kwargs)
 
-        self.patterns = compile_patterns(self.conf)
+        self.patterns = SSU.compile_patterns(self.conf)
 
     def _mk_output_path(self, input):
         """
@@ -192,7 +182,7 @@ class BaseScanner(object):
             self.enabled = True
 
         self.input_path = os.path.join(datadir, self.input_name)
-        self.patterns = compile_patterns(self.conf)
+        self.patterns = SSU.compile_patterns(self.conf)
         self.output_path = os.path.join(scanned_datadir(workdir),
                                         "%s.json" % self.name)
 
