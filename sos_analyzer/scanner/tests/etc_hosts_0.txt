@@ -1,0 +1,7 @@
+27.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+# comment ....
+192.168.1.254 gw.example.com gw   # gateway ...
+192.168.1.20 aaaa-host-012   # w/o FQDN
+192.168.1.30 aaaa-host-030.example.com aaaa-host-030

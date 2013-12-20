@@ -1,0 +1,10 @@
+Filesystem           1K-ブロック    使用   使用可 使用% マウント位置
+/dev/mapper/vg_rhel6client1-lv_root
+                       4684748   2683136   1763636  61% /
+proc                         0         0         0   -  /proc
+sysfs                        0         0         0   -  /sys
+devpts                       0         0         0   -  /dev/pts
+tmpfs                   510292         0    510292   0% /dev/shm
+/dev/vda1               495844     73591    396653  16% /boot
+none                         0         0         0   -  /proc/sys/fs/binfmt_misc
+sunrpc                       0         0         0   -  /var/lib/nfs/rpc_pipefs

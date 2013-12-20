@@ -18,7 +18,7 @@ import re
 192.168.1.30 aaaa-host-030.example.com aaaa-host-030
 """
 
-HOST_RE = r"^(?P<ip>[0-9.]+)\s+(?P<hostnames>[^#]+)(?:\s+#(?P<comment>.*))*$"
+HOST_RE = r"^(?P<ip>[0-9.:]+)\s+(?P<hostnames>[^#]+)(?:\s+#(?P<comment>.*))*$"
 
 
 class Scanner(SSB.SinglePatternScanner):
