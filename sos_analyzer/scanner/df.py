@@ -28,15 +28,69 @@ tmpfs                            8209916          0   8209916    0% /tmp
 /dev/mapper/vg0_data-lv_data  1952559608 1187673728 764885880   61% /srv/data
 """
 
-FS_RE = r"^(?P<filesystem>\S+)\s+(?P<max_blocks>\d+)\s+" + \
-        r"(?P<used_blocks>\d+)\s+(?P<free_blocks>\d+)\s+" + \
-        r"(?:(?P<used_rate>\d+)%|-)\s+(?P<mount_point>\S+)$"
+STATES = (AT_HEADER, IN_ENTRIES) = ("at_header", "in_entries")
+
+FS_RE = r"^(?P<filesystem>[a-z/]\S+)"
+FS_REST_RE = r"\s+(?P<max_blocks>\d+)\s+" + \
+             r"(?P<used_blocks>\d+)\s+(?P<free_blocks>\d+)\s+" + \
+             r"(?:(?P<used_rate>\d+)%|-)\s+(?P<mount_point>/\S*)$"
+
+FS_ML_0_RE = FS_RE + r"$"
+FS_ML_1_RE = r"^" + FS_REST_RE
+FS_SL_RE = FS_RE + FS_REST_RE
+IGNORE_RE = r"^\#.*$"
+
+CONF = dict(initial_state=AT_HEADER,
+            patterns=dict(ignore=IGNORE_RE,
+                          fs_multilines_0=FS_ML_0_RE,
+                          fs_multilines_1=FS_ML_1_RE,
+                          fs_line=FS_SL_RE))
 
 
-class Scanner(SSB.SinglePatternScanner):
+class Scanner(SSB.BaseScanner):
 
     name = input_name = "df"
-    ignore_pattern = r"^(?:\#|[^a-z/]).*$"
-    pattern = FS_RE
+    conf = CONF
+    state = initial_state = AT_HEADER
+    entry = {}
+
+    def parse_impl(self, state, line, i, *args, **kwargs):
+        """
+        :param state: A dict object represents internal state
+        :param line: Content of the line
+        :param i: Line number in the input file
+        :return: A dict instance of parsed result
+        """
+        if self.state == AT_HEADER:  # Use self.state instead of state passed.
+            self.state = IN_ENTRIES
+            logging.debug("state changed: %s -> %s, line=%s" % (AT_HEADER,
+                                                                IN_ENTRIES,
+                                                                line))
+            return None
+
+        if self.match("ignore", line):
+            #logging.debug("ignored: line=%s" % line)
+            return None
+
+        m = self.match("fs_line", line)
+        if m:
+            #logging.debug("line=%s, matched=<fs_line>" % line)
+            return m.groupdict()
+
+        m = self.match("fs_multilines_0", line)
+        if m:
+            self.entry = m.groupdict()
+            #logging.debug("line=%s, matched=<fs_multilines_0>" % line)
+            return None
+
+        m = self.match("fs_multilines_1", line)
+        if m:
+            entry = self.entry.copy()
+            entry.update(m.groupdict())
+            self.entry = {}
+            #logging.debug("line=%s, matched=<fs_multilines_1>" % line)
+            return entry
+
+        return None
 
 # vim:sw=4:ts=4:et:
