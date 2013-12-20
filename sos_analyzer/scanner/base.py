@@ -26,7 +26,7 @@ class MultiStateScanner(SR.RunnableWithIO):
     outputs_dir = SUBDIR
     ignorable_pattern = "^#.*$"
     match_patterns = []
-    initial_state = "initial_state"
+    state = initial_state = "initial_state"
 
     def __init__(self, inputs_dir=None, inputs=None, outputs_dir=None,
                  name=None, conf=None, **kwargs):
@@ -43,6 +43,7 @@ class MultiStateScanner(SR.RunnableWithIO):
                                              **kwargs)
 
         self.patterns = SSU.compile_patterns(self.conf)
+        self.state = self.getconf("initial_state", self.initial_state)
 
     def _mk_output_path(self, input):
         """
@@ -64,20 +65,10 @@ class MultiStateScanner(SR.RunnableWithIO):
         """
         return self.get_pattern(name, r".*").match(s)
 
-    def _update_state(self, line, i, state):
+    def parse_impl(self, line, i, *args, **kwargs):
         """
         :param line: Content of the line
         :param i: Line number in the input file
-        :param state: A string or int represents the current state
-        :return: Computed state
-        """
-        return state
-
-    def parse_impl(self, line, i, state, *args, **kwargs):
-        """
-        :param line: Content of the line
-        :param i: Line number in the input file
-        :param state: A dict object represents internal state
         :return: A dict instance of parsed result
         """
         for pattern in self.get_pattern("match_patterns", self.match_patterns):
@@ -97,8 +88,6 @@ class MultiStateScanner(SR.RunnableWithIO):
 
         :param fileobj: Input file object.
         """
-        state = self.getconf("initial_state", self.initial_state)
-
         for i, line in enumerate(fileobj.readlines()):
             line = line.rstrip()
 
@@ -108,15 +97,7 @@ class MultiStateScanner(SR.RunnableWithIO):
             if self.match("ignorable_pattern", line):
                 continue
 
-            new_state = self._update_state(line, i, state)
-            if state != new_state:
-                m = ("State changed: %s -> %s, line=%s" % (str(state),
-                                                           str(new_state),
-                                                           line))
-                logging.debug(m)
-                state = new_state
-
-            yield self.parse_impl(line, i, state)
+            yield self.parse_impl(line, i)
 
     def process_input(self, input_path):
         """
@@ -144,7 +125,7 @@ class MultiStateScanner(SR.RunnableWithIO):
             SC.json.dump(result, open(outpath, 'w'))
 
     def run(self):
-        self.process_input()
+        self.process_inputs()
 
 
 class BaseScanner(object):
