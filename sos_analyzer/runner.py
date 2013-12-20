@@ -18,6 +18,7 @@ import sos_analyzer.analyzer.ssh
 import sos_analyzer.analyzer.system_service
 import sos_analyzer.scanner.chkconfig
 import sos_analyzer.scanner.df
+import sos_analyzer.scanner.dmidecode
 import sos_analyzer.scanner.free
 import sos_analyzer.scanner.grub
 import sos_analyzer.scanner.installed_rpms
@@ -53,6 +54,7 @@ ANALYZERS = [sos_analyzer.analyzer.kernel.Analyzer,
 
 SCANNERS = [sos_analyzer.scanner.chkconfig.Scanner,
             sos_analyzer.scanner.df.Scanner,
+            sos_analyzer.scanner.dmidecode.Scanner,
             sos_analyzer.scanner.free.Scanner,
             sos_analyzer.scanner.grub.Scanner,
             sos_analyzer.scanner.installed_rpms.Scanner,
