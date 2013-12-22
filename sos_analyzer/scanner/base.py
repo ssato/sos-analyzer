@@ -21,12 +21,11 @@ import re
 DICT_MZERO = dict()
 
 
-class MultiStateScanner(SR.RunnableWithIO):
+class StatelessScanner(SR.RunnableWithIO):
 
     outputs_dir = SUBDIR
     ignorable_pattern = "^#.*$"
     match_patterns = []
-    state = initial_state = "initial_state"
 
     def __init__(self, inputs_dir=None, inputs=None, outputs_dir=None,
                  name=None, conf=None, **kwargs):
@@ -37,20 +36,12 @@ class MultiStateScanner(SR.RunnableWithIO):
         :param name: Object's name
         :param conf: A maybe nested dict holding object's configurations
         """
-        super(RunnableWithIO, self).__init__(name, conf, inputs_dir=inputs_dir,
-                                             inputs=inputs,
-                                             outputs_dir=outputs_dir,
-                                             **kwargs)
+        super(StatefulScanner, self).__init__(name, conf, inputs_dir=inputs_dir,
+                                              inputs=inputs,
+                                              outputs_dir=outputs_dir,
+                                              **kwargs)
 
         self.patterns = SSU.compile_patterns(self.conf)
-        self.state = self.getconf("initial_state", self.initial_state)
-
-    def _mk_output_path(self, input):
-        """
-        :param input: Input filename or path to input file
-        :return: Path to output file
-        """
-        return os.path.join(self.outputs_dir, input + ".json")
 
     def get_pattern(self, name, fallback=''):
         """
@@ -65,67 +56,70 @@ class MultiStateScanner(SR.RunnableWithIO):
         """
         return self.get_pattern(name, r".*").match(s)
 
-    def parse_impl(self, line, i, *args, **kwargs):
+    def process_line(self, line, i):
         """
         :param line: Content of the line
         :param i: Line number in the input file
         :return: A dict instance of parsed result
         """
+        if self.match("ignorable_pattern", line):
+            return None
+
         for pattern in self.get_pattern("match_patterns", self.match_patterns):
             logging.debug("Try the pattern: " + pattern)
             m = re.match(pattern, line)
             if m:
                 return m.groupdict()
 
-        m = "No patterns matched: file=%s, line=%s" % (self.input_path, line)
-        logging.warn(m)
-
+        logging.warn("No patterns matched: line=%s [%d]" % (line, i))
         return None
 
-    def parse(self, fileobj):
+
+class StatefulScanner(StatelessScanner):
+
+    state = initial_state = "initial_state"
+
+    def __init__(self, inputs_dir=None, inputs=None, outputs_dir=None,
+                 name=None, conf=None, **kwargs):
         """
-        Parse the content of input file.
-
-        :param fileobj: Input file object.
+        :param inputs_dir: Path to dir holding inputs
+        :param inputs: List of filenames, path to input files, glob pattern
+            of filename or None; ex. ["a/b.txt", "c.txt"], "a/b/*.yml"
+        :param name: Object's name
+        :param conf: A maybe nested dict holding object's configurations
         """
-        for i, line in enumerate(fileobj.readlines()):
-            line = line.rstrip()
+        super(StatefulScanner, self).__init__(name, conf, inputs_dir=inputs_dir,
+                                              inputs=inputs,
+                                              outputs_dir=outputs_dir,
+                                              **kwargs)
 
-            if not line:
-                continue
+        self.state = self.getconf("initial_state", self.initial_state)
 
-            if self.match("ignorable_pattern", line):
-                continue
-
-            yield self.parse_impl(line, i)
-
-    def process_input(self, input_path):
+    def update_state_pre(self, line, i):
         """
-        :param input_path: Input file path
-        :return: A list of results or []
+        :param line: Content of the line
+        :param i: Line number in the input file
+        :return: A dict instance of parsed result
         """
-        try:
-            f = open(input_path)
-            return [x for x in self.parse(f) if x]
+        pass
 
-        except (IOError, OSError) as e:
-            logging.warn("Could not open the input: " + input_path)
-            return []
+    def update_state_post(self, line, i):
+        """
+        :param line: Content of the line
+        :param i: Line number in the input file
+        :return: A dict instance of parsed result
+        """
+        pass
 
-    def process_inputs(self, *args, **kwargs):
-        for input_path in self.input_paths:
-            result = dict(domain=name, input=input_path,
-                          data=self.process_input(input_path))
-            outpath = self._mk_output_path(self, os.path.basename(input_path))
-
-            d = os.path.dirname(outpath)
-            if not os.path.exists(d):
-                os.makedirs(d)
-
-            SC.json.dump(result, open(outpath, 'w'))
-
-    def run(self):
-        self.process_inputs()
+    def process_line(self, line, i):
+        """
+        :param line: Content of the line
+        :param i: Line number in the input file
+        :return: A dict instance of parsed result
+        """
+        self.update_state_pre(line, i)
+        super(StatefulScanner, self).process_line(line, i)
+        self.update_state_post(line, i)
 
 
 class BaseScanner(object):

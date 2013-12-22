@@ -3,6 +3,7 @@
 # License: GPLv3+
 #
 import sos_analyzer.runnable as TT
+import os.path
 import random
 import unittest
 
@@ -69,22 +70,27 @@ class Test_20_RunnableWithIO(unittest.TestCase):
 
         self.assertTrue(isinstance(r, TT.RunnableWithIO))
         self.assertEquals(r.input_paths, [])
+        self.assertTrue(r._mk_output_path("a/b.txt"),
+                        os.path.join(TT.RunnableWithIO.outputs_dir,
+                                     "a/b.txt.json"))
 
     def test_02__init__w_list_inputs(self):
         r = TT.RunnableWithIO("/tmp", ["a.txt", "b/c.json"])
 
         self.assertTrue(isinstance(r, TT.RunnableWithIO))
         self.assertNotEquals(r.input_paths, [])
-        self.assertEquals(r.input_paths, ["/tmp/a.txt", "/tmp/b/c.json"])
+        self.assertEquals(r.input_paths, [("a.txt", "/tmp/a.txt"),
+                                          ("b/c.json", "/tmp/b/c.json")])
 
     def test_04__init__w_list_inputs_and_ouptputs_dir(self):
         r = TT.RunnableWithIO("/tmp", ["a.txt", "b/c.json"], "/tmp/outputs")
 
         self.assertTrue(isinstance(r, TT.RunnableWithIO))
         self.assertNotEquals(r.input_paths, [])
-        self.assertEquals(r.input_paths, ["/tmp/a.txt", "/tmp/b/c.json"])
+        self.assertEquals(r.input_paths, [("a.txt", "/tmp/a.txt"),
+                                          ("b/c.json", "/tmp/b/c.json")])
         self.assertEquals(r._mk_output_path("x/y/z.txt"),
-                          "/tmp/outputs/x/y/z.txt")
+                          "/tmp/outputs/x/y/z.txt.json")
 
 
 # vim:sw=4:ts=4:et:

@@ -9,6 +9,7 @@ import sos_analyzer.compat as SC
 import sos_analyzer.utils as SU
 import glob
 import os.path
+import os
 
 
 DICT_MZERO = dict()
@@ -38,7 +39,6 @@ class Runnable(object):
 
 class RunnableWithConfig(Runnable):
 
-    name = "runnable_with_config"
     conf = DICT_MZERO
 
     def __init__(self, name=None, conf=None, **kwargs):
@@ -66,10 +66,9 @@ class RunnableWithConfig(Runnable):
 
 class RunnableWithIO(RunnableWithConfig):
 
-    name = "runnable_with_io"
     inputs_dir = os.path.sep  # '/' (root)
     inputs = []
-    outputs_dir = None  # TBD
+    outputs_dir = os.curdir
     glob_pattern = '*'
 
     def __init__(self, inputs_dir=None, inputs=None, outputs_dir=None,
@@ -86,10 +85,13 @@ class RunnableWithIO(RunnableWithConfig):
                                              outputs_dir=outputs_dir,
                                              **kwargs)
         if isinstance(self.inputs, list):
-            self.input_paths = [self._mk_input_path(input) for input
+            self.input_paths = [(inp, self._mk_input_path(inp)) for inp
                                 in self.inputs]
         else:
-            self.input_paths = glob.glob(self._mk_input_path(self.inputs))
+            ips = glob.glob(self._mk_input_path(self.inputs))  # Effectful.
+            idir = os.path.dirname(self.inputs)
+            self.input_paths = [(os.path.join(idir, os.path.basename(ip)),
+                                 ip) for inp in ips]
 
     def _mk_input_path(self, input):
         """
@@ -98,16 +100,49 @@ class RunnableWithIO(RunnableWithConfig):
         """
         return os.path.join(self.inputs_dir, input)
 
-    def _mk_output_path(self, input):
+    def _mk_output_path(self, input, ext=".json"):
         """
         NOTE: Child class should override this method.
 
         :param input: Input filename or path to input file
         :return: Path to output file
         """
-        return os.path.join(self.outputs_dir, input)
+        return os.path.join(self.outputs_dir, input + ext)
+
+    def process_line(self, line, i):
+        return dict(lineno=i, line=line)
+
+    def process_input_impl(self, fileobj):
+        for i, line in enumerate(fileobj.readlines()):
+            line = line.rstrip()
+            if line:
+                yield process_line(line, i)
+
+    def process_input(self, input_path):
+        """
+        :param input_path: Input file path
+        :return: A list of results or []
+        """
+        try:
+            f = open(input_path)
+            return [x for x in self.process_input_impl(f) if x]
+
+        except (IOError, OSError) as e:
+            logging.warn("Could not open the input: " + input_path)
+            return []
 
     def process_inputs(self, *args, **kwargs):
-        raise NotImplementedError(_ERR_NOT_IMPL)
+        for relpath, path in self.input_paths:
+            result = self.process_input(path)
+            outpath = self._mk_output_path(relpath)
+
+            d = os.path.dirname(outpath)
+            if not os.path.exists(d):
+                os.makedirs(d)
+
+            SC.json.dump(result, open(outpath, 'w'))
+
+    def run(self):
+        self.process_inputs()
 
 # vim:sw=4:ts=4:et:
