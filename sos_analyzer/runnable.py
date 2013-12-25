@@ -71,27 +71,27 @@ class RunnableWithIO(RunnableWithConfig):
     outputs_dir = os.curdir
     glob_pattern = '*'
 
-    def __init__(self, inputs_dir=None, inputs=None, outputs_dir=None,
+    def __init__(self, inputs_dir=None, outputs_dir=None, inputs=None,
                  name=None, conf=None, **kwargs):
         """
         :param inputs_dir: Path to dir holding inputs
+        :param outputs_dir: Path to dir to save results
         :param inputs: List of filenames, path to input files, glob pattern
             of filename or None; ex. ["a/b.txt", "c.txt"], "a/b/*.yml"
         :param name: Object's name
         :param conf: A maybe nested dict holding object's configurations
         """
         super(RunnableWithIO, self).__init__(name, conf, inputs_dir=inputs_dir,
-                                             inputs=inputs,
                                              outputs_dir=outputs_dir,
-                                             **kwargs)
+                                             inputs=inputs, **kwargs)
         if isinstance(self.inputs, list):
             self.input_paths = [(inp, self._mk_input_path(inp)) for inp
                                 in self.inputs]
         else:
             ips = glob.glob(self._mk_input_path(self.inputs))  # Effectful.
             idir = os.path.dirname(self.inputs)
-            self.input_paths = [(os.path.join(idir, os.path.basename(ip)),
-                                 ip) for inp in ips]
+            self.input_paths = [(os.path.join(idir, os.path.basename(inp)),
+                                 inp) for inp in ips]
 
     def _mk_input_path(self, input):
         """
@@ -116,7 +116,7 @@ class RunnableWithIO(RunnableWithConfig):
         for i, line in enumerate(fileobj.readlines()):
             line = line.rstrip()
             if line:
-                yield process_line(line, i)
+                yield self.process_line(line, i)
 
     def process_input(self, input_path):
         """
@@ -133,7 +133,8 @@ class RunnableWithIO(RunnableWithConfig):
 
     def process_inputs(self, *args, **kwargs):
         for relpath, path in self.input_paths:
-            result = self.process_input(path)
+            result = dict(name=self.name, version=self.version,
+                          data=self.process_input(path))
             outpath = self._mk_output_path(relpath)
 
             d = os.path.dirname(outpath)
