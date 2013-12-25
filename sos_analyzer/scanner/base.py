@@ -27,18 +27,20 @@ class StatelessScanner(SR.RunnableWithIO):
     ignorable_pattern = "^#.*$"
     match_patterns = []
 
-    def __init__(self, inputs_dir=None, inputs=None, outputs_dir=None,
+    def __init__(self, inputs_dir=None, outputs_dir=None, inputs=None,
                  name=None, conf=None, **kwargs):
         """
         :param inputs_dir: Path to dir holding inputs
+        :param outputs_dir: Path to dir to save results
         :param inputs: List of filenames, path to input files, glob pattern
             of filename or None; ex. ["a/b.txt", "c.txt"], "a/b/*.yml"
         :param name: Object's name
         :param conf: A maybe nested dict holding object's configurations
         """
-        super(StatefulScanner, self).__init__(name, conf, inputs_dir=inputs_dir,
-                                              inputs=inputs,
+        super(StatelessScanner, self).__init__(inputs_dir=inputs_dir,
                                               outputs_dir=outputs_dir,
+                                              inputs=inputs,
+                                              name=name, conf=conf,
                                               **kwargs)
 
         self.patterns = SSU.compile_patterns(self.conf)
@@ -54,9 +56,9 @@ class StatelessScanner(SR.RunnableWithIO):
         :param name: Name of the regex pattern
         :param s: Target string to try to match with
         """
-        return self.get_pattern(name, r".*").match(s)
+        return re.match(self.get_pattern(name, r".*"), s)
 
-    def process_line(self, line, i):
+    def process_line(self, line, i=-1):
         """
         :param line: Content of the line
         :param i: Line number in the input file
@@ -79,7 +81,7 @@ class StatefulScanner(StatelessScanner):
 
     state = initial_state = "initial_state"
 
-    def __init__(self, inputs_dir=None, inputs=None, outputs_dir=None,
+    def __init__(self, inputs_dir=None, outputs_dir=None, inputs=None,
                  name=None, conf=None, **kwargs):
         """
         :param inputs_dir: Path to dir holding inputs
@@ -88,9 +90,10 @@ class StatefulScanner(StatelessScanner):
         :param name: Object's name
         :param conf: A maybe nested dict holding object's configurations
         """
-        super(StatefulScanner, self).__init__(name, conf, inputs_dir=inputs_dir,
-                                              inputs=inputs,
+        super(StatefulScanner, self).__init__(inputs_dir=inputs_dir,
                                               outputs_dir=outputs_dir,
+                                              inputs=inputs,
+                                              name=name, conf=conf,
                                               **kwargs)
 
         self.state = self.getconf("initial_state", self.initial_state)
