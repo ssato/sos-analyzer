@@ -25,7 +25,6 @@ class Test_00_XlsSummaryGenerator(unittest.TestCase):
     def setUp(self):
         self.workdir = C.setup_workdir()
         self.inputs_dir = os.path.join(self.workdir, ANALYZER_RESULTS_SUBDIR)
-        self.inputs = [SUMMARY_JSON]
         self.outputs_dir = os.path.join(self.workdir, REPORTS_SUBDIR)
 
         os.makedirs(self.inputs_dir)
@@ -36,13 +35,13 @@ class Test_00_XlsSummaryGenerator(unittest.TestCase):
         C.cleanup_workdir(self.workdir)
 
     def test_00_run(self):
-        generator = TT.XlsSummaryGenerator(self.inputs_dir, self.inputs,
-                                           self.outputs_dir)
+        generator = TT.XlsSummaryGenerator(self.inputs_dir, self.outputs_dir)
         self.assertTrue(isinstance(generator, TT.XlsSummaryGenerator))
 
         generator.run()
 
-        outpath = os.path.join(self.outputs_dir, TT.OUTPUT)
+        outpath = os.path.join(self.outputs_dir,
+                               SUMMARY_JSON.replace(".json", ".xls"))
         self.assertTrue(os.path.exists(outpath))
 
 # vim:sw=4:ts=4:et:

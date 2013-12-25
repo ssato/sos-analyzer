@@ -4,10 +4,12 @@
 # License: GPLv3+
 #
 from sos_analyzer.globals import (
-    LOGGER as logging, SUMMARY_JSON, _
+    LOGGER as logging, SUMMARY_JSON, _,
+    ANALYZER_RESULTS_SUBDIR as RES_SUBDIR, REPORTS_SUBDIR as SUBDIR
 )
 import sos_analyzer.report.base as SRB
 import sos_analyzer.compat as SC
+import anyconfig
 import os
 import os.path
 
@@ -19,8 +21,6 @@ except ImportError:
     _ENABLED = False
 
 
-OUTPUT = SUMMARY_JSON.replace(".json", ".xls")
-
 TABLIB_MISSING_MSG = _("""\
 tablib is not available and this report generator is disabled: """)
 
@@ -30,6 +30,9 @@ class XlsSummaryGenerator(SRB.ReportGenerator):
     name = "xls_summary_generator"
     enabled = _ENABLED
     inputs = [SUMMARY_JSON]
+
+    def process_data(self, *args, **kwargs):
+        return anyconfig.load(self._mk_input_path(self.inputs[0]))
 
     def gen_reports(self, data, *args, **kwargs):
         if not self.enabled:
@@ -52,7 +55,8 @@ class XlsSummaryGenerator(SRB.ReportGenerator):
                 dataset.append((category, k, str(v)))
 
         book = tablib.Databook([dataset])
-        outpath = os.path.join(self.outputs_dir, OUTPUT)
+        fn = os.path.splitext(self.inputs[0])[0]
+        outpath = self._mk_output_path(fn, ".xls")
 
         with open(outpath, 'wb') as out:
             out.write(book.xls)

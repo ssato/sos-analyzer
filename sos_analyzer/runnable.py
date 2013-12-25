@@ -109,6 +109,13 @@ class RunnableWithIO(RunnableWithConfig):
         """
         return os.path.join(self.outputs_dir, input + ext)
 
+    def open(self, input_path):
+        """
+        :param input_path: Input file path
+        :return: File-like or any traversable objects
+        """
+        return open(input_path)
+
     def process_line(self, line, i):
         return dict(lineno=i, line=line)
 
@@ -124,7 +131,7 @@ class RunnableWithIO(RunnableWithConfig):
         :return: A list of results or []
         """
         try:
-            f = open(input_path)
+            f = self.open(input_path)
             return [x for x in self.process_input_impl(f) if x]
 
         except (IOError, OSError) as e:
