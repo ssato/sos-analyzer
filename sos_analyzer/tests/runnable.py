@@ -75,7 +75,7 @@ class Test_20_RunnableWithIO(unittest.TestCase):
                                      "a/b.txt.json"))
 
     def test_02__init__w_list_inputs(self):
-        r = TT.RunnableWithIO("/tmp", ["a.txt", "b/c.json"])
+        r = TT.RunnableWithIO("/tmp", None, ["a.txt", "b/c.json"])
 
         self.assertTrue(isinstance(r, TT.RunnableWithIO))
         self.assertNotEquals(r.input_paths, [])
@@ -83,7 +83,7 @@ class Test_20_RunnableWithIO(unittest.TestCase):
                                           ("b/c.json", "/tmp/b/c.json")])
 
     def test_04__init__w_list_inputs_and_ouptputs_dir(self):
-        r = TT.RunnableWithIO("/tmp", ["a.txt", "b/c.json"], "/tmp/outputs")
+        r = TT.RunnableWithIO("/tmp", "/tmp/outputs", ["a.txt", "b/c.json"])
 
         self.assertTrue(isinstance(r, TT.RunnableWithIO))
         self.assertNotEquals(r.input_paths, [])
