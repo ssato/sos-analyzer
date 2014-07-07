@@ -2,10 +2,9 @@
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-from sos_analyzer.globals import LOGGER as logging
-
+# from sos_analyzer.globals import LOGGER as logging
 import sos_analyzer.scanner.base as SSB
-import re
+# import re
 
 
 """/etc/ssh/sshd_config format:

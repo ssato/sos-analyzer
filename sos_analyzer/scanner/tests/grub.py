@@ -2,7 +2,6 @@
 # Copyright (C) 2013 Satoru SATOH <ssato @ redhat.com>
 # License: GPLv3+
 #
-import sos_analyzer.tests.common as C
 import sos_analyzer.scanner.grub as TT
 import os.path
 import unittest

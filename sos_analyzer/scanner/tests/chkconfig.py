@@ -2,7 +2,6 @@
 # Copyright (C) 2013 Satoru SATOH <ssato @ redhat.com>
 # License: GPLv3+
 #
-import sos_analyzer.tests.common as C
 import sos_analyzer.scanner.chkconfig as TT
 import os.path
 import random
@@ -33,7 +32,7 @@ class Test_00_Scanner(unittest.TestCase):
     def test_10_regexes(self):
         # FIXME: Hard-coded line numbers.
         line = get_random_line(end=35)
-        #TT.logging.warn("line=" + line)
+        # TT.logging.warn("line=" + line)
         self.assertTrue(self.scanner.match("svc", line), line)
 
         line = get_random_line(start=41)

@@ -4,7 +4,6 @@
 # License: GPLv3+
 #
 import sos_analyzer.scanner.dmidecode as TT
-import sos_analyzer.tests.common as C
 import os.path
 import random
 import re

@@ -24,6 +24,7 @@ import os
 import signal
 import sys
 import unittest
+import time
 
 
 # see: http://goo.gl/7QRBR
@@ -38,7 +39,7 @@ except:
 
 
 def delayed_interrupt(pid, wait=10):
-    os.sleep(wait)
+    time.sleep(wait)
 
     p = TT.multiprocessing.Process(target=os.kill,
                                    args=(pid, signal.SIGINT))
@@ -106,7 +107,7 @@ class Test_10_run(unittest.TestCase):
 
     def test_30_run__if_interrupted(self):
         proc = TT.run_async("sleep 20", **self.kwargs)
-        interrupter = TT.run_async("sleep 3 && kill -s INT %d" % proc.pid,
+        interrupter = TT.run_async("sleep 3 && kill -s INT %d" % proc.pid,  # noqa
                                    **self.kwargs)
 
         self.assertFalse(TT.stop_async_run(proc))
@@ -122,10 +123,10 @@ class Test_10_run(unittest.TestCase):
 
         for proc in ps:
             self.assertTrue(isinstance(proc, TT.multiprocessing.Process))
-            #self.assertTrue(TT.stop_async_run(proc, 2))
+            # self.assertTrue(TT.stop_async_run(proc, 2))
             TT.stop_async_run(proc, 2)
 
-        #self.assertTrue(os.path.exists(self.logfile))
+        # self.assertTrue(os.path.exists(self.logfile))
         pass
 
 # vim:sw=4:ts=4:et:

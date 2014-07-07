@@ -2,11 +2,8 @@
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-from sos_analyzer.globals import LOGGER as logging
-
 import sos_analyzer.analyzer.base as Base
 import sos_analyzer.analyzer.system_service as SAS
-import re
 
 
 def is_sshd_enabled(workdir, runlevel=3):

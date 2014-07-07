@@ -4,7 +4,6 @@
 # License: GPLv3+
 #
 import sos_analyzer.scanner.etc_lvm_lvm_conf as TT
-import sos_analyzer.tests.common as C
 import os.path
 import unittest
 

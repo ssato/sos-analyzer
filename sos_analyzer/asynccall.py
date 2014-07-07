@@ -9,8 +9,6 @@ import multiprocessing
 import os
 import os.path
 import signal
-import subprocess
-import sys
 
 
 _RUN_TO = None
@@ -130,7 +128,7 @@ def stop_async_call(proc, timeout=_RUN_TO, stop_on_error=False):
 
             reason = "other"
 
-    except (KeyboardInterrupt, SystemExit) as e:
+    except (KeyboardInterrupt, SystemExit):
         reason = _force_stop_proc(proc, "interrupted", "interrupt-and-killed")
 
     m = "Failed (%s): %s" % (reason, str(proc.function))
@@ -140,6 +138,5 @@ def stop_async_call(proc, timeout=_RUN_TO, stop_on_error=False):
 
     logging.warn(m)
     return False
-
 
 # vim:sw=4:ts=4:et:

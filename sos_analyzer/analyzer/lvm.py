@@ -3,11 +3,7 @@
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-from sos_analyzer.globals import LOGGER as logging
-
 import sos_analyzer.analyzer.base as Base
-import sos_analyzer.compat as SC
-import re
 
 
 def find_lvm_device_filter(workdir, input="etc/lvm/lvm.conf.json"):

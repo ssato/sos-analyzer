@@ -5,7 +5,6 @@
 from sos_analyzer.globals import LOGGER as logging
 
 import sos_analyzer.scanner.base as SSB
-import re
 
 
 """df output formats:
@@ -17,15 +16,15 @@ tmpfs                   510292         0    510292   0% /dev/shm
 /dev/vda1               495844     73591    396653  16% /boot
 
 2:
-ファイルシス                 1K-ブロック       使用    使用可 使用% マウント位置
-devtmpfs                         8164368          0   8164368    0% /dev
-tmpfs                            8209916          0   8209916    0% /dev/shm
-tmpfs                            8209916      21596   8188320    1% /run
-tmpfs                            8209916          0   8209916    0% /sys/fs/cgroup
-/dev/mapper/vg0-lv_root       1920455616  836477948 986401120   46% /
-tmpfs                            8209916          0   8209916    0% /tmp
-/dev/sda1                         194241     101223     78682   57% /boot
-/dev/mapper/vg0_data-lv_data  1952559608 1187673728 764885880   61% /srv/data
+ファイルシス            1K-ブロック       使用    使用可 使用% マウント位置
+devtmpfs                    8164368          0   8164368    0% /dev
+tmpfs                       8209916          0   8209916    0% /dev/shm
+tmpfs                       8209916      21596   8188320    1% /run
+tmpfs                       8209916          0   8209916    0% /sys/fs/cgroup
+/dev/mapper/vg0-lv_root  1920455616  836477948 986401120   46% /
+tmpfs                       8209916          0   8209916    0% /tmp
+/dev/sda1                    194241     101223     78682   57% /boot
+/dev/mapper/vg0_lv_data  1952559608 1187673728 764885880   61% /srv/data
 """
 
 STATES = (AT_HEADER, IN_ENTRIES) = ("at_header", "in_entries")
@@ -69,18 +68,18 @@ class Scanner(SSB.BaseScanner):
             return None
 
         if self.match("ignore", line):
-            #logging.debug("ignored: line=%s" % line)
+            # logging.debug("ignored: line=%s" % line)
             return None
 
         m = self.match("fs_line", line)
         if m:
-            #logging.debug("line=%s, matched=<fs_line>" % line)
+            # logging.debug("line=%s, matched=<fs_line>" % line)
             return m.groupdict()
 
         m = self.match("fs_multilines_0", line)
         if m:
             self.entry = m.groupdict()
-            #logging.debug("line=%s, matched=<fs_multilines_0>" % line)
+            # logging.debug("line=%s, matched=<fs_multilines_0>" % line)
             return None
 
         m = self.match("fs_multilines_1", line)
@@ -88,7 +87,7 @@ class Scanner(SSB.BaseScanner):
             entry = self.entry.copy()
             entry.update(m.groupdict())
             self.entry = {}
-            #logging.debug("line=%s, matched=<fs_multilines_1>" % line)
+            # logging.debug("line=%s, matched=<fs_multilines_1>" % line)
             return entry
 
         return None

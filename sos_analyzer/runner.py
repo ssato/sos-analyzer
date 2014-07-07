@@ -179,9 +179,6 @@ def run_report_generators(workdir, conf=None, timeout=20):
         sos_analyzer.asynccall.stop_async_call(p, timeout, True)
 
 
-SUMMARY_JSON = "results-summary.json"
-
-
 def load_results_g(workdir, summary_file=SUMMARY_JSON):
     """
     Load results under workdir.

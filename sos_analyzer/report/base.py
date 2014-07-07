@@ -10,7 +10,6 @@ from sos_analyzer.globals import (
     ANALYZER_RESULTS_SUBDIR as RES_SUBDIR
 )
 
-import sos_analyzer.compat as SC
 import sos_analyzer.runnable as SR
 import os
 import os.path

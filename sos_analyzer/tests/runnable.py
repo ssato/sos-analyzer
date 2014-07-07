@@ -30,8 +30,10 @@ class Test_00_Runnable(unittest.TestCase):
         r = TT.Runnable(name, a=a, b=b)
 
         self.assertTrue(isinstance(r, TT.Runnable))
+        # pylint: disable=no-member
         self.assertEquals(r.a, a)
         self.assertEquals(r.b, b)
+        # pylint: enable=no-member
 
 
 class Test_10_RunnableWithConfig(unittest.TestCase):

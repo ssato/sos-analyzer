@@ -11,7 +11,8 @@ import sos_analyzer.scanner.base as SSB
 ....L....  c /etc/pam.d/system-auth
 S.5....T.    /usr/lib/python2.6/site-packages/jinja2_cli/render.py
 S.5....T.    /usr/lib/python2.6/site-packages/jinja2_cli/render.pyc
-prelink: /usr/lib64/libyajl.so.1.0.7: at least one of file's dependencies has changed since prelinking
+prelink: /usr/lib64/libyajl.so.1.0.7: at least one of file's dependencies \
+    has changed since prelinking
 S.?......    /usr/lib64/libyajl.so.1.0.7
 
 # Verification result fields:

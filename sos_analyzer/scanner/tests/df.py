@@ -4,7 +4,6 @@
 # License: GPLv3+
 #
 import sos_analyzer.scanner.df as TT
-import sos_analyzer.tests.common as C
 import os.path
 import re
 import unittest

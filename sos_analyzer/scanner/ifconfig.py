@@ -2,10 +2,7 @@
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-from sos_analyzer.globals import LOGGER as logging
-
 import sos_analyzer.scanner.base as SSB
-import re
 
 
 """ifconfig output formats:
@@ -65,9 +62,9 @@ STATES = (IFACE_START, IN_IFACE_INFO, IP_NETWORK, IP6_NETWORK,
           "iface_bytes", "rx_errors", "tx_errors")
 
 # Examples:
-#eth0      Link encap:Ethernet  HWaddr 52:54:00:12:20:11
-#lo        Link encap:Local Loopback
-#virbr0: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+# eth0      Link encap:Ethernet  HWaddr 52:54:00:12:20:11
+# lo        Link encap:Local Loopback
+# virbr0: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
 IFACE_START_RE = r"^(?P<iface>[^:\s]+):?\s+(?:" + \
                  r"(?:Link encap:(?P<link>\S+)\s+" + \
                  r"(?:(?:HWaddr (?P<hwaddr>\S+))|Loopback))|" + \
@@ -85,7 +82,7 @@ IP_NETWORK_RE_1 = r"^\s+inet (?P<ipaddr>[\d.]+)\s+" + \
                   r"netmask (?P<netmask>[\d.]+)" + \
                   r"(?:\s+broadcast (?P<broadcast>[\d.]+))?$"
 
-## TBD:
+# TBD:
 CONF = dict(initial_state=IFACE_START,
             ignore_empty_lines=1,
             patterns=dict(iface_start=IFACE_START_RE,
@@ -93,7 +90,7 @@ CONF = dict(initial_state=IFACE_START,
                           ip_network_1=IP_NETWORK_RE_1))
 
 
-## TBD: Not completed its implementation yet.
+# TBD: Not completed its implementation yet.
 class Scanner(SSB.BaseScanner):
 
     name = input_name = "ifconfig"

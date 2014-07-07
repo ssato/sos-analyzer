@@ -12,7 +12,6 @@ import sos_analyzer.tests.common as C
 import os.path
 import os
 import shutil
-import sys
 import unittest
 
 

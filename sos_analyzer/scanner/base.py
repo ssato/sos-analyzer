@@ -12,7 +12,6 @@ import sos_analyzer.compat as SC
 import sos_analyzer.runnable as SR
 import sos_analyzer.utils as SU
 import sos_analyzer.scanner.utils as SSU
-import glob
 import os
 import os.path
 import re
@@ -38,10 +37,10 @@ class StatelessScanner(SR.RunnableWithIO):
         :param conf: A maybe nested dict holding object's configurations
         """
         super(StatelessScanner, self).__init__(inputs_dir=inputs_dir,
-                                              outputs_dir=outputs_dir,
-                                              inputs=inputs,
-                                              name=name, conf=conf,
-                                              **kwargs)
+                                               outputs_dir=outputs_dir,
+                                               inputs=inputs,
+                                               name=name, conf=conf,
+                                               **kwargs)
 
         self.patterns = SSU.compile_patterns(self.conf)
 
@@ -231,7 +230,7 @@ class BaseScanner(object):
             f = open(self.input_path)
             return [x for x in self.parse(f) if x]
 
-        except (IOError, OSError) as e:
+        except (IOError, OSError):
             logging.warn("Could not open the input: " + self.input_path)
             return []
 

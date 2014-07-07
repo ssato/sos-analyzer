@@ -25,7 +25,7 @@ def load_scanned_data(workdir, input):
         logging.warn("Could not find scanned data: " + f)
         return None
 
-    data = SC.json.load(open(f))
+    data = SC.json.load(open(f)) or {}
     if not data or not data.get("data", False):
         logging.warn("No valid data found: " + f)
         return None

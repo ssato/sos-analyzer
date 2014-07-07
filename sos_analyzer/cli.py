@@ -13,7 +13,6 @@ import optparse
 import os
 import os.path
 import sys
-import tempfile
 
 
 DEFAULTS = dict(loglevel=1, conf=None, workdir=None, analyze=True,

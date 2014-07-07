@@ -8,12 +8,12 @@ import sys
 IS_PYTHON_3 = sys.version_info[0] == 3
 
 if IS_PYTHON_3:
-    import configparser
-    from io import StringIO
+    import configparser  # noqa
+    from io import StringIO  # noqa
 
     import io
     # Not all version of python 3.x has sys.stdout.buffer?
-    #sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+    # sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
     def uopen(path, flag='rt'):
         if flag[-1] != 't':
@@ -23,11 +23,11 @@ if IS_PYTHON_3:
     def iteritems(d):
         return d.items()
 else:
-    import ConfigParser as configparser
+    import ConfigParser as configparser  # noqa
     try:
-        from cStringIO import StringIO
+        from cStringIO import StringIO  # noqa
     except ImportError:
-        from StringIO import StringIO
+        from StringIO import StringIO  # noqa
 
     import codecs
 
@@ -38,8 +38,8 @@ else:
         return d.iteritems()
 
 try:
-    import json
+    import json  # noqa
 except ImportError:
-    import simplejson as json
+    import simplejson as json  # noqa
 
 # vim:sw=4:ts=4:et:

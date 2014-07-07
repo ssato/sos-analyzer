@@ -2,10 +2,7 @@
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-from sos_analyzer.globals import LOGGER as logging
-
 import sos_analyzer.scanner.base as SSB
-import re
 
 
 """'free' output formats:

@@ -5,6 +5,8 @@
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
+from sos_analyzer.globals import LOGGER as logging
+
 import sos_analyzer.compat as SC
 import sos_analyzer.utils as SU
 import glob
@@ -134,7 +136,7 @@ class RunnableWithIO(RunnableWithConfig):
             f = self.open(input_path)
             return [x for x in self.process_input_impl(f) if x]
 
-        except (IOError, OSError) as e:
+        except (IOError, OSError):
             logging.warn("Could not open the input: " + input_path)
             return []
 

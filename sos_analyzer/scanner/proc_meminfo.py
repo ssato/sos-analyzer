@@ -3,8 +3,6 @@
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-from sos_analyzer.globals import LOGGER as logging
-
 import sos_analyzer.scanner.base as SSB
 
 
@@ -41,6 +39,7 @@ HugePages_Free:      0
 HugePages_Rsvd:      0
 Hugepagesize:     2048 kB
 """
+
 
 class Scanner(SSB.SinglePatternScanner):
 

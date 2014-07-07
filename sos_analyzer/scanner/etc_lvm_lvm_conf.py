@@ -3,10 +3,9 @@
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-from sos_analyzer.globals import LOGGER as logging
-
+# from sos_analyzer.globals import LOGGER as logging
 import sos_analyzer.scanner.base as SSB
-import sos_analyzer.compat as SC
+# import sos_analyzer.compat as SC
 
 
 """ /etc/lvm/lvm.conf format:
@@ -107,8 +106,8 @@ class Scanner(SSB.BaseScanner):
                 vs[kv["key"]] = eval(kv["value"])
                 self.section["values"] = vs
             else:
-                #e = "Not a line of assignment? l=%s, lno=%d" % (line, i)
-                #logging.warn(e)
+                # e = "Not a line of assignment? l=%s, lno=%d" % (line, i)
+                # logging.warn(e)
                 pass
 
         elif state == BEGIN_SECTION:

@@ -4,8 +4,7 @@
 # License: GPLv3+
 #
 from sos_analyzer.globals import (
-    LOGGER as logging, SUMMARY_JSON, _,
-    ANALYZER_RESULTS_SUBDIR as RES_SUBDIR, REPORTS_SUBDIR as SUBDIR
+    LOGGER as logging, SUMMARY_JSON, _
 )
 import sos_analyzer.report.base as SRB
 import sos_analyzer.compat as SC
@@ -48,7 +47,8 @@ class XlsSummaryGenerator(SRB.ReportGenerator):
                 if isinstance(v, (list, tuple)):
                     v = ", ".join(str(x) for x in v)
                 elif isinstance(v, dict):
-                    v = ", ".join("%s=%s" % (k, str(x)) for k, x in v.iteritems())
+                    v = ", ".join("%s=%s" % (k, str(x)) for k, x in
+                                  v.iteritems())
                 else:
                     pass
 
@@ -59,6 +59,8 @@ class XlsSummaryGenerator(SRB.ReportGenerator):
         outpath = self._mk_output_path(fn, ".xls")
 
         with open(outpath, 'wb') as out:
+            # pylint: disable=no-member
             out.write(book.xls)
+            # pylint: enable=no-member
 
 # vim:sw=4:ts=4:et:

@@ -22,6 +22,7 @@ def make_workdir_and_scanners(scls=TT.Scanner, examples=MATCHED_EXAMPLES):
 
     is_new_scanner_cls = getattr(scls, "inputs", False)
 
+    # pylint: disable=maybe-no-member
     for i, v in enumerate(MATCHED_EXAMPLES):
         datadir = os.path.join(workdir, "data_%d" % i)
         f = os.path.join(datadir, (scls.inputs if is_new_scanner_cls else
@@ -34,6 +35,7 @@ def make_workdir_and_scanners(scls=TT.Scanner, examples=MATCHED_EXAMPLES):
                                              scls.outputs_dir + "_%d" % i))
         else:
             yield scls(workdir, datadir)
+    # pylint: enable=maybe-no-member
 
 
 class Test_00_pure_functions(unittest.TestCase):
@@ -89,11 +91,13 @@ class Test_20_Scanner2(unittest.TestCase):
         for sc in self.scanners:
             sc.run()
 
+            # pylint: disable=maybe-no-member
             outfile = sc._mk_output_path(sc.inputs)
-            #print >> open("/tmp/t.log", 'a'), "outfile=" + outfile
+            # print >> open("/tmp/t.log", 'a'), "outfile=" + outfile
             self.assertTrue(os.path.exists(outfile))
 
             x = anyconfig.load(outfile)
             self.assertTrue(x.get("data", None), str(x))
+            # pylint: enable=maybe-no-member
 
 # vim:sw=4:ts=4:et:

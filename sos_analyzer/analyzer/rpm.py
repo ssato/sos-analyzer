@@ -3,12 +3,7 @@
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-from sos_analyzer.globals import LOGGER as logging
-
 import sos_analyzer.analyzer.base as Base
-import sos_analyzer.analyzer.filesystem as SAF
-import os.path
-import re
 
 
 FLAGS = ["size", "device", "readlink_path", "group", "checksum",

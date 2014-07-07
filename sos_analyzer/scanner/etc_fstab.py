@@ -3,10 +3,8 @@
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-from sos_analyzer.globals import LOGGER as logging
-
+# from sos_analyzer.globals import LOGGER as logging
 import sos_analyzer.scanner.base as SSB
-import re
 
 
 """/etc/fstab formats:
@@ -33,11 +31,11 @@ LABEL=SWAP              swap                    swap    defaults        0 0
 # Accessible filesystems, by reference, are maintained under '/dev/disk'
 # See man pages fstab(5), findfs(8), mount(8) and/or blkid(8) for more info
 #
-/dev/mapper/vg0-lv_root /                       ext4    defaults,discard        1 1
-UUID=2667aea7-7013-497c-b1a9-07d6c404c481 /boot                   ext4    defaults,discard        1 2
-/dev/mapper/luks-d6afd31f-9275-4957-805a-c52901a747b5 /home                   ext4    defaults,discard        1 2
-/dev/mapper/vg0-lv_swap swap                    swap    defaults        0 0
-mtpfs   /media/galaxy_nexus     fuse.mtpfs    allow_other,rw,user,noauto        0 0
+/dev/mapper/vg0-lv_root       /      ext4    defaults,discard        1 1
+UUID=2667aea7-...             /boot  ext4    defaults,discard        1 2
+/dev/mapper/luks-d6afd31f-... /home  ext4    defaults,discard        1 2
+/dev/mapper/vg0-lv_swap swap         swap    defaults        0 0
+mtpfs   /media/galaxy_nexus    fuse.mtpfs    allow_other,rw,user,noauto 0 0
 /var/lib/repos/ssato    /home/ssato/repos/public/       none    bind    0 0
 """
 

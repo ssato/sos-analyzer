@@ -238,7 +238,7 @@ def stop_async_run(proc, timeout=_RUN_TO, stop_on_error=False):
 
             reason = "other"
 
-    except (KeyboardInterrupt, SystemExit) as e:
+    except (KeyboardInterrupt, SystemExit):
         reason = _force_stop_proc(proc, "interrupted", "interrupt-and-killed")
 
     m = "Failed (%s): %s" % (reason, proc.cmd)

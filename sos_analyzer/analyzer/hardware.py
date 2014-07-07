@@ -3,9 +3,7 @@
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-from sos_analyzer.globals import LOGGER as logging
-from operator import itemgetter
-
+# from operator import itemgetter
 import sos_analyzer.analyzer.base as Base
 import re
 
@@ -27,7 +25,7 @@ def find_hw_error_suspects(workdir, pattern, input="var/log/messages.json"):
     :see: ``sos_analyzer.scanner.var_log_messages``
     """
     # Maybe this is not necessary as data are already sorted by date.
-    #return sorted(find_hw_error_suspects_g(workdir, pattern, input),
+    # return sorted(find_hw_error_suspects_g(workdir, pattern, input),
     #              key=itemgetter("date"))
     return list(find_hw_error_suspects_g(workdir, pattern, input))
 

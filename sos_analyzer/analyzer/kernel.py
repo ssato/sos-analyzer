@@ -38,14 +38,13 @@ def get_kernel_version_from_grub_conf(workdir,
             break
 
     if default_boot_idx is None:
-        logging.warn("Could not find the default boot idx" + f)
+        logging.warn("Could not find the default boot idx in " + input)
         return None
 
-    default_boot_version = None
     kernels = [d for d in data if d.get("title", False)]
     try:
         return kernels[default_boot_idx].get("kernel", None)
-    except Exception as e:
+    except Exception:
         logging.error("Failed to get the default boot kernel")
         return None
 
@@ -101,12 +100,12 @@ def find_kdump_partition(workdir, input="etc/kdump.conf.json"):
 
     for d in data:
         if d.get("path", False):
-            path = d["path"]
+            path = d["path"]  # noqa: not implemented yet.
         if d.get("partition", False):
             partition = d["partition"]
 
     if partition:   # e.g. /dev/sda3, LABEL=/boot, UUID=...
-        fss = SAF.list_normal_filesystems(workdir)
+        fss = SAF.list_normal_filesystems(workdir)  # noqa: likewise.
 
         pass
 

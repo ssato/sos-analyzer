@@ -23,9 +23,9 @@ def list_files(tdir):
 
 
 data_files = [  # (destdir, list_files(srcdir),
-              (os.path.join(get_python_lib(), "sos_analyzer/locale/ja/LC_MESSAGES"),
-               glob("sos_analyzer/locale/ja/LC_MESSAGES/*.mo")),
-             ]
+    (os.path.join(get_python_lib(), "sos_analyzer/locale/ja/LC_MESSAGES"),
+     glob("sos_analyzer/locale/ja/LC_MESSAGES/*.mo")),
+]
 
 
 class SrpmCommand(Command):

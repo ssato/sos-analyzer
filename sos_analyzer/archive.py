@@ -2,10 +2,8 @@
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-import sos_analyzer.compat as SC
 import sos_analyzer.shell as SS
 import os.path
-import sys
 
 
 class UnknownTarCompressorError(Exception):

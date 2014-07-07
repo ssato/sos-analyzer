@@ -4,7 +4,6 @@
 # License: GPLv3+
 #
 import sos_analyzer.scanner.rpm_Va as TT
-import sos_analyzer.tests.common as C
 import os.path
 import re
 import unittest
