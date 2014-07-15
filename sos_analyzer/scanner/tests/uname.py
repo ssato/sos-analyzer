@@ -30,7 +30,7 @@ class Test_00_Scanner(unittest.TestCase):
             self.inputs.append(f)
             open(f, 'w').write(u + "\n")
 
-        self.scanners = [TT.Scanner(self.workdir, self.datadir, f) for f
+        self.scanners = [TT.Scanner(self.workdir, self.datadir, x) for x
                          in self.inputs]
 
     def tearDown(self):
