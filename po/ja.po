@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sos-analyzer 0.0.1\n"
-"POT-Creation-Date: 2014-07-07 18:38+JST\n"
+"POT-Creation-Date: 2015-05-14 15:17+JST\n"
 "PO-Revision-Date: 2013-12-17 18:29+0900\n"
 "Last-Translator: Satoru SATOH <ssato@redhat.com>\n"
 "Language-Team: Japanese <ssato@redhat.com>\n"
@@ -15,22 +15,22 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: pygettext.py 1.5\n"
 
-#: aux/..//sos_analyzer/report/xls_summary.py:24
+#: aux/..//sos_analyzer/report/xls_summary.py:23
 msgid "tablib is not available and this report generator is disabled: "
 msgstr "tablib が利用できません! このレポート生成器を無効化: "
 
-#: aux/..//sos_analyzer/report/xls_summary.py:43
+#: aux/..//sos_analyzer/report/xls_summary.py:42
 msgid "Results Summary"
 msgstr "結果の概要"
 
-#: aux/..//sos_analyzer/report/xls_summary.py:44
+#: aux/..//sos_analyzer/report/xls_summary.py:43
 msgid "Category"
 msgstr "カテゴリ"
 
-#: aux/..//sos_analyzer/report/xls_summary.py:44
+#: aux/..//sos_analyzer/report/xls_summary.py:43
 msgid "Check point"
 msgstr "確認項目"
 
-#: aux/..//sos_analyzer/report/xls_summary.py:44
+#: aux/..//sos_analyzer/report/xls_summary.py:43
 msgid "Result"
 msgstr "結果"
