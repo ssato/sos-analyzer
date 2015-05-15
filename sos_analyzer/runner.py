@@ -149,7 +149,7 @@ def run(workdir, datadir, conf=None, timeout=20, runners=[]):
     procs = [sos_analyzer.asynccall.call_async(r.run) for r
              in list_runnables(workdir, datadir, conf, runners)]
     for p in procs:
-        sos_analyzer.asynccall.stop_async_call(p, timeout, True)
+        sos_analyzer.asynccall.stop_async_call(p, timeout, False)
 
 
 def run_scanners(workdir, datadir, conf=None, timeout=20):
@@ -176,7 +176,7 @@ def run_report_generators(workdir, conf=None, timeout=20):
     procs = [sos_analyzer.asynccall.call_async(r.run) for r
              in list_report_generators(workdir, conf)]
     for p in procs:
-        sos_analyzer.asynccall.stop_async_call(p, timeout, True)
+        sos_analyzer.asynccall.stop_async_call(p, timeout, False)
 
 
 def load_results_g(workdir, summary_file=SUMMARY_JSON):
