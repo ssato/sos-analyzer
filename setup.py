@@ -52,7 +52,7 @@ class SrpmCommand(Command):
         self.build_rpm()
 
     def update_mo(self):
-        os.system("./aux/update-po.sh")
+        os.system("./pkg/update-po.sh")
 
     def build_rpm(self):
         params = dict()

@@ -89,7 +89,6 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %doc README.rst
-%doc aux
 %{_bindir}/sos-analyzer
 #%{_sysconfdir}/sos-analyzer.d/*
 %{python_sitelib}/*

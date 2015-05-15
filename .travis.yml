@@ -25,4 +25,4 @@ install:
     # see: https://github.com/travis-ci/travis-cookbooks/issues/155
     - sudo rm -rf /dev/shm && sudo ln -s /run/shm /dev/shm
 script:
-    - "./aux/runtest.sh"
+    - "./pkg/runtest.sh"
