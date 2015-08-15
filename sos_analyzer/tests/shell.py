@@ -114,9 +114,8 @@ class Test_10_run(unittest.TestCase):
 
     def test_50_prun_async__simplest_case(self):
         cntr = itertools.count()
-        logfile = lambda: os.path.join(self.workdir,
-                                       "%d.%d.log" % (os.getpid(),
-                                                      next(cntr)))
+        def logfile():
+            os.path.join(self.workdir, "%d.%d.log" % (os.getpid(), next(cntr)))
 
         ps = TT.prun_async(["sleep 3 && true" for _ in range(3)],
                            workdir=self.workdir, logfile=logfile())
