@@ -3,11 +3,6 @@
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-# from sos_analyzer.globals import LOGGER as logging
-import sos_analyzer.scanner.base as SSB
-# import sos_analyzer.compat as SC
-
-
 """ /etc/lvm/lvm.conf format:
 
 From 'syntax' section in lvm.conf(5):
@@ -41,6 +36,8 @@ From 'syntax' section in lvm.conf(5):
 
               Strings must be enclosed in double quotes.
 """
+import sos_analyzer.scanner.base as SSB
+
 
 STATES = (IN_SECTION, BEGIN_SECTION, END_SECTION, AT_ASSIGNMENT_LINE) = \
          ("in_section", "begin_section", "end_section", "at_assignment_line")

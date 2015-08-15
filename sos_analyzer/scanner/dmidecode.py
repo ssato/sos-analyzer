@@ -3,19 +3,19 @@
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-from sos_analyzer.globals import LOGGER as logging
-
-import sos_analyzer.scanner.base as SSB
-import sos_analyzer.scanner.utils as SSU
-import sos_analyzer.compat as SC
-
-
 """dmidecode format:
 
 * test example: sos_analyzer/scanner/tests/rhel-6-client-1.dmidecode.txt
 * see also:
   * dmidecode-2.11/dmidecode.c:dmi_decode()
 """
+import logging
+import sos_analyzer.scanner.base as SSB
+import sos_analyzer.scanner.utils as SSU
+import sos_analyzer.compat as SC
+
+
+LOGGER = logging.getLogger(__name__)
 
 HEADER_BEGIN_RE = r"^# dmidecode (?P<dmidecode_version>(?:[\d.])+)$"
 HEADER_SMBIOS_RE = r"^SMBIOS (?P<smbios_version>[\d.]+) present.$"

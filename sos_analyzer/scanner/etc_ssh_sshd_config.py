@@ -2,11 +2,6 @@
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-# from sos_analyzer.globals import LOGGER as logging
-import sos_analyzer.scanner.base as SSB
-# import re
-
-
 """/etc/ssh/sshd_config format:
 
 #Port 22
@@ -22,6 +17,7 @@ AcceptEnv LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
 # override default of no subsystems
 Subsystem       sftp    /usr/libexec/openssh/sftp-server
 """
+import sos_analyzer.scanner.base as SSB
 
 
 class Scanner(SSB.SinglePatternScanner):

@@ -3,13 +3,14 @@
 # Red Hat Author(s): Satoru SATOH <ssato@redhat.com>
 # License: GPLv3+
 #
-from sos_analyzer.globals import LOGGER as logging
-
+import logging
 import multiprocessing
 import os
 import os.path
 import signal
 
+
+LOGGER = logging.getLogger(__name__)
 
 _RUN_TO = None
 _NPROC = multiprocessing.cpu_count() * 2

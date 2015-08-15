@@ -2,11 +2,6 @@
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-from sos_analyzer.globals import LOGGER as logging
-
-import sos_analyzer.scanner.base as SSB
-
-
 """df output formats:
 1:
 Filesystem           1K-ブロック    使用   使用可 使用% マウント位置
@@ -26,6 +21,11 @@ tmpfs                       8209916          0   8209916    0% /tmp
 /dev/sda1                    194241     101223     78682   57% /boot
 /dev/mapper/vg0_lv_data  1952559608 1187673728 764885880   61% /srv/data
 """
+import logging
+import sos_analyzer.scanner.base as SSB
+
+
+LOGGER = logging.getLogger(__name__)
 
 STATES = (AT_HEADER, IN_ENTRIES) = ("at_header", "in_entries")
 

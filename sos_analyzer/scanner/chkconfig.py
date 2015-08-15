@@ -2,11 +2,6 @@
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-from sos_analyzer.globals import LOGGER as logging
-
-import sos_analyzer.scanner.base as SSB
-
-
 """chkconfig format:
 atd             0:off   1:off   2:off   3:on    4:on    5:on    6:off
 auditd          0:off   1:off   2:on    3:on    4:on    5:on    6:off
@@ -20,6 +15,11 @@ xinetd based services:
         chargen-stream: off
         daytime-dgram:  off
 """
+import logging
+import sos_analyzer.scanner.base as SSB
+
+
+LOGGER = logging.getLogger(__name__)
 
 INPUT = "chkconfig"
 STATES = (IN_SVCS, AT_XINETD_SVCS_START, IN_XINETD_SVCS) = \

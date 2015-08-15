@@ -3,10 +3,6 @@
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-# from sos_analyzer.globals import LOGGER as logging
-import sos_analyzer.scanner.base as SSB
-
-
 """/etc/fstab formats:
 1:
 LABEL=/                 /                       ext3    defaults        1 1
@@ -38,6 +34,8 @@ UUID=2667aea7-...             /boot  ext4    defaults,discard        1 2
 mtpfs   /media/galaxy_nexus    fuse.mtpfs    allow_other,rw,user,noauto 0 0
 /var/lib/repos/ssato    /home/ssato/repos/public/       none    bind    0 0
 """
+import sos_analyzer.scanner.base as SSB
+
 
 FS_RE = r"^(?P<device>\S+)\s+(?P<mount_point>\S+)\s+(?P<filesystem>\S+)" + \
         r"\s+(?P<options>\S+)(?:\s+(?P<dump>\d)\s+(?P<fsck>\d))?$"

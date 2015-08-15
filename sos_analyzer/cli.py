@@ -2,18 +2,21 @@
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-from sos_analyzer.globals import LOGGER as logging, DATA_SUBDIR
-
-import sos_analyzer.archive as SA
-import sos_analyzer.runner as SR
-import sos_analyzer.utils as SU
-
 import anyconfig
+import logging
 import optparse
 import os
 import os.path
 import sys
 
+from sos_analyzer.globals import DATA_SUBDIR
+
+import sos_analyzer.archive as SA
+import sos_analyzer.runner as SR
+import sos_analyzer.utils as SU
+
+
+LOGGER = logging.getLogger(__name__)
 
 DEFAULTS = dict(loglevel=1, conf=None, workdir=None, analyze=True,
                 report=False)

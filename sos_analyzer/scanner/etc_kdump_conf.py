@@ -3,10 +3,6 @@
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-# from sos_analyzer.globals import LOGGER as logging
-import sos_analyzer.scanner.base as SSB
-
-
 """/etc/kdump.conf format:
 
 # See the kdump.conf(5) man page for details of configuration directives
@@ -27,6 +23,8 @@ import sos_analyzer.scanner.base as SSB
 #options modulename options
 #default shell
 """
+import sos_analyzer.scanner.base as SSB
+
 
 # kdump save location options:
 #  raw <partition> | net (<nfs mount> | <user@server>) | path <path> |

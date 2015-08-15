@@ -5,16 +5,17 @@
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-from sos_analyzer.globals import LOGGER as logging
-
-import sos_analyzer.compat as SC
-import sos_analyzer.utils as SU
+import logging
 import glob
 import os.path
 import os
 
+import sos_analyzer.compat as SC
+import sos_analyzer.utils as SU
+
 
 DICT_MZERO = dict()
+LOGGER = logging.getLogger(__name__)
 _ERR_NOT_IMPL = "Child class must implement this!"
 
 

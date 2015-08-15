@@ -3,12 +3,15 @@
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-from sos_analyzer.globals import LOGGER as logging
+import logging
+import os.path
+import re
 
 import sos_analyzer.analyzer.base as Base
 import sos_analyzer.analyzer.filesystem as SAF
-import os.path
-import re
+
+
+LOGGER = logging.getLogger(__name__)
 
 
 def get_kernel_version_from_uname(workdir, input="uname.json"):

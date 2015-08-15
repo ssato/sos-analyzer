@@ -4,16 +4,18 @@
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-from sos_analyzer.globals import LOGGER as logging, \
-    result_datadir, scanned_datadir
-
-import sos_analyzer.compat as SC
-import sos_analyzer.utils as SU
+import logging
 import os.path
 import os
 
+from sos_analyzer.globals import result_datadir, scanned_datadir
+
+import sos_analyzer.compat as SC
+import sos_analyzer.utils as SU
+
 
 DICT_MZERO = dict()
+LOGGER = logging.getLogger(__name__)
 
 
 def load_scanned_data(workdir, input):

@@ -2,10 +2,6 @@
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-from sos_analyzer.globals import LOGGER as logging
-import sos_analyzer.scanner.base as SSB
-
-
 """/boot/grub/grub.conf format:
 #boot=/dev/sda
 default=0
@@ -22,6 +18,11 @@ title Red Hat Enterprise Linux Server (2.6.18-237.el5)
         initrd /initrd-2.6.18-237.el5.img
 ...
 """
+import logging
+import sos_analyzer.scanner.base as SSB
+
+
+LOGGER = logging.getLogger(__name__)
 
 INPUT = "boot/grub/grub.conf"
 STATES = (IN_OPTIONS, AT_BOOT_ENTRY_TITLE, IN_BOOT_ENTRY) = \

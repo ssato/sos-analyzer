@@ -5,19 +5,23 @@
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-from sos_analyzer.globals import LOGGER as logging, scanned_datadir, \
-    SCANNER_RESULTS_SUBDIR as SUBDIR
+import logging
+import os
+import os.path
+import re
+
+from sos_analyzer.globals import (
+    scanned_datadir, SCANNER_RESULTS_SUBDIR as SUBDIR
+)
 
 import sos_analyzer.compat as SC
 import sos_analyzer.runnable as SR
 import sos_analyzer.utils as SU
 import sos_analyzer.scanner.utils as SSU
-import os
-import os.path
-import re
 
 
 DICT_MZERO = dict()
+LOGGER = logging.getLogger(__name__)
 
 
 class StatelessScanner(SR.RunnableWithIO):

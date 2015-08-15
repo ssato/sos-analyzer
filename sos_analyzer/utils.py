@@ -3,11 +3,14 @@
 # License: GPLv3+
 #
 from logging import WARN, INFO, DEBUG
-from sos_analyzer.globals import LOGGER as logging
 
 import glob
+import logging
 import os.path
 import tempfile
+
+
+LOGGER = logging.getLogger(__name__)
 
 
 def to_log_level(level):
@@ -19,7 +22,7 @@ def set_loglevel(level):
     """
     :param level: Log level = 0, 1, 2
     """
-    logging.setLevel(to_log_level(level))
+    logging.getLogger().setLevel(to_log_level(level))
 
 
 def find_dir_has_target(topdir, target):

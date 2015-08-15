@@ -3,15 +3,12 @@
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-# from sos_analyzer.globals import LOGGER as logging
-import sos_analyzer.scanner.base as SSB
-
-
 """/etc/sysconfig/i18n formats:
 
 LANG="en_US.UTF-8"
 SYSFONT="latarcyrheb-sun16"
 """
+import sos_analyzer.scanner.base as SSB
 
 
 class Scanner(SSB.SinglePatternScanner):

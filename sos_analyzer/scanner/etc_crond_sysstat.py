@@ -3,10 +3,6 @@
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-# from sos_analyzer.globals import LOGGER as logging
-import sos_analyzer.scanner.base as SSB
-
-
 """ /etc/cron.d/sysstat formats:
 
 # run system activity accounting tool every 10 minutes
@@ -15,6 +11,8 @@ import sos_analyzer.scanner.base as SSB
 53 23 * * * root /usr/lib64/sa/sa2 -A
 
 """
+import sos_analyzer.scanner.base as SSB
+
 
 CRON_RE = (r"^(?P<timedate>(?:[\d*/]+\s+){5})"
            r"(?P<username>\S+)\s+(?P<command>.+)$")
