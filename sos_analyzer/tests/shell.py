@@ -114,6 +114,7 @@ class Test_10_run(unittest.TestCase):
 
     def test_50_prun_async__simplest_case(self):
         cntr = itertools.count()
+
         def logfile():
             os.path.join(self.workdir, "%d.%d.log" % (os.getpid(), next(cntr)))
 
