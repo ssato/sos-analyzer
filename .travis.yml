@@ -24,6 +24,6 @@ install:
     - pip install --use-mirrors anyconfig tablib
     # see: https://github.com/guillermo-carrasco/bcbio-nextgen-deploy/commit/dabb3903ffdb29743b15c76eb535e7ae14885cad
     # see: https://github.com/travis-ci/travis-cookbooks/issues/155
-    - sudo rm -rf /dev/shm && sudo ln -s /run/shm /dev/shm
+    #- sudo rm -rf /dev/shm && sudo ln -s /run/shm /dev/shm
 script:
     - "./pkg/runtest.sh"
