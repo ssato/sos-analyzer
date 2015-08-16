@@ -1,7 +1,7 @@
 #
 # Base class for scanners.
 #
-# Copyright (C) 2013 Red Hat, Inc.
+# Copyright (C) 2013 - 2015 Red Hat, Inc.
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
@@ -14,17 +14,17 @@ from sos_analyzer.globals import (
     scanned_datadir, SCANNER_RESULTS_SUBDIR as SUBDIR
 )
 
-import sos_analyzer.compat as SC
-import sos_analyzer.runnable as SR
-import sos_analyzer.utils as SU
-import sos_analyzer.scanner.utils as SSU
+import sos_analyzer.compat
+import sos_analyzer.runnable
+import sos_analyzer.utils
+import sos_analyzer.scanner.utils
 
 
 DICT_MZERO = dict()
 LOGGER = logging.getLogger(__name__)
 
 
-class StatelessScanner(SR.RunnableWithIO):
+class StatelessScanner(sos_analyzer.runnable.RunnableWithIO):
 
     outputs_dir = SUBDIR
     ignorable_pattern = "^#.*$"
@@ -46,7 +46,7 @@ class StatelessScanner(SR.RunnableWithIO):
                                                name=name, conf=conf,
                                                **kwargs)
 
-        self.patterns = SSU.compile_patterns(self.conf)
+        self.patterns = sos_analyzer.scanner.utils.compile_patterns(self.conf)
 
     def get_pattern(self, name, fallback=''):
         """
@@ -71,12 +71,12 @@ class StatelessScanner(SR.RunnableWithIO):
             return None
 
         for pattern in self.get_pattern("match_patterns", self.match_patterns):
-            logging.debug("Try the pattern: " + pattern)
+            LOGGER.debug("Try the pattern: %s", pattern)
             m = re.match(pattern, line)
             if m:
                 return m.groupdict()
 
-        logging.warn("No patterns matched: line=%s [%d]" % (line, i))
+        LOGGER.warn("No patterns matched: line=%s [%d]", line, i)
         return None
 
 
@@ -163,7 +163,7 @@ class BaseScanner(object):
             self.enabled = True
 
         self.input_path = os.path.join(datadir, self.input_name)
-        self.patterns = SSU.compile_patterns(self.conf)
+        self.patterns = sos_analyzer.scanner.utils.compile_patterns(self.conf)
         self.output_path = os.path.join(scanned_datadir(workdir),
                                         "%s.json" % self.name)
 
@@ -173,7 +173,8 @@ class BaseScanner(object):
         :param fallback: Fallback value if the value for given key is not found
         :param key_sep: Separator char to represents hierarchized configuraion
         """
-        return SU.dic_get_recur(self.conf, key, fallback, key_sep)
+        return sos_analyzer.utils.dic_get_recur(self.conf, key, fallback,
+                                                key_sep)
 
     def match(self, name, s):
         """
@@ -221,7 +222,7 @@ class BaseScanner(object):
             if state != new_state:
                 m = "State changed: %s -> %s, line=%s" % \
                     (str(state), str(new_state), line)
-                logging.debug(m)
+                LOGGER.debug(m)
                 state = new_state
 
             yield self.parse_impl(state, line, i)
@@ -235,7 +236,7 @@ class BaseScanner(object):
             return [x for x in self.parse(f) if x]
 
         except (IOError, OSError):
-            logging.warn("Could not open the input: " + self.input_path)
+            LOGGER.warn("Could not open the input: %s", self.input_path)
             return []
 
     def run(self):
@@ -246,7 +247,7 @@ class BaseScanner(object):
         if not os.path.exists(d):
             os.makedirs(d)
 
-        SC.json.dump(self.result, open(self.output_path, 'w'))
+        sos_analyzer.compat.json.dump(self.result, open(self.output_path, 'w'))
 
 
 class SinglePatternScanner(BaseScanner):
@@ -269,7 +270,7 @@ class SinglePatternScanner(BaseScanner):
             return m.groupdict()
         else:
             e = "Invalid input? file=%s, line=%s" % (self.input_path, line)
-            logging.warn(e)
+            LOGGER.warn(e)
             return None
 
 
@@ -288,13 +289,13 @@ class MultiPatternsScanner(SinglePatternScanner):
             return None
 
         for pattern in self.multi_patterns:
-            logging.debug("Try the pattern: " + pattern)
+            LOGGER.debug("Try the pattern: %s", pattern)
             m = re.match(pattern, line)
             if m:
                 return m.groupdict()
 
         m = "No patterns matched: file=%s, line=%s" % (self.input_path, line)
-        logging.warn(m)
+        LOGGER.warn(m)
 
         return None
 
