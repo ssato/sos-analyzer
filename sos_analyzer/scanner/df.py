@@ -62,8 +62,8 @@ class Scanner(sos_analyzer.scanner.base.BaseScanner):
         """
         if self.state == AT_HEADER:  # Use self.state instead of state passed.
             self.state = IN_ENTRIES
-            LOGGER.debug("state changed: %s -> %s, line=%s", AT_HEADER,
-                                                             IN_ENTRIES, line)
+            LOGGER.debug("state changed: %s -> %s, line=%s",
+                         AT_HEADER, IN_ENTRIES, line)
             return None
 
         if self.match("ignore", line):
