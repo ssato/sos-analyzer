@@ -1,7 +1,7 @@
 #
 # Base classes for runnable classes such like scanners and analyzers.
 #
-# Copyright (C) 2013 Red Hat, Inc.
+# Copyright (C) 2013 - 2015 Red Hat, Inc.
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
@@ -10,7 +10,7 @@ import glob
 import os.path
 import os
 
-import sos_analyzer.compat as SC
+import sos_analyzer.compat
 import sos_analyzer.utils as SU
 
 
@@ -32,7 +32,7 @@ class Runnable(object):
         if name is not None:
             self.name = name
 
-        for k, v in SC.iteritems(kwargs):
+        for k, v in sos_analyzer.compat.iteritems(kwargs):
             if v is not None:
                 setattr(self, k, v)
 
@@ -151,7 +151,7 @@ class RunnableWithIO(RunnableWithConfig):
             if not os.path.exists(d):
                 os.makedirs(d)
 
-            SC.json.dump(result, open(outpath, 'w'))
+            sos_analyzer.compat.json.dump(result, open(outpath, 'w'))
 
     def run(self):
         self.process_inputs()

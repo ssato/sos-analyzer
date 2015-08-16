@@ -10,7 +10,7 @@ from sos_analyzer.globals import (
     LOGGER as logging, result_datadir, SUMMARY_JSON,
     ANALYZER_RESULTS_SUBDIR, REPORTS_SUBDIR,
 )
-import sos_analyzer.compat as SC
+import sos_analyzer.compat
 import sos_analyzer.asynccall
 import sos_analyzer.analyzer.kernel
 import sos_analyzer.analyzer.hardware
@@ -192,7 +192,7 @@ def load_results_g(workdir, summary_file=SUMMARY_JSON):
             path = os.path.join(dirpath, f)
             try:
                 logging.info("Loading result: " + path)
-                data = SC.json.load(open(path))
+                data = sos_analyzer.compat.json.load(open(path))
                 relpath = os.path.relpath(dirpath, topdir)
 
                 yield (relpath, data)
@@ -210,6 +210,6 @@ def dump_collected_results(workdir, summary_file=SUMMARY_JSON):
     outpath = os.path.join(result_datadir(workdir), summary_file)
     all_results = collect_results(workdir)
 
-    SC.json.dump(all_results, open(outpath, 'w'))
+    sos_analyzer.compat.json.dump(all_results, open(outpath, 'w'))
 
 # vim:sw=4:ts=4:et:

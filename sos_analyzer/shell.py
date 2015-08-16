@@ -23,7 +23,7 @@ import signal
 import subprocess
 import sys
 
-import sos_analyzer.compat as SC
+import sos_analyzer.compat
 
 
 LOGGER = logging.getLogger(__name__)
@@ -79,7 +79,7 @@ def _run(cmd, workdir, rc_expected=0, logfile=False, **kwargs):
     assert os.path.isdir(workdir), "Working dir %s is not a dir!" % workdir
 
     ng_keys = ("cwd", "shell", "stdout", "stderr", "close_fds")
-    kwargs = dict(((k, v) for k, v in SC.iteritems(kwargs)
+    kwargs = dict(((k, v) for k, v in sos_analyzer.compat.iteritems(kwargs)
                    if k not in ng_keys))
     rc = None
     try:

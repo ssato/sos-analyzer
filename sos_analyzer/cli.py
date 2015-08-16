@@ -11,9 +11,9 @@ import sys
 
 from sos_analyzer.globals import DATA_SUBDIR
 
-import sos_analyzer.archive as SA
-import sos_analyzer.runner as SR
-import sos_analyzer.utils as SU
+import sos_analyzer.archive
+import sos_analyzer.runner
+import sos_analyzer.utils
 
 
 LOGGER = logging.getLogger(__name__)
@@ -57,7 +57,7 @@ def main(argv=sys.argv):
     p = option_parser()
     (options, args) = p.parse_args(argv[1:])
 
-    SU.set_loglevel(options.loglevel)
+    sos_analyzer.utils.set_loglevel(options.loglevel)
 
     if not args:
         p.print_usage()
@@ -67,9 +67,9 @@ def main(argv=sys.argv):
 
     if options.workdir:
         LOGGER.info("Try using working dir: %s", options.workdir)
-        SU.setup_workdir(options.workdir)
+        sos_analyzer.utils.setup_workdir(options.workdir)
     else:
-        options.workdir = SU.setup_workdir()
+        options.workdir = sos_analyzer.utils.setup_workdir()
         LOGGER.info("Created working dir: %s", options.workdir)
 
     tarfile = args[0]
@@ -79,15 +79,15 @@ def main(argv=sys.argv):
         LOGGER.info("Create datadir: %s", datadir)
         os.makedirs(datadir)
 
-    d = SU.find_dir_has_target(datadir, "sos_commands")
+    d = sos_analyzer.utils.find_dir_has_target(datadir, "sos_commands")
     if d:
         LOGGER.info("sosreport archive looks already extracted in %s", d)
         datadir = d
     else:
         LOGGER.info("Extract sosreport archive %s to %s", tarfile, datadir)
-        SA.extract_archive(tarfile, datadir)
+        sos_analyzer.archive.extract_archive(tarfile, datadir)
 
-        d = SU.find_dir_has_target(datadir, "sos_commands")
+        d = sos_analyzer.utils.find_dir_has_target(datadir, "sos_commands")
         if d:
             LOGGER.info("Set datadir to %s", d)
             datadir = d
@@ -95,17 +95,17 @@ def main(argv=sys.argv):
             LOGGER.error("No sosreport data found under %s", d)
             return -1
 
-    SR.run_scanners(options.workdir, datadir, conf)
+    sos_analyzer.runner.run_scanners(options.workdir, datadir, conf)
 
     if options.analyze:
-        SR.run_analyzers(options.workdir, datadir, conf)
-        SR.dump_collected_results(options.workdir)
+        sos_analyzer.runner.run_analyzers(options.workdir, datadir, conf)
+        sos_analyzer.runner.dump_collected_results(options.workdir)
 
         if options.report:
-            SR.run_report_generators(options.workdir, options.conf)
+            sos_analyzer.runner.run_report_generators(options.workdir,
+                                                      options.conf)
 
     return 0
-
 
 if __name__ == '__main__':
     sys.exit(main(sys.argv))
