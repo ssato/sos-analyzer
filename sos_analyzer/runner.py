@@ -2,6 +2,10 @@
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
+import os.path
+import os
+import pkg_resources
+
 from sos_analyzer.globals import (
     LOGGER as logging, result_datadir, SUMMARY_JSON,
     ANALYZER_RESULTS_SUBDIR, REPORTS_SUBDIR,
@@ -37,10 +41,6 @@ import sos_analyzer.scanner.proc_meminfo
 import sos_analyzer.scanner.var_log_messages
 import sos_analyzer.report.xls_summary
 
-import os.path
-import os
-import pkg_resources
-
 
 ANALYZERS = [sos_analyzer.analyzer.kernel.Analyzer,
              sos_analyzer.analyzer.hardware.Analyzer,
@@ -74,7 +74,6 @@ SCANNERS = [sos_analyzer.scanner.chkconfig.Scanner,
             ]
 REPORT_GENERATORS = [sos_analyzer.report.xls_summary.XlsSummaryGenerator,
                      ]
-
 
 for e in pkg_resources.iter_entry_points("sos_analyzer_scanners"):
     try:

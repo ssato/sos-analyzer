@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2013 Red Hat, Inc.
+# Copyright (C) 2013 - 2015 Red Hat, Inc.
 # Red Hat Author(s): Satoru SATOH <ssato@redhat.com>
 # License: GPLv3+
 #
@@ -60,9 +60,8 @@ def call_async(func, func_args=[], func_kwargs={}, **kwargs):
 
     :return: multiprocessing.Process instance
     """
-    logging.debug("Call: f=%s, args=%s, kwargs=%s" % (str(func),
-                                                      str(func_args),
-                                                      str(func_kwargs)))
+    LOGGER.debug("Call: f=%s, args=%s, kwargs=%s",
+                 str(func), str(func_args), str(func_kwargs))
     proc = spawn(func, func_args, func_kwargs)
     proc.start()
 
@@ -137,7 +136,7 @@ def stop_async_call(proc, timeout=_RUN_TO, stop_on_error=False):
     if stop_on_error:
         raise RuntimeError(m)
 
-    logging.warn(m)
+    LOGGER.warn(m)
     return False
 
 # vim:sw=4:ts=4:et:

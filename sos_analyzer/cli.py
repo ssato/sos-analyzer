@@ -66,33 +66,33 @@ def main(argv=sys.argv):
     conf = anyconfig.load(options.conf) if options.conf else None
 
     if options.workdir:
-        logging.info("Try using working dir: " + options.workdir)
+        LOGGER.info("Try using working dir: %s", options.workdir)
         SU.setup_workdir(options.workdir)
     else:
         options.workdir = SU.setup_workdir()
-        logging.info("Created working dir: " + options.workdir)
+        LOGGER.info("Created working dir: %s", options.workdir)
 
     tarfile = args[0]
     datadir = os.path.join(options.workdir, DATA_SUBDIR)
 
     if not os.path.exists(datadir):
-        logging.info("Create datadir: " + datadir)
+        LOGGER.info("Create datadir: %s", datadir)
         os.makedirs(datadir)
 
     d = SU.find_dir_has_target(datadir, "sos_commands")
     if d:
-        logging.info("sosreport archive looks already extracted in " + d)
+        LOGGER.info("sosreport archive looks already extracted in %s", d)
         datadir = d
     else:
-        logging.info("Extract sosreport archive %s to %s" % (tarfile, datadir))
+        LOGGER.info("Extract sosreport archive %s to %s", tarfile, datadir)
         SA.extract_archive(tarfile, datadir)
 
         d = SU.find_dir_has_target(datadir, "sos_commands")
         if d:
-            logging.info("Set datadir to " + d)
+            LOGGER.info("Set datadir to %s", d)
             datadir = d
         else:
-            logging.error("No sosreport data found under " + d)
+            LOGGER.error("No sosreport data found under %s", d)
             return -1
 
     SR.run_scanners(options.workdir, datadir, conf)

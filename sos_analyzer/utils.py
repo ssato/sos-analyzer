@@ -22,7 +22,7 @@ def set_loglevel(level):
     """
     :param level: Log level = 0, 1, 2
     """
-    logging.getLogger().setLevel(to_log_level(level))
+    LOGGER.getLogger().setLevel(to_log_level(level))
 
 
 def find_dir_has_target(topdir, target):
@@ -44,7 +44,7 @@ def find_dir_has_target(topdir, target):
         if x:
             return x
 
-    logging.debug("Given dir does not look having target: " + topdir)
+    LOGGER.debug("Given dir does not look having target: %s", topdir)
     return None
 
 
@@ -59,7 +59,7 @@ def setup_workdir(workdir=None):
     else:
         if os.path.exists(workdir):
             if os.path.isdir(workdir):
-                logging.info("Working dir already exists: " + workdir)
+                LOGGER.info("Working dir already exists: %s", workdir)
                 return workdir
             else:
                 m = "Given working dir is not a dir: " + workdir

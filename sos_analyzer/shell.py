@@ -15,7 +15,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-import sos_analyzer.compat as SC
 import logging
 import multiprocessing
 import os
@@ -23,6 +22,11 @@ import os.path
 import signal
 import subprocess
 import sys
+
+import sos_analyzer.compat as SC
+
+
+LOGGER = logging.getLogger(__name__)
 
 
 def _validate_timeout(timeout):
@@ -91,7 +95,7 @@ def _run(cmd, workdir, rc_expected=0, logfile=False, **kwargs):
             elif callable(logfile):
                 logfile = logfile()
 
-            logging.debug("cmd=%s, logfile=%s" % (cmd[:100], logfile))
+            LOGGER.debug("cmd=%s, logfile=%s", cmd[:100], logfile)
 
             flag = 'a' if os.path.exists(logfile) else 'w'
             with open(logfile, flag) as f:
@@ -171,7 +175,7 @@ def run_async(cmd, workdir=os.curdir, rc_expected=0, logfile=False, **kwargs):
 
     :return: multiprocessing.Process instance
     """
-    logging.debug("Run: cmd=%s, cwd=%s" % (cmd[:100], workdir))
+    LOGGER.debug("Run: cmd=%s, cwd=%s", cmd[:100], workdir)
     proc = _spawn(cmd, workdir, rc_expected, logfile, **kwargs)
     proc.start()
 
@@ -246,7 +250,7 @@ def stop_async_run(proc, timeout=_RUN_TO, stop_on_error=False):
     if stop_on_error:
         raise RuntimeError(m)
 
-    logging.warn(m)
+    LOGGER.warn(m)
     return False
 
 
