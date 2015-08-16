@@ -22,7 +22,7 @@ def set_loglevel(level):
     """
     :param level: Log level = 0, 1, 2
     """
-    LOGGER.getLogger().setLevel(to_log_level(level))
+    LOGGER.setLevel(to_log_level(level))
 
 
 def find_dir_has_target(topdir, target):
