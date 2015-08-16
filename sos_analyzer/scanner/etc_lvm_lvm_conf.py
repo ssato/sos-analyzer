@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2013 Red Hat, Inc.
+# Copyright (C) 2013 - 2015 Red Hat, Inc.
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
@@ -36,7 +36,7 @@ From 'syntax' section in lvm.conf(5):
 
               Strings must be enclosed in double quotes.
 """
-import sos_analyzer.scanner.base as SSB
+import sos_analyzer.scanner.base
 
 
 STATES = (IN_SECTION, BEGIN_SECTION, END_SECTION, AT_ASSIGNMENT_LINE) = \
@@ -57,7 +57,7 @@ def kvs_to_a_dict(kvs):
     return {k: v}
 
 
-class Scanner(SSB.BaseScanner):
+class Scanner(sos_analyzer.scanner.base.BaseScanner):
 
     name = input_name = "etc/lvm/lvm.conf"
     conf = CONF

@@ -17,10 +17,10 @@ AcceptEnv LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
 # override default of no subsystems
 Subsystem       sftp    /usr/libexec/openssh/sftp-server
 """
-import sos_analyzer.scanner.base as SSB
+import sos_analyzer.scanner.base
 
 
-class Scanner(SSB.SinglePatternScanner):
+class Scanner(sos_analyzer.scanner.base.SinglePatternScanner):
 
     name = input_name = "etc/ssh/sshd_config"
     pattern = r"^(?P<config>[A-Z]\S+)\s+(?P<value>\S.*)$"

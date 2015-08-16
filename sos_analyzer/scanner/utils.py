@@ -1,12 +1,12 @@
 #
 # Utility rountines for scanners.
 #
-# Copyright (C) 2013 Red Hat, Inc.
+# Copyright (C) 2013 - 2015 Red Hat, Inc.
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-import sos_analyzer.compat as SC
 import re
+import sos_analyzer.compat
 
 
 DICT_MZERO = dict()
@@ -20,7 +20,8 @@ def compile_patterns(conf={}):
     >>> assert cps["bbb"].match("123") is not None
     """
     return dict((k, re.compile(v)) for k, v in
-                SC.iteritems(conf.get("patterns", DICT_MZERO)))
+                sos_analyzer.compat.iteritems(conf.get("patterns",
+                                                       DICT_MZERO)))
 
 
 def kvs_to_a_dict(kvs):

@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2013 Red Hat, Inc.
+# Copyright (C) 2013 - 2015 Red Hat, Inc.
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
@@ -10,9 +10,9 @@
   * dmidecode-2.11/dmidecode.c:dmi_decode()
 """
 import logging
-import sos_analyzer.scanner.base as SSB
-import sos_analyzer.scanner.utils as SSU
-import sos_analyzer.compat as SC
+import sos_analyzer.scanner.base
+import sos_analyzer.scanner.utils
+import sos_analyzer.compat
 
 
 LOGGER = logging.getLogger(__name__)
@@ -55,7 +55,7 @@ CONF = dict(initial_state=IN_HEADER,
 ENTRY_DATA_KEY = "data"
 
 
-class Scanner(SSB.BaseScanner):
+class Scanner(sos_analyzer.scanner.base.BaseScanner):
 
     name = input_name = "dmidecode"
     conf = CONF
@@ -139,7 +139,8 @@ class Scanner(SSB.BaseScanner):
         else:
             m = self.match("inline_data", line)
             if m:
-                kvdata = SSU.kvs_to_a_dict(m.groupdict())
+                mds = m.groupdict()
+                kvdata = sos_analyzer.scanner.utils.kvs_to_a_dict(mds)
                 self.entry[ENTRY_DATA_KEY].append(kvdata)
 
                 return None
@@ -155,7 +156,7 @@ class Scanner(SSB.BaseScanner):
             m = self.match("multilines_data", line)
             if m:
                 d = self.entry[ENTRY_DATA_KEY][-1]  # Last ml data :: dict
-                key = [k for k, _vs in SC.iteritems(d)][0]
+                key = [k for k, _vs in sos_analyzer.compat.iteritems(d)][0]
                 v_add = m.groupdict()["value"]
                 vs = self.entry[ENTRY_DATA_KEY][-1][key]
 

@@ -2,7 +2,7 @@
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-import sos_analyzer.scanner.base as SSB
+import sos_analyzer.scanner.base
 
 
 """ifconfig output formats:
@@ -91,7 +91,7 @@ CONF = dict(initial_state=IFACE_START,
 
 
 # TBD: Not completed its implementation yet.
-class Scanner(SSB.BaseScanner):
+class Scanner(sos_analyzer.scanner.base.BaseScanner):
 
     name = input_name = "ifconfig"
     conf = CONF

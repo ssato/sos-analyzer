@@ -11,13 +11,13 @@
 192.168.1.20 aaaa-host-012   # w/o FQDN
 192.168.1.30 aaaa-host-030.example.com aaaa-host-030
 """
-import sos_analyzer.scanner.base as SSB
+import sos_analyzer.scanner.base
 
 
 HOST_RE = r"^(?P<ip>[0-9.:]+)\s+(?P<hostnames>[^#]+)(?:\s+#(?P<comment>.*))*$"
 
 
-class Scanner(SSB.SinglePatternScanner):
+class Scanner(sos_analyzer.scanner.base.SinglePatternScanner):
 
     name = input_name = "etc/hosts"
     pattern = HOST_RE

@@ -2,9 +2,6 @@
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-import sos_analyzer.scanner.base as SSB
-
-
 """/var/log/messages formats:
 
 0:
@@ -24,12 +21,14 @@ Nov  7 15:58:40 host-aa-01 login: LOGIN ON pts/1 BY foo FROM workstation-001
 Nov  7 15:59:01 host-aa-01 crond[31785]: (abc) CMD \
     (/usr/bin/uptime >> /var/logs/uptime.xxxxx.log)
 """
+import sos_analyzer.scanner.base
+
 
 LOG_RE = r"^(?P<date>\S+\s+[0-9]{1,2} [0-9:]+) (?P<host>\S+) " + \
          r"(?P<from>[^:\[]+)(?:\[(?P<pid>\d+)\])?: (?P<message>.*)$"
 
 
-class Scanner(SSB.SinglePatternScanner):
+class Scanner(sos_analyzer.scanner.base.SinglePatternScanner):
 
     name = input_name = "var/log/messages"
     pattern = LOG_RE

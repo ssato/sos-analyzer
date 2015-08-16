@@ -19,7 +19,7 @@ title Red Hat Enterprise Linux Server (2.6.18-237.el5)
 ...
 """
 import logging
-import sos_analyzer.scanner.base as SSB
+import sos_analyzer.scanner.base
 
 
 LOGGER = logging.getLogger(__name__)
@@ -43,7 +43,7 @@ CONF = dict(initial_state=IN_OPTIONS,
                           boot_entry_kerenl=KERNEL_RE))
 
 
-class Scanner(SSB.BaseScanner):
+class Scanner(sos_analyzer.scanner.base.BaseScanner):
 
     name = input_name = INPUT
     conf = CONF
@@ -93,7 +93,7 @@ class Scanner(SSB.BaseScanner):
                 return m.groupdict()
             else:
                 e = "Not a line of options? l=%s, lno=%d" % (line, i)
-                logging.warn(e)
+                LOGGER.warn(e)
 
         elif state == IN_BOOT_ENTRY:
             m = self.match("boot_entry_kerenl", line)

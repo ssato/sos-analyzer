@@ -16,7 +16,7 @@ xinetd based services:
         daytime-dgram:  off
 """
 import logging
-import sos_analyzer.scanner.base as SSB
+import sos_analyzer.scanner.base
 
 
 LOGGER = logging.getLogger(__name__)
@@ -37,7 +37,7 @@ CONF = dict(initial_state=IN_SVCS,
                           xinetd_svcs_start=REG_2))
 
 
-class Scanner(SSB.BaseScanner):
+class Scanner(sos_analyzer.scanner.base.BaseScanner):
 
     name = input_name = INPUT
     conf = CONF
@@ -73,7 +73,7 @@ class Scanner(SSB.BaseScanner):
                 return dict(service=t[0], status=t[1:])
             else:
                 e = "Not a line of normal service? l=%s, lno=%d" % (line, i)
-                logging.warn(e)
+                LOGGER.warn(e)
 
         elif state == IN_XINETD_SVCS:
             m = self.match("xinetd_svc", line)
@@ -81,7 +81,7 @@ class Scanner(SSB.BaseScanner):
                 return m.groupdict()
             else:
                 e = "Not a line of xinetd service? l=%s, lno=%d" % (line, i)
-                logging.warn(e)
+                LOGGER.warn(e)
         else:
             pass
 

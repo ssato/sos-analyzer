@@ -1,11 +1,8 @@
 #
-# Copyright (C) 2013 Red Hat, Inc.
+# Copyright (C) 2013 - 2015 Red Hat, Inc.
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-import sos_analyzer.scanner.base as SSB
-
-
 """rpm -Va output format (verify options in rpm(8)):
 ....L....  c /etc/pam.d/smartcard-auth
 ....L....  c /etc/pam.d/system-auth
@@ -27,6 +24,7 @@ G Group ownership differs
 T mTime differs
 P caPabilities differ
 """
+import sos_analyzer.scanner.base
 
 
 PRELINK_RE = r"^prelink: (?P<path>[^:\s]+): .*$"
@@ -38,7 +36,7 @@ MODIFIED_RE = r"^(?P<size>[S.?])(?P<mode>[M.?])(?P<checksum>[5.?])" + \
 OTHER_RE = r"^\s+(?P<error>.*)\s*$"  # Error messages, etc.
 
 
-class Scanner(SSB.MultiPatternsScanner):
+class Scanner(sos_analyzer.scanner.base.MultiPatternsScanner):
 
     name = input_name = "rpm-Va"
     multi_patterns = (PRELINK_RE, MODIFIED_RE, OTHER_RE)

@@ -1,11 +1,8 @@
 #
-# Copyright (C) 2013 Red Hat, Inc.
+# Copyright (C) 2013 - 2015 Red Hat, Inc.
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-import sos_analyzer.scanner.base as SSB
-
-
 """/proc/meminfo format:
 
 MemTotal:      3912720 kB
@@ -39,9 +36,10 @@ HugePages_Free:      0
 HugePages_Rsvd:      0
 Hugepagesize:     2048 kB
 """
+import sos_analyzer.scanner.base
 
 
-class Scanner(SSB.SinglePatternScanner):
+class Scanner(sos_analyzer.scanner.base.SinglePatternScanner):
 
     name = input_name = "proc/meminfo"
     pattern = r"^(?P<key>[^:]+):\s+(?P<value>\d+)(?: (?P<unit>\S+))?$"

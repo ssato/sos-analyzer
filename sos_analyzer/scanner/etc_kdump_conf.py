@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2013 Red Hat, Inc.
+# Copyright (C) 2013 - 2015 Red Hat, Inc.
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
@@ -23,7 +23,7 @@
 #options modulename options
 #default shell
 """
-import sos_analyzer.scanner.base as SSB
+import sos_analyzer.scanner.base
 
 
 # kdump save location options:
@@ -38,7 +38,7 @@ SAVE_LOCATION_RE = (r"^(?P<save_option>(?:"
 OTHER_RE = r"^(?P<option>[^#].*)$"
 
 
-class Scanner(SSB.MultiPatternsScanner):
+class Scanner(sos_analyzer.scanner.base.MultiPatternsScanner):
 
     name = input_name = "etc/kdump.conf"
     multi_patterns = (SAVE_LOCATION_RE, OTHER_RE)  # @see kdump.conf(5)

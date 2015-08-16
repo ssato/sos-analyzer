@@ -1,11 +1,8 @@
 #
-# Copyright (C) 2013 Red Hat, Inc.
+# Copyright (C) 2013 - 2015 Red Hat, Inc.
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-import sos_analyzer.scanner.base as SSB
-
-
 """sysctl -a output formats:
 
 sunrpc.nfsd_debug = 0
@@ -30,9 +27,10 @@ fs.inode-state = 25452  1873    0       0       0       0       0
 fs.inode-nr = 25452     1873
 fs.binfmt_misc.status = enabled
 """
+import sos_analyzer.scanner.base
 
 
-class Scanner(SSB.SinglePatternScanner):
+class Scanner(sos_analyzer.scanner.base.SinglePatternScanner):
 
     name = input_name = "sos_commands/kernel/sysctl_-a"
     ignore_pattern = r"^(?:\#|;).*$"

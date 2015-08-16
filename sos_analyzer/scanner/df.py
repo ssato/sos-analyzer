@@ -22,7 +22,7 @@ tmpfs                       8209916          0   8209916    0% /tmp
 /dev/mapper/vg0_lv_data  1952559608 1187673728 764885880   61% /srv/data
 """
 import logging
-import sos_analyzer.scanner.base as SSB
+import sos_analyzer.scanner.base
 
 
 LOGGER = logging.getLogger(__name__)
@@ -46,7 +46,7 @@ CONF = dict(initial_state=AT_HEADER,
                           fs_line=FS_SL_RE))
 
 
-class Scanner(SSB.BaseScanner):
+class Scanner(sos_analyzer.scanner.base.BaseScanner):
 
     name = input_name = "df"
     conf = CONF
@@ -62,24 +62,23 @@ class Scanner(SSB.BaseScanner):
         """
         if self.state == AT_HEADER:  # Use self.state instead of state passed.
             self.state = IN_ENTRIES
-            logging.debug("state changed: %s -> %s, line=%s" % (AT_HEADER,
-                                                                IN_ENTRIES,
-                                                                line))
+            LOGGER.debug("state changed: %s -> %s, line=%s", AT_HEADER,
+                                                             IN_ENTRIES, line)
             return None
 
         if self.match("ignore", line):
-            # logging.debug("ignored: line=%s" % line)
+            # LOGGER.debug("ignored: line=%s", line)
             return None
 
         m = self.match("fs_line", line)
         if m:
-            # logging.debug("line=%s, matched=<fs_line>" % line)
+            # LOGGER.debug("line=%s, matched=<fs_line>", line)
             return m.groupdict()
 
         m = self.match("fs_multilines_0", line)
         if m:
             self.entry = m.groupdict()
-            # logging.debug("line=%s, matched=<fs_multilines_0>" % line)
+            # LOGGER.debug("line=%s, matched=<fs_multilines_0>", line)
             return None
 
         m = self.match("fs_multilines_1", line)
@@ -87,7 +86,7 @@ class Scanner(SSB.BaseScanner):
             entry = self.entry.copy()
             entry.update(m.groupdict())
             self.entry = {}
-            # logging.debug("line=%s, matched=<fs_multilines_1>" % line)
+            # LOGGER.debug("line=%s, matched=<fs_multilines_1>", line)
             return entry
 
         return None

@@ -2,7 +2,7 @@
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-import sos_analyzer.scanner.base as SSB
+import sos_analyzer.scanner.base
 
 
 """'free' output formats:
@@ -22,7 +22,7 @@ SWAP_RE = r"^Swap:\s+(?P<swap_total>\d+)\s+" + \
           r"(?P<swap_used>\d+)\s+(?P<swap_free>\d+)$"
 
 
-class Scanner(SSB.MultiPatternsScanner):
+class Scanner(sos_analyzer.scanner.base.MultiPatternsScanner):
 
     name = input_name = "free"
     ignore_pattern = HEADER_RE

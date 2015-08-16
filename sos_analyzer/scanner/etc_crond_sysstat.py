@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2013 Red Hat, Inc.
+# Copyright (C) 2013 - 2015 Red Hat, Inc.
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
@@ -11,14 +11,14 @@
 53 23 * * * root /usr/lib64/sa/sa2 -A
 
 """
-import sos_analyzer.scanner.base as SSB
+import sos_analyzer.scanner.base
 
 
 CRON_RE = (r"^(?P<timedate>(?:[\d*/]+\s+){5})"
            r"(?P<username>\S+)\s+(?P<command>.+)$")
 
 
-class Scanner(SSB.SinglePatternScanner):
+class Scanner(sos_analyzer.scanner.base.SinglePatternScanner):
 
     name = input_name = "etc/cron.d/sysstat"
     pattern = CRON_RE

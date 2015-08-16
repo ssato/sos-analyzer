@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2013 Red Hat, Inc.
+# Copyright (C) 2013 - 2015 Red Hat, Inc.
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
@@ -34,14 +34,14 @@ UUID=2667aea7-...             /boot  ext4    defaults,discard        1 2
 mtpfs   /media/galaxy_nexus    fuse.mtpfs    allow_other,rw,user,noauto 0 0
 /var/lib/repos/ssato    /home/ssato/repos/public/       none    bind    0 0
 """
-import sos_analyzer.scanner.base as SSB
+import sos_analyzer.scanner.base
 
 
 FS_RE = r"^(?P<device>\S+)\s+(?P<mount_point>\S+)\s+(?P<filesystem>\S+)" + \
         r"\s+(?P<options>\S+)(?:\s+(?P<dump>\d)\s+(?P<fsck>\d))?$"
 
 
-class Scanner(SSB.SinglePatternScanner):
+class Scanner(sos_analyzer.scanner.base.SinglePatternScanner):
 
     name = input_name = "etc/fstab"
     ignore_pattern = r"^(?:^#.*|\s*)$"
