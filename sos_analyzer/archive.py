@@ -2,8 +2,8 @@
 # Author: Satoru SATOH <ssato redhat.com>
 # License: GPLv3+
 #
-import sos_analyzer.shell as SS
 import os.path
+import sos_analyzer.shell
 
 
 class UnknownTarCompressorError(Exception):
@@ -56,6 +56,6 @@ def extract_archive(tarfile, destdir):
     compressor_opt = detect_compressor_opt(tarfile)
     cmd = "tar %s -xf %s -C %s" % (compressor_opt, tarfile, destdir)
 
-    SS.run(cmd, stop_on_error=True)
+    sos_analyzer.shell.run(cmd, stop_on_error=True)
 
 # vim:sw=4:ts=4:et:
